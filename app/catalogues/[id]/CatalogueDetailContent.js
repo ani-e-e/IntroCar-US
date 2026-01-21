@@ -7,7 +7,7 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { ChevronRight, BookOpen, ZoomIn, ZoomOut, Grid, List, Package } from 'lucide-react';
+import { ChevronRight, BookOpen, ZoomIn, ZoomOut, Grid, List, Package, Car, Tag, Layers } from 'lucide-react';
 
 export default function CatalogueDetailContent() {
   const params = useParams();
@@ -88,7 +88,7 @@ export default function CatalogueDetailContent() {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Catalogue Image */}
+          {/* Catalogue Image & Info */}
           <div className="lg:w-1/2">
             <div className="sticky top-24">
               <div
@@ -104,6 +104,7 @@ export default function CatalogueDetailContent() {
                     height={imageZoom ? 900 : undefined}
                     className={`${imageZoom ? 'w-full h-auto' : 'object-contain'}`}
                     sizes={imageZoom ? '100vw' : '50vw'}
+                    unoptimized
                   />
                 ) : (
                   <div className="flex items-center justify-center h-full min-h-[300px]">
@@ -121,6 +122,8 @@ export default function CatalogueDetailContent() {
               <div className="mt-6">
                 <h1 className="text-2xl font-display font-light text-introcar-charcoal">{catalogue.title}</h1>
                 <p className="text-sm text-gray-500 font-mono mt-2">{catalogue.id}</p>
+
+                {/* Stats row */}
                 <div className="flex items-center gap-4 mt-4 text-sm text-gray-600">
                   <span className="flex items-center gap-1">
                     <Package className="w-4 h-4" />
@@ -130,6 +133,87 @@ export default function CatalogueDetailContent() {
                     <BookOpen className="w-4 h-4" />
                     {catalogue.products?.length || 0} available
                   </span>
+                </div>
+
+                {/* Metadata Section */}
+                <div className="mt-6 p-4 bg-introcar-light rounded-xl space-y-4">
+                  {/* Makes */}
+                  {catalogue.makes && catalogue.makes.length > 0 && (
+                    <div className="flex items-start gap-3">
+                      <Car className="w-5 h-5 text-introcar-blue shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Make</p>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {catalogue.makes.map(make => (
+                            <Link
+                              key={make}
+                              href={`/catalogues?make=${encodeURIComponent(make)}`}
+                              className="text-sm text-introcar-charcoal hover:text-introcar-blue"
+                            >
+                              {make}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Models */}
+                  {catalogue.models && catalogue.models.length > 0 && (
+                    <div className="flex items-start gap-3">
+                      <Layers className="w-5 h-5 text-introcar-blue shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Models</p>
+                        <div className="flex flex-wrap gap-1 mt-1">
+                          {catalogue.models.slice(0, 6).map(model => (
+                            <span key={model} className="text-sm px-2 py-0.5 bg-white rounded text-gray-700">
+                              {model}
+                            </span>
+                          ))}
+                          {catalogue.models.length > 6 && (
+                            <span className="text-sm text-gray-500">+{catalogue.models.length - 6} more</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Category */}
+                  {catalogue.category && (
+                    <div className="flex items-start gap-3">
+                      <Tag className="w-5 h-5 text-introcar-blue shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-xs text-gray-500 uppercase tracking-wide">Category</p>
+                        <Link
+                          href={`/catalogues?category=${encodeURIComponent(catalogue.category)}`}
+                          className="text-sm text-introcar-charcoal hover:text-introcar-blue"
+                        >
+                          {catalogue.category}
+                          {catalogue.subcategory && ` / ${catalogue.subcategory}`}
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Fitment Summary */}
+                  {catalogue.fitment && catalogue.fitment.length > 0 && (
+                    <div className="pt-3 border-t border-gray-200">
+                      <p className="text-xs text-gray-500 uppercase tracking-wide mb-2">Chassis Application</p>
+                      <div className="space-y-1 text-sm max-h-48 overflow-y-auto">
+                        {catalogue.fitment.slice(0, 8).map((f, i) => (
+                          <div key={i} className="flex justify-between text-gray-700">
+                            <span>{f.model}</span>
+                            <span className="font-mono text-introcar-blue">
+                              {f.chassisStart}{f.chassisEnd && f.chassisEnd !== f.chassisStart ? ` – ${f.chassisEnd}` : ''}
+                            </span>
+                          </div>
+                        ))}
+                        {catalogue.fitment.length > 8 && (
+                          <p className="text-gray-500 text-xs">+{catalogue.fitment.length - 8} more applications</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

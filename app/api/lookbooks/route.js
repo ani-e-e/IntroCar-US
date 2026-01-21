@@ -10,8 +10,11 @@ export async function GET(request) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '24');
     const search = searchParams.get('search') || '';
+    const make = searchParams.get('make') || '';
+    const model = searchParams.get('model') || '';
+    const category = searchParams.get('category') || '';
 
-    const result = getLookbooks({ page, limit, search });
+    const result = getLookbooks({ page, limit, search, make, model, category });
 
     return NextResponse.json(result);
   } catch (error) {
