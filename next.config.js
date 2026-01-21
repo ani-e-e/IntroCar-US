@@ -1,7 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['introcar.co.uk', 'introcar.com'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'introcar.co.uk',
+      },
+      {
+        protocol: 'https',
+        hostname: 'introcar.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.introcar.co.uk',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.introcar.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
     unoptimized: true,
   },
 };

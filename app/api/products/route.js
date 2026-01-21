@@ -13,6 +13,7 @@ export async function GET(request) {
       make: searchParams.get('make') || '',
       model: searchParams.get('model') || '',
       year: searchParams.get('year') || '',
+      chassis: searchParams.get('chassis') || '',
       nlaOnly: searchParams.get('nlaOnly') === 'true',
       inStockOnly: searchParams.get('inStockOnly') === 'true',
       page: parseInt(searchParams.get('page')) || 1,

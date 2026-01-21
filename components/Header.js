@@ -91,15 +91,20 @@ export default function Header({ cartCount = 0 }) {
                 <Shield className="w-4 h-4" />
                 <span>Price Match Guarantee</span>
               </div>
-              <div className="trust-item">
+              <a
+                href="https://uk.trustpilot.com/review/introcar.co.uk?utm_medium=trustbox&utm_source=Mini"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="trust-item hover:text-introcar-blue transition-colors"
+              >
                 <Star className="w-4 h-4 fill-introcar-blue text-introcar-blue" />
                 <span>Rated Excellent on Trustpilot</span>
-              </div>
+              </a>
             </div>
             <div className="flex items-center gap-4 text-sm">
-              <a href="tel:+15551234567" className="text-introcar-charcoal hover:text-introcar-blue transition-colors">
+              <a href="tel:+442085462027" className="text-introcar-charcoal hover:text-introcar-blue transition-colors">
                 <Phone className="w-4 h-4 inline mr-1" />
-                +1 (555) 123-4567
+                +44 (0)20 8546 2027
               </a>
             </div>
           </div>

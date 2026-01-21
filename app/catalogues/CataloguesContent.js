@@ -123,10 +123,10 @@ export default function CataloguesContent() {
       </div>
 
       {/* Hero */}
-      <div className="bg-introcar-blue text-white py-12">
+      <div className="bg-introcar-blue py-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <BookOpen className="w-16 h-16 mx-auto mb-4 opacity-80" />
-          <h1 className="text-3xl font-display font-light mb-4">Parts Catalogues</h1>
+          <BookOpen className="w-16 h-16 mx-auto mb-4 text-white/80" />
+          <h1 className="text-3xl font-display font-light mb-4 text-white">Parts Catalogues</h1>
           <p className="text-white/80 max-w-2xl mx-auto">
             Browse our extensive collection of technical diagrams and exploded views.
             Find the exact part you need by viewing it in context.
