@@ -30,6 +30,8 @@ export default function ProductsContent() {
   const currentCategory = searchParams.get('category') || '';
   const currentSubcategory = searchParams.get('subcategory') || '';
   const currentStockType = searchParams.get('stockType') || '';
+  const currentYear = searchParams.get('year') || '';
+  const currentChassis = searchParams.get('chassis') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
   const currentSort = searchParams.get('sort') || 'relevance';
 
@@ -42,6 +44,8 @@ export default function ProductsContent() {
       if (currentSearch) params.set('search', currentSearch);
       if (currentMake) params.set('make', currentMake);
       if (currentModel) params.set('model', currentModel);
+      if (currentYear) params.set('year', currentYear);
+      if (currentChassis) params.set('chassis', currentChassis);
       if (currentCategory) params.set('category', currentCategory);
       if (currentSubcategory) params.set('subcategory', currentSubcategory);
       if (currentStockType) params.set('stockType', currentStockType);
@@ -65,7 +69,7 @@ export default function ProductsContent() {
     } finally {
       setLoading(false);
     }
-  }, [currentSearch, currentMake, currentModel, currentCategory, currentSubcategory, currentStockType, currentPage, currentSort]);
+  }, [currentSearch, currentMake, currentModel, currentYear, currentChassis, currentCategory, currentSubcategory, currentStockType, currentPage, currentSort]);
 
   useEffect(() => {
     fetchProducts();
@@ -128,7 +132,7 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentSubcategory || currentStockType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentCategory || currentSubcategory || currentStockType;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
 
@@ -146,6 +150,18 @@ export default function ProductsContent() {
               <>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-introcar-charcoal">{currentMake}</span>
+              </>
+            )}
+            {currentModel && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-charcoal">{currentModel}</span>
+              </>
+            )}
+            {currentYear && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-charcoal">{currentYear}</span>
               </>
             )}
           </nav>
@@ -338,6 +354,18 @@ export default function ProductsContent() {
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
                     {currentModel}
                     <button onClick={() => setFilter('model', '')}><X className="w-3 h-3" /></button>
+                  </span>
+                )}
+                {currentYear && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
+                    Year: {currentYear}
+                    <button onClick={() => setFilter('year', '')}><X className="w-3 h-3" /></button>
+                  </span>
+                )}
+                {currentChassis && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-blue/10 rounded-full text-sm text-introcar-blue">
+                    Chassis: {currentChassis}
+                    <button onClick={() => setFilter('chassis', '')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
                 {currentCategory && (
