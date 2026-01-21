@@ -127,17 +127,23 @@ export default function ProductPage({ params }) {
           <div>
             <div className="bg-introcar-light rounded-xl overflow-hidden border border-gray-200">
               <div className="aspect-square relative">
-                {product.image || product.imageUrl ? (
+                {product.imageUrl ? (
                   <Image
-                    src={product.image || product.imageUrl}
+                    src={product.imageUrl}
                     alt={product.description}
                     fill
                     className="object-contain p-4"
                     unoptimized
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <Package className="w-24 h-24 text-gray-300" />
+                  <div className="w-full h-full flex items-center justify-center bg-introcar-light">
+                    <Image
+                      src="/images/placeholder-part.svg"
+                      alt="No image available"
+                      width={200}
+                      height={200}
+                      className="opacity-60"
+                    />
                   </div>
                 )}
               </div>
@@ -189,13 +195,9 @@ export default function ProductPage({ params }) {
             )}
 
             {product.additionalInfo && (
-              <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-xl flex items-start gap-3">
-                <Info className="w-5 h-5 text-purple-600 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-introcar-charcoal font-medium">Application Note</p>
-                  <p className="text-gray-600 text-sm">{product.additionalInfo}</p>
-                </div>
-              </div>
+              <p className="text-gray-600 text-sm mb-6 italic">
+                {product.additionalInfo}
+              </p>
             )}
 
             {isNLA && product.nlaDate && (
