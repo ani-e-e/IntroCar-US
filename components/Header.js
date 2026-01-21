@@ -129,7 +129,7 @@ export default function Header({ cartCount = 0 }) {
                 Vehicle Part Finder
                 <ChevronDown className={`w-4 h-4 transition-transform ${vehicleFinderOpen ? 'rotate-180' : ''}`} />
               </button>
-              <Link href="/products?category=catalogue" className="nav-link">
+              <Link href="/catalogues" className="nav-link">
                 Shop by Catalogue
               </Link>
               <Link href="/products" className="nav-link">
