@@ -108,6 +108,14 @@ h1, h2, h3, h4, h5, h6 {
   @apply bg-gray-100 text-gray-600 border border-gray-200;
 }
 
+.badge-aftermarket {
+  @apply bg-orange-100 text-orange-800 border border-orange-200;
+}
+
+.badge-default {
+  @apply bg-gray-50 text-gray-700 border border-gray-200;
+}
+
 /* Availability Badges */
 .badge-in-stock {
   @apply bg-emerald-100 text-emerald-700;

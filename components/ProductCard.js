@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingCart, Eye, AlertTriangle } from 'lucide-react';
+import { ShoppingCart, Eye, AlertTriangle, Info } from 'lucide-react';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, viewMode = 'grid' }) {
   const {
     sku,
     description,
@@ -14,7 +14,10 @@ export default function ProductCard({ product }) {
     available1to3Days,
     nlaDate,
     imageUrl,
-    parentSku
+    parentSku,
+    additionalInfo,
+    numberRequired,
+    supersessions
   } = product;
 
   // Determine stock status
@@ -33,6 +36,8 @@ export default function ProductCard({ product }) {
     switch (stockType) {
       case 'Prestige Parts':
         return { text: 'Prestige Parts®', class: 'badge-prestige' };
+      case 'Prestige Parts (OE)':
+        return { text: 'Prestige Parts® OE', class: 'badge-prestige' };
       case 'Original Equipment':
         return { text: 'OE Genuine', class: 'badge-oe' };
       case 'Uprated':
@@ -41,8 +46,11 @@ export default function ProductCard({ product }) {
         return { text: 'Reconditioned', class: 'badge-reconditioned' };
       case 'Used':
         return { text: 'Used', class: 'badge-used' };
+      case 'Aftermarket':
+      case 'Aftermarket Product':
+        return { text: 'Aftermarket', class: 'badge-aftermarket' };
       default:
-        return null;
+        return stockType ? { text: stockType, class: 'badge-default' } : null;
     }
   };
 
@@ -57,6 +65,101 @@ export default function ProductCard({ product }) {
   // Default placeholder image
   const displayImage = imageUrl || '/images/placeholder-part.png';
 
+  // List View
+  if (viewMode === 'list') {
+    return (
+      <div className="bg-white border border-gray-200 rounded-xl p-4 flex gap-4 hover:shadow-md transition-shadow group">
+        {/* Image */}
+        <Link href={`/products/${sku}`} className="relative w-32 h-32 shrink-0 bg-introcar-light rounded-lg overflow-hidden">
+          <Image
+            src={displayImage}
+            alt={description || sku}
+            fill
+            className="object-contain p-2"
+            sizes="128px"
+          />
+          {nlaDate && (
+            <div className="absolute top-1 right-1">
+              <span className="badge badge-nla text-xs flex items-center gap-0.5 px-1.5 py-0.5">
+                <AlertTriangle className="w-3 h-3" />
+                NLA
+              </span>
+            </div>
+          )}
+        </Link>
+
+        {/* Content */}
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-4">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-sm text-gray-500 font-mono">{sku}</span>
+                {stockTypeBadge && (
+                  <span className={`badge text-xs ${stockTypeBadge.class}`}>
+                    {stockTypeBadge.text}
+                  </span>
+                )}
+              </div>
+              <Link href={`/products/${sku}`}>
+                <h3 className="text-introcar-charcoal font-medium mt-1 hover:text-introcar-blue transition-colors">
+                  {description || 'Part Description'}
+                </h3>
+              </Link>
+
+              {/* Additional details */}
+              <div className="mt-2 space-y-1">
+                {additionalInfo && (
+                  <p className="text-sm text-gray-500 flex items-start gap-1">
+                    <Info className="w-4 h-4 shrink-0 mt-0.5" />
+                    {additionalInfo}
+                  </p>
+                )}
+                {numberRequired && numberRequired > 1 && (
+                  <p className="text-sm text-amber-600">Qty Required: {numberRequired}</p>
+                )}
+                {supersessions && supersessions.length > 0 && (
+                  <p className="text-sm text-blue-600">
+                    Also known as: {supersessions.slice(0, 3).join(', ')}{supersessions.length > 3 ? '...' : ''}
+                  </p>
+                )}
+                {nlaDate && (
+                  <p className="text-sm text-red-500">No Longer Available from {nlaDate}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Price & Actions */}
+            <div className="text-right shrink-0">
+              {formattedPrice ? (
+                <span className="text-xl font-semibold text-introcar-charcoal">{formattedPrice}</span>
+              ) : (
+                <span className="text-sm text-gray-400">Price on request</span>
+              )}
+              <div className="mt-1">
+                <span className={`badge text-xs ${stockStatus.class}`}>
+                  {stockStatus.text}
+                </span>
+              </div>
+              {stockStatus.available && formattedPrice && (
+                <button
+                  className="mt-3 px-4 py-2 border border-introcar-blue text-introcar-blue hover:bg-introcar-blue hover:text-white rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 uppercase tracking-wider"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    alert(`Added ${sku} to cart`);
+                  }}
+                >
+                  <ShoppingCart className="w-4 h-4" />
+                  Add
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Grid View (default)
   return (
     <div className="product-card group">
       {/* Image Container */}
@@ -114,6 +217,28 @@ export default function ProductCard({ product }) {
             {description || 'Part Description'}
           </h3>
         </Link>
+
+        {/* Additional Info */}
+        {additionalInfo && (
+          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{additionalInfo}</p>
+        )}
+
+        {/* Number Required */}
+        {numberRequired && numberRequired > 1 && (
+          <p className="text-xs text-amber-600 mt-1">Qty Required: {numberRequired}</p>
+        )}
+
+        {/* Supersession Note */}
+        {supersessions && supersessions.length > 0 && (
+          <p className="text-xs text-blue-600 mt-1">
+            Also known as: {supersessions.slice(0, 2).join(', ')}{supersessions.length > 2 ? '...' : ''}
+          </p>
+        )}
+
+        {/* NLA Date */}
+        {nlaDate && (
+          <p className="text-xs text-red-500 mt-1">NLA from {nlaDate}</p>
+        )}
 
         {/* Price & Stock */}
         <div className="mt-auto pt-3 border-t border-gray-200">

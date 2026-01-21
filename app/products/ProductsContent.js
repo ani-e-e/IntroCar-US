@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { Search, ChevronRight, ChevronLeft, X, AlertCircle, SlidersHorizontal, Grid, List } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, X, AlertCircle, SlidersHorizontal, Grid, List } from 'lucide-react';
 
 export default function ProductsContent() {
   const searchParams = useSearchParams();
@@ -15,18 +15,20 @@ export default function ProductsContent() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState([]); // Now contains {name, subcategories[]}
   const [stockTypes, setStockTypes] = useState([]);
   const [vehicleData, setVehicleData] = useState({});
   const [supersessionMatch, setSupersessionMatch] = useState(null);
   const [searchType, setSearchType] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState(null);
 
   const currentSearch = searchParams.get('search') || '';
   const currentMake = searchParams.get('make') || '';
   const currentModel = searchParams.get('model') || '';
   const currentCategory = searchParams.get('category') || '';
+  const currentSubcategory = searchParams.get('subcategory') || '';
   const currentStockType = searchParams.get('stockType') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
   const currentSort = searchParams.get('sort') || 'relevance';
@@ -41,6 +43,7 @@ export default function ProductsContent() {
       if (currentMake) params.set('make', currentMake);
       if (currentModel) params.set('model', currentModel);
       if (currentCategory) params.set('category', currentCategory);
+      if (currentSubcategory) params.set('subcategory', currentSubcategory);
       if (currentStockType) params.set('stockType', currentStockType);
       if (currentSort) params.set('sort', currentSort);
       params.set('page', currentPage.toString());
@@ -51,7 +54,7 @@ export default function ProductsContent() {
         const data = await res.json();
         setProducts(data.products || []);
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
-        setCategories(data.categories || []);
+        setCategories(data.categories || []); // Now array of {name, subcategories[]}
         setStockTypes(data.stockTypes || []);
         setVehicleData(data.vehicleData || {});
         setSupersessionMatch(data.supersessionMatch);
@@ -62,7 +65,7 @@ export default function ProductsContent() {
     } finally {
       setLoading(false);
     }
-  }, [currentSearch, currentMake, currentModel, currentCategory, currentStockType, currentPage, currentSort]);
+  }, [currentSearch, currentMake, currentModel, currentCategory, currentSubcategory, currentStockType, currentPage, currentSort]);
 
   useEffect(() => {
     fetchProducts();
@@ -87,6 +90,27 @@ export default function ProductsContent() {
     } else {
       params.delete(key);
     }
+    // Clear subcategory if category changes
+    if (key === 'category') {
+      params.delete('subcategory');
+    }
+    params.set('page', '1');
+    router.push(`/products?${params.toString()}`);
+  }
+
+  function setCategoryFilter(category, subcategory = '') {
+    const params = new URLSearchParams(searchParams);
+    if (category) {
+      params.set('category', category);
+      if (subcategory) {
+        params.set('subcategory', subcategory);
+      } else {
+        params.delete('subcategory');
+      }
+    } else {
+      params.delete('category');
+      params.delete('subcategory');
+    }
     params.set('page', '1');
     router.push(`/products?${params.toString()}`);
   }
@@ -94,6 +118,7 @@ export default function ProductsContent() {
   function clearFilters() {
     router.push('/products');
     setLocalSearch('');
+    setExpandedCategory(null);
   }
 
   function goToPage(page) {
@@ -103,7 +128,7 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentStockType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentSubcategory || currentStockType;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
 
@@ -176,6 +201,51 @@ export default function ProductsContent() {
                 </div>
               )}
 
+              {/* Categories with Subcategories */}
+              <div>
+                <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
+                <div className="space-y-1 max-h-80 overflow-y-auto">
+                  <button
+                    onClick={() => setCategoryFilter('')}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                  >
+                    All Categories
+                  </button>
+                  {categories.map((cat) => (
+                    <div key={cat.name}>
+                      <button
+                        onClick={() => {
+                          if (cat.subcategories && cat.subcategories.length > 0) {
+                            setExpandedCategory(expandedCategory === cat.name ? null : cat.name);
+                          }
+                          setCategoryFilter(cat.name);
+                        }}
+                        className={`flex items-center justify-between w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat.name && !currentSubcategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                      >
+                        <span>{cat.name}</span>
+                        {cat.subcategories && cat.subcategories.length > 0 && (
+                          <ChevronDown className={`w-4 h-4 transition-transform ${expandedCategory === cat.name ? 'rotate-180' : ''}`} />
+                        )}
+                      </button>
+                      {/* Subcategories */}
+                      {expandedCategory === cat.name && cat.subcategories && cat.subcategories.length > 0 && (
+                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-introcar-light pl-3">
+                          {cat.subcategories.map((sub) => (
+                            <button
+                              key={sub}
+                              onClick={() => setCategoryFilter(cat.name, sub)}
+                              className={`block w-full text-left px-2 py-1.5 rounded text-sm ${currentCategory === cat.name && currentSubcategory === sub ? 'bg-introcar-blue text-white' : 'text-gray-500 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                            >
+                              {sub}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <div>
                 <h3 className="text-introcar-charcoal font-medium mb-3">Part Type</h3>
                 <div className="space-y-2">
@@ -213,6 +283,7 @@ export default function ProductsContent() {
                 </button>
                 <select value={currentSort} onChange={(e) => setFilter('sort', e.target.value)} className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal text-sm">
                   <option value="relevance">Relevance</option>
+                  <option value="popularity">Best Sellers</option>
                   <option value="price-asc">Price: Low to High</option>
                   <option value="price-desc">Price: High to Low</option>
                   <option value="name-asc">Name: A-Z</option>
@@ -267,6 +338,12 @@ export default function ProductsContent() {
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
                     {currentModel}
                     <button onClick={() => setFilter('model', '')}><X className="w-3 h-3" /></button>
+                  </span>
+                )}
+                {currentCategory && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
+                    {currentCategory}{currentSubcategory && ` / ${currentSubcategory}`}
+                    <button onClick={() => setCategoryFilter('')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
                 {currentStockType && (
@@ -346,6 +423,19 @@ export default function ProductsContent() {
                   {['', ...makes].map((make) => (
                     <button key={make} onClick={() => { setFilter('make', make); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
                       {make || 'All Makes'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
+                <div className="space-y-2 max-h-48 overflow-y-auto">
+                  <button onClick={() => { setCategoryFilter(''); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                    All Categories
+                  </button>
+                  {categories.map((cat) => (
+                    <button key={cat.name} onClick={() => { setCategoryFilter(cat.name); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat.name ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                      {cat.name}
                     </button>
                   ))}
                 </div>
