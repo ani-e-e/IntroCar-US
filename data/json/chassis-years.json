@@ -1,0 +1,3634 @@
+{
+  "Bentley": {
+    "Arnage 4.4L Birkin": {
+      "yearStart": 2000,
+      "yearEnd": 2001,
+      "years": {
+        "2000": {
+          "chassisFirst": "5236",
+          "chassisLast": "5498",
+          "chassisNumericStart": 5236,
+          "chassisNumericEnd": 5498,
+          "count": 263
+        },
+        "2001": {
+          "chassisFirst": "6785",
+          "chassisLast": "6786",
+          "chassisNumericStart": 6785,
+          "chassisNumericEnd": 6786,
+          "count": 2
+        }
+      }
+    },
+    "Arnage Blue Train": {
+      "yearStart": 2006,
+      "yearEnd": 2006,
+      "years": {
+        "2006": {
+          "chassisFirst": "11113",
+          "chassisLast": "11291",
+          "chassisNumericStart": 11113,
+          "chassisNumericEnd": 11291,
+          "count": 179
+        }
+      }
+    },
+    "Arnage Diamond Series": {
+      "yearStart": 2006,
+      "yearEnd": 2006,
+      "years": {
+        "2006": {
+          "chassisFirst": "11373",
+          "chassisLast": "11657",
+          "chassisNumericStart": 11373,
+          "chassisNumericEnd": 11657,
+          "count": 285
+        }
+      }
+    },
+    "Arnage Final Series": {
+      "yearStart": 2009,
+      "yearEnd": 2009,
+      "years": {
+        "2009": {
+          "chassisFirst": "7910",
+          "chassisLast": "14385",
+          "chassisNumericStart": 7910,
+          "chassisNumericEnd": 14385,
+          "count": 6476
+        }
+      }
+    },
+    "Arnage Green Label": {
+      "yearStart": 1998,
+      "yearEnd": 2000,
+      "years": {
+        "1998": {
+          "chassisFirst": "1001",
+          "chassisLast": "1033",
+          "chassisNumericStart": 1001,
+          "chassisNumericEnd": 1033,
+          "count": 33
+        },
+        "1999": {
+          "chassisFirst": "1107",
+          "chassisLast": "3050",
+          "chassisNumericStart": 1107,
+          "chassisNumericEnd": 3050,
+          "count": 1944
+        },
+        "2000": {
+          "chassisFirst": "4003",
+          "chassisLast": "5100",
+          "chassisNumericStart": 4003,
+          "chassisNumericEnd": 5100,
+          "count": 1098
+        }
+      }
+    },
+    "Arnage Le Mans": {
+      "yearStart": 2001,
+      "yearEnd": 2002,
+      "years": {
+        "2001": {
+          "chassisFirst": "6341",
+          "chassisLast": "6781",
+          "chassisNumericStart": 6341,
+          "chassisNumericEnd": 6781,
+          "count": 441
+        },
+        "2002": {
+          "chassisFirst": "8014",
+          "chassisLast": "8375",
+          "chassisNumericStart": 8014,
+          "chassisNumericEnd": 8375,
+          "count": 362
+        }
+      }
+    },
+    "Arnage R": {
+      "yearStart": 2002,
+      "yearEnd": 2009,
+      "years": {
+        "2002": {
+          "chassisFirst": "8323",
+          "chassisLast": "8849",
+          "chassisNumericStart": 8323,
+          "chassisNumericEnd": 8849,
+          "count": 527
+        },
+        "2003": {
+          "chassisFirst": "8921",
+          "chassisLast": "9660",
+          "chassisNumericStart": 8921,
+          "chassisNumericEnd": 9660,
+          "count": 740
+        },
+        "2004": {
+          "chassisFirst": "9703",
+          "chassisLast": "10058",
+          "chassisNumericStart": 9703,
+          "chassisNumericEnd": 10058,
+          "count": 356
+        },
+        "2005": {
+          "chassisFirst": "10101",
+          "chassisLast": "10978",
+          "chassisNumericStart": 10101,
+          "chassisNumericEnd": 10978,
+          "count": 878
+        },
+        "2006": {
+          "chassisFirst": "11101",
+          "chassisLast": "11658",
+          "chassisNumericStart": 11101,
+          "chassisNumericEnd": 11658,
+          "count": 558
+        },
+        "2007": {
+          "chassisFirst": "12007",
+          "chassisLast": "12559",
+          "chassisNumericStart": 12007,
+          "chassisNumericEnd": 12559,
+          "count": 553
+        },
+        "2008": {
+          "chassisFirst": "12609",
+          "chassisLast": "12950",
+          "chassisNumericStart": 12609,
+          "chassisNumericEnd": 12950,
+          "count": 342
+        },
+        "2009": {
+          "chassisFirst": "13514",
+          "chassisLast": "14308",
+          "chassisNumericStart": 13514,
+          "chassisNumericEnd": 14308,
+          "count": 795
+        }
+      }
+    },
+    "Arnage RL": {
+      "yearStart": 2003,
+      "yearEnd": 2009,
+      "years": {
+        "2003": {
+          "chassisFirst": "19150",
+          "chassisLast": "19194",
+          "chassisNumericStart": 19150,
+          "chassisNumericEnd": 19194,
+          "count": 45
+        },
+        "2004": {
+          "chassisFirst": "19203",
+          "chassisLast": "19255",
+          "chassisNumericStart": 19203,
+          "chassisNumericEnd": 19255,
+          "count": 53
+        },
+        "2005": {
+          "chassisFirst": "19301",
+          "chassisLast": "19365",
+          "chassisNumericStart": 19301,
+          "chassisNumericEnd": 19365,
+          "count": 65
+        },
+        "2006": {
+          "chassisFirst": "19400",
+          "chassisLast": "19500",
+          "chassisNumericStart": 19400,
+          "chassisNumericEnd": 19500,
+          "count": 101
+        },
+        "2007": {
+          "chassisFirst": "19501",
+          "chassisLast": "19530",
+          "chassisNumericStart": 19501,
+          "chassisNumericEnd": 19530,
+          "count": 30
+        },
+        "2008": {
+          "chassisFirst": "19550",
+          "chassisLast": "19591",
+          "chassisNumericStart": 19550,
+          "chassisNumericEnd": 19591,
+          "count": 42
+        },
+        "2009": {
+          "chassisFirst": "19600",
+          "chassisLast": "19679",
+          "chassisNumericStart": 19600,
+          "chassisNumericEnd": 19679,
+          "count": 80
+        }
+      }
+    },
+    "Arnage Red Label": {
+      "yearStart": 2000,
+      "yearEnd": 2002,
+      "years": {
+        "2000": {
+          "chassisFirst": "4001",
+          "chassisLast": "7511",
+          "chassisNumericStart": 4001,
+          "chassisNumericEnd": 7511,
+          "count": 1101
+        },
+        "2001": {
+          "chassisFirst": "5551",
+          "chassisLast": "7651",
+          "chassisNumericStart": 5551,
+          "chassisNumericEnd": 7651,
+          "count": 1328
+        },
+        "2002": {
+          "chassisFirst": "8000",
+          "chassisLast": "19512",
+          "chassisNumericStart": 8000,
+          "chassisNumericEnd": 19512,
+          "count": 408
+        }
+      }
+    },
+    "Arnage T": {
+      "yearStart": 2002,
+      "yearEnd": 2009,
+      "years": {
+        "2002": {
+          "chassisFirst": "8200",
+          "chassisLast": "8852",
+          "chassisNumericStart": 8200,
+          "chassisNumericEnd": 8852,
+          "count": 653
+        },
+        "2003": {
+          "chassisFirst": "8900",
+          "chassisLast": "9661",
+          "chassisNumericStart": 8900,
+          "chassisNumericEnd": 9661,
+          "count": 762
+        },
+        "2004": {
+          "chassisFirst": "9701",
+          "chassisLast": "10008",
+          "chassisNumericStart": 9701,
+          "chassisNumericEnd": 10008,
+          "count": 308
+        },
+        "2005": {
+          "chassisFirst": "10100",
+          "chassisLast": "11101",
+          "chassisNumericStart": 10100,
+          "chassisNumericEnd": 11101,
+          "count": 1002
+        },
+        "2006": {
+          "chassisFirst": "11102",
+          "chassisLast": "12000",
+          "chassisNumericStart": 11102,
+          "chassisNumericEnd": 12000,
+          "count": 899
+        },
+        "2007": {
+          "chassisFirst": "12001",
+          "chassisLast": "12568",
+          "chassisNumericStart": 12001,
+          "chassisNumericEnd": 12568,
+          "count": 568
+        },
+        "2008": {
+          "chassisFirst": "12600",
+          "chassisLast": "12948",
+          "chassisNumericStart": 12600,
+          "chassisNumericEnd": 12948,
+          "count": 349
+        },
+        "2009": {
+          "chassisFirst": "13504",
+          "chassisLast": "14285",
+          "chassisNumericStart": 13504,
+          "chassisNumericEnd": 14285,
+          "count": 782
+        }
+      }
+    },
+    "Azure (1995-2001)": {
+      "yearStart": 1995,
+      "yearEnd": 2001,
+      "years": {
+        "1995": {
+          "chassisFirst": "50801",
+          "chassisLast": "50810",
+          "chassisNumericStart": 50801,
+          "chassisNumericEnd": 50810,
+          "count": 10
+        },
+        "1996": {
+          "chassisFirst": "50811",
+          "chassisLast": "53851",
+          "chassisNumericStart": 50811,
+          "chassisNumericEnd": 53851,
+          "count": 3041
+        },
+        "1997": {
+          "chassisFirst": "53852",
+          "chassisLast": "61182",
+          "chassisNumericStart": 53852,
+          "chassisNumericEnd": 61182,
+          "count": 7331
+        },
+        "1998": {
+          "chassisFirst": "61501",
+          "chassisLast": "61705",
+          "chassisNumericStart": 61501,
+          "chassisNumericEnd": 61705,
+          "count": 205
+        },
+        "1999": {
+          "chassisFirst": "61706",
+          "chassisLast": "61819",
+          "chassisNumericStart": 61706,
+          "chassisNumericEnd": 61819,
+          "count": 114
+        },
+        "2000": {
+          "chassisFirst": "61820",
+          "chassisLast": "62135",
+          "chassisNumericStart": 61820,
+          "chassisNumericEnd": 62135,
+          "count": 316
+        },
+        "2001": {
+          "chassisFirst": "62501",
+          "chassisLast": "62666",
+          "chassisNumericStart": 62501,
+          "chassisNumericEnd": 62666,
+          "count": 166
+        }
+      }
+    },
+    "Azure (2002-2003)": {
+      "yearStart": 2002,
+      "yearEnd": 2003,
+      "years": {
+        "2002": {
+          "chassisFirst": "1000",
+          "chassisLast": "1118",
+          "chassisNumericStart": 1000,
+          "chassisNumericEnd": 1118,
+          "count": 119
+        },
+        "2003": {
+          "chassisFirst": "1150",
+          "chassisLast": "1238",
+          "chassisNumericStart": 1150,
+          "chassisNumericEnd": 1238,
+          "count": 89
+        }
+      }
+    },
+    "Azure (2006-2010)": {
+      "yearStart": 2006,
+      "yearEnd": 2010,
+      "years": {
+        "2006": {
+          "chassisFirst": "11142",
+          "chassisLast": "11686",
+          "chassisNumericStart": 11142,
+          "chassisNumericEnd": 11686,
+          "count": 545
+        },
+        "2007": {
+          "chassisFirst": "12009",
+          "chassisLast": "12570",
+          "chassisNumericStart": 12009,
+          "chassisNumericEnd": 12570,
+          "count": 562
+        },
+        "2008": {
+          "chassisFirst": "12601",
+          "chassisLast": "12949",
+          "chassisNumericStart": 12601,
+          "chassisNumericEnd": 12949,
+          "count": 349
+        },
+        "2009": {
+          "chassisFirst": "13500",
+          "chassisLast": "14358",
+          "chassisNumericStart": 13500,
+          "chassisNumericEnd": 14358,
+          "count": 859
+        },
+        "2010": {
+          "chassisFirst": "14398",
+          "chassisLast": "14495",
+          "chassisNumericStart": 14398,
+          "chassisNumericEnd": 14495,
+          "count": 98
+        }
+      }
+    },
+    "Bentayga": {
+      "yearStart": 2017,
+      "yearEnd": 2017,
+      "years": {
+        "2017": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Brooklands Coupe": {
+      "yearStart": 2009,
+      "yearEnd": 2010,
+      "years": {
+        "2009": {
+          "chassisFirst": "13501",
+          "chassisLast": "14380",
+          "chassisNumericStart": 13501,
+          "chassisNumericEnd": 14380,
+          "count": 880
+        },
+        "2010": {
+          "chassisFirst": "14386",
+          "chassisLast": "14500",
+          "chassisNumericStart": 14386,
+          "chassisNumericEnd": 14500,
+          "count": 115
+        }
+      }
+    },
+    "Brooklands Saloon": {
+      "yearStart": 1993,
+      "yearEnd": 1998,
+      "years": {
+        "1993": {
+          "chassisFirst": "46004",
+          "chassisLast": "46778",
+          "chassisNumericStart": 46004,
+          "chassisNumericEnd": 46778,
+          "count": 775
+        },
+        "1994": {
+          "chassisFirst": "54007",
+          "chassisLast": "54927",
+          "chassisNumericStart": 54007,
+          "chassisNumericEnd": 54927,
+          "count": 921
+        },
+        "1995": {
+          "chassisFirst": "54928",
+          "chassisLast": "55755",
+          "chassisNumericStart": 54928,
+          "chassisNumericEnd": 55755,
+          "count": 828
+        },
+        "1996": {
+          "chassisFirst": "57006",
+          "chassisLast": "58504",
+          "chassisNumericStart": 57006,
+          "chassisNumericEnd": 58504,
+          "count": 1499
+        },
+        "1997": {
+          "chassisFirst": "59010",
+          "chassisLast": "60307",
+          "chassisNumericStart": 59010,
+          "chassisNumericEnd": 60307,
+          "count": 1298
+        },
+        "1998": {
+          "chassisFirst": "66003",
+          "chassisLast": "66901",
+          "chassisNumericStart": 66003,
+          "chassisNumericEnd": 66901,
+          "count": 899
+        }
+      }
+    },
+    "Continental": {
+      "yearStart": 1985,
+      "yearEnd": 1995,
+      "years": {
+        "1985": {
+          "chassisFirst": "9030",
+          "chassisLast": "10382",
+          "chassisNumericStart": 9030,
+          "chassisNumericEnd": 10382,
+          "count": 1353
+        },
+        "1986": {
+          "chassisFirst": "13342",
+          "chassisLast": "15948",
+          "chassisNumericStart": 13342,
+          "chassisNumericEnd": 15948,
+          "count": 2538
+        },
+        "1987": {
+          "chassisFirst": "16035",
+          "chassisLast": "20847",
+          "chassisNumericStart": 16035,
+          "chassisNumericEnd": 20847,
+          "count": 4813
+        },
+        "1988": {
+          "chassisFirst": "20848",
+          "chassisLast": "23246",
+          "chassisNumericStart": 20848,
+          "chassisNumericEnd": 23246,
+          "count": 2399
+        },
+        "1989": {
+          "chassisFirst": "23247",
+          "chassisLast": "29290",
+          "chassisNumericStart": 23247,
+          "chassisNumericEnd": 29290,
+          "count": 6044
+        },
+        "1990": {
+          "chassisFirst": "30002",
+          "chassisLast": "30329",
+          "chassisNumericStart": 30002,
+          "chassisNumericEnd": 30329,
+          "count": 328
+        },
+        "1991": {
+          "chassisFirst": "30330",
+          "chassisLast": "30638",
+          "chassisNumericStart": 30330,
+          "chassisNumericEnd": 30638,
+          "count": 309
+        },
+        "1992": {
+          "chassisFirst": "40002",
+          "chassisLast": "40046",
+          "chassisNumericStart": 40002,
+          "chassisNumericEnd": 40046,
+          "count": 45
+        },
+        "1993": {
+          "chassisFirst": "40047",
+          "chassisLast": "40531",
+          "chassisNumericStart": 40047,
+          "chassisNumericEnd": 40531,
+          "count": 485
+        },
+        "1994": {
+          "chassisFirst": "50003",
+          "chassisLast": "50065",
+          "chassisNumericStart": 50003,
+          "chassisNumericEnd": 50065,
+          "count": 63
+        },
+        "1995": {
+          "chassisFirst": "50066",
+          "chassisLast": "52451",
+          "chassisNumericStart": 50066,
+          "chassisNumericEnd": 52451,
+          "count": 2386
+        }
+      }
+    },
+    "Continental Flying Spur": {
+      "yearStart": 2005,
+      "yearEnd": 2005,
+      "years": {
+        "2005": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental GT": {
+      "yearStart": 2004,
+      "yearEnd": 2004,
+      "years": {
+        "2004": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental GT Speed": {
+      "yearStart": 2004,
+      "yearEnd": 2004,
+      "years": {
+        "2004": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental GT3 R": {
+      "yearStart": 2015,
+      "yearEnd": 2015,
+      "years": {
+        "2015": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental GTC": {
+      "yearStart": 2007,
+      "yearEnd": 2007,
+      "years": {
+        "2007": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental GTC Speed": {
+      "yearStart": 2007,
+      "yearEnd": 2007,
+      "years": {
+        "2007": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental R (1992-2001)": {
+      "yearStart": 1992,
+      "yearEnd": 2001,
+      "years": {
+        "1992": {
+          "chassisFirst": "42001",
+          "chassisLast": "42010",
+          "chassisNumericStart": 42001,
+          "chassisNumericEnd": 42010,
+          "count": 10
+        },
+        "1993": {
+          "chassisFirst": "42011",
+          "chassisLast": "42728",
+          "chassisNumericStart": 42011,
+          "chassisNumericEnd": 42728,
+          "count": 718
+        },
+        "1994": {
+          "chassisFirst": "52001",
+          "chassisLast": "52207",
+          "chassisNumericStart": 52001,
+          "chassisNumericEnd": 52207,
+          "count": 207
+        },
+        "1995": {
+          "chassisFirst": "52208",
+          "chassisLast": "52449",
+          "chassisNumericStart": 52208,
+          "chassisNumericEnd": 52449,
+          "count": 242
+        },
+        "1996": {
+          "chassisFirst": "53001",
+          "chassisLast": "53135",
+          "chassisNumericStart": 53001,
+          "chassisNumericEnd": 53135,
+          "count": 135
+        },
+        "1997": {
+          "chassisFirst": "53136",
+          "chassisLast": "53490",
+          "chassisNumericStart": 53136,
+          "chassisNumericEnd": 53490,
+          "count": 355
+        },
+        "1998": {
+          "chassisFirst": "63001",
+          "chassisLast": "63141",
+          "chassisNumericStart": 63001,
+          "chassisNumericEnd": 63141,
+          "count": 141
+        },
+        "1999": {
+          "chassisFirst": "63142",
+          "chassisLast": "63185",
+          "chassisNumericStart": 63142,
+          "chassisNumericEnd": 63185,
+          "count": 44
+        },
+        "2000": {
+          "chassisFirst": "63301",
+          "chassisLast": "63365",
+          "chassisNumericStart": 63301,
+          "chassisNumericEnd": 63365,
+          "count": 65
+        },
+        "2001": {
+          "chassisFirst": "63501",
+          "chassisLast": "63577",
+          "chassisNumericStart": 63501,
+          "chassisNumericEnd": 63577,
+          "count": 77
+        }
+      }
+    },
+    "Continental R (2002-2003)": {
+      "yearStart": 2002,
+      "yearEnd": 2003,
+      "years": {
+        "2002": {
+          "chassisFirst": "1750",
+          "chassisLast": "1795",
+          "chassisNumericStart": 1750,
+          "chassisNumericEnd": 1795,
+          "count": 46
+        },
+        "2003": {
+          "chassisFirst": "1851",
+          "chassisLast": "1876",
+          "chassisNumericStart": 1851,
+          "chassisNumericEnd": 1876,
+          "count": 26
+        }
+      }
+    },
+    "Continental SC": {
+      "yearStart": 1998,
+      "yearEnd": 2000,
+      "years": {
+        "1998": {
+          "chassisFirst": "65000",
+          "chassisLast": "65005",
+          "chassisNumericStart": 65000,
+          "chassisNumericEnd": 65005,
+          "count": 6
+        },
+        "1999": {
+          "chassisFirst": "65006",
+          "chassisLast": "65059",
+          "chassisNumericStart": 65006,
+          "chassisNumericEnd": 65059,
+          "count": 54
+        },
+        "2000": {
+          "chassisFirst": "65060",
+          "chassisLast": "65104",
+          "chassisNumericStart": 65060,
+          "chassisNumericEnd": 65104,
+          "count": 45
+        }
+      }
+    },
+    "Continental Supersports": {
+      "yearStart": 2009,
+      "yearEnd": 2009,
+      "years": {
+        "2009": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Continental T (1996-2001)": {
+      "yearStart": 1996,
+      "yearEnd": 2001,
+      "years": {
+        "1996": {
+          "chassisFirst": "53159",
+          "chassisLast": "53304",
+          "chassisNumericStart": 53159,
+          "chassisNumericEnd": 53304,
+          "count": 146
+        },
+        "1997": {
+          "chassisFirst": "53305",
+          "chassisLast": "53512",
+          "chassisNumericStart": 53305,
+          "chassisNumericEnd": 53512,
+          "count": 208
+        },
+        "1998": {
+          "chassisFirst": "53513",
+          "chassisLast": "67075",
+          "chassisNumericStart": 53513,
+          "chassisNumericEnd": 67075,
+          "count": 13563
+        },
+        "1999": {
+          "chassisFirst": "67076",
+          "chassisLast": "67113",
+          "chassisNumericStart": 67076,
+          "chassisNumericEnd": 67113,
+          "count": 38
+        },
+        "2000": {
+          "chassisFirst": "67201",
+          "chassisLast": "67227",
+          "chassisNumericStart": 67201,
+          "chassisNumericEnd": 67227,
+          "count": 27
+        },
+        "2001": {
+          "chassisFirst": "67501",
+          "chassisLast": "67538",
+          "chassisNumericStart": 67501,
+          "chassisNumericEnd": 67538,
+          "count": 38
+        }
+      }
+    },
+    "Continental T (2002-2003)": {
+      "yearStart": 2002,
+      "yearEnd": 2003,
+      "years": {
+        "2002": {
+          "chassisFirst": "1500",
+          "chassisLast": "1525",
+          "chassisNumericStart": 1500,
+          "chassisNumericEnd": 1525,
+          "count": 26
+        },
+        "2003": {
+          "chassisFirst": "1550",
+          "chassisLast": "1559",
+          "chassisNumericStart": 1550,
+          "chassisNumericEnd": 1559,
+          "count": 10
+        }
+      }
+    },
+    "Corniche (1970-1982)": {
+      "yearStart": 1970,
+      "yearEnd": 1982,
+      "years": {
+        "1970": {
+          "chassisFirst": "9770",
+          "chassisLast": "9982",
+          "chassisNumericStart": 9770,
+          "chassisNumericEnd": 9982,
+          "count": 213
+        },
+        "1971": {
+          "chassisFirst": "10012",
+          "chassisLast": "12945",
+          "chassisNumericStart": 10012,
+          "chassisNumericEnd": 12945,
+          "count": 2934
+        },
+        "1972": {
+          "chassisFirst": "12946",
+          "chassisLast": "14271",
+          "chassisNumericStart": 12946,
+          "chassisNumericEnd": 14271,
+          "count": 1326
+        },
+        "1973": {
+          "chassisFirst": "14272",
+          "chassisLast": "17840",
+          "chassisNumericStart": 14272,
+          "chassisNumericEnd": 17840,
+          "count": 3569
+        },
+        "1974": {
+          "chassisFirst": "17841",
+          "chassisLast": "20290",
+          "chassisNumericStart": 17841,
+          "chassisNumericEnd": 20290,
+          "count": 2450
+        },
+        "1975": {
+          "chassisFirst": "20291",
+          "chassisLast": "23832",
+          "chassisNumericStart": 20291,
+          "chassisNumericEnd": 23832,
+          "count": 3542
+        },
+        "1976": {
+          "chassisFirst": "23833",
+          "chassisLast": "25554",
+          "chassisNumericStart": 23833,
+          "chassisNumericEnd": 25554,
+          "count": 1722
+        },
+        "1977": {
+          "chassisFirst": "25555",
+          "chassisLast": "32558",
+          "chassisNumericStart": 25555,
+          "chassisNumericEnd": 32558,
+          "count": 7004
+        },
+        "1978": {
+          "chassisFirst": "32559",
+          "chassisLast": "35800",
+          "chassisNumericStart": 32559,
+          "chassisNumericEnd": 35800,
+          "count": 3242
+        },
+        "1979": {
+          "chassisFirst": "35801",
+          "chassisLast": "50380",
+          "chassisNumericStart": 35801,
+          "chassisNumericEnd": 50380,
+          "count": 14580
+        },
+        "1980": {
+          "chassisFirst": "50381",
+          "chassisLast": "50752",
+          "chassisNumericStart": 50381,
+          "chassisNumericEnd": 50752,
+          "count": 372
+        },
+        "1981": {
+          "chassisFirst": "50753",
+          "chassisLast": "50755",
+          "chassisNumericStart": 50753,
+          "chassisNumericEnd": 50755,
+          "count": 3
+        },
+        "1982": {
+          "chassisFirst": "50756",
+          "chassisLast": "50757",
+          "chassisNumericStart": 50756,
+          "chassisNumericEnd": 50757,
+          "count": 2
+        }
+      }
+    },
+    "Corniche (1981-1984)": {
+      "yearStart": 1981,
+      "yearEnd": 1984,
+      "years": {
+        "1981": {
+          "chassisFirst": "1557",
+          "chassisLast": "2565",
+          "chassisNumericStart": 1557,
+          "chassisNumericEnd": 2565,
+          "count": 1009
+        },
+        "1982": {
+          "chassisFirst": "2566",
+          "chassisLast": "5699",
+          "chassisNumericStart": 2566,
+          "chassisNumericEnd": 5699,
+          "count": 3134
+        },
+        "1983": {
+          "chassisFirst": "5700",
+          "chassisLast": "7741",
+          "chassisNumericStart": 5700,
+          "chassisNumericEnd": 7741,
+          "count": 2042
+        },
+        "1984": {
+          "chassisFirst": "7742",
+          "chassisLast": "8901",
+          "chassisNumericStart": 7742,
+          "chassisNumericEnd": 8901,
+          "count": 1160
+        }
+      }
+    },
+    "Eight": {
+      "yearStart": 1984,
+      "yearEnd": 1992,
+      "years": {
+        "1984": {
+          "chassisFirst": "8862",
+          "chassisLast": "10110",
+          "chassisNumericStart": 8862,
+          "chassisNumericEnd": 10110,
+          "count": 1249
+        },
+        "1985": {
+          "chassisFirst": "12013",
+          "chassisLast": "13835",
+          "chassisNumericStart": 12013,
+          "chassisNumericEnd": 13835,
+          "count": 1823
+        },
+        "1986": {
+          "chassisFirst": "13876",
+          "chassisLast": "16569",
+          "chassisNumericStart": 13876,
+          "chassisNumericEnd": 16569,
+          "count": 2694
+        },
+        "1987": {
+          "chassisFirst": "16802",
+          "chassisLast": "22005",
+          "chassisNumericStart": 16802,
+          "chassisNumericEnd": 22005,
+          "count": 5204
+        },
+        "1988": {
+          "chassisFirst": "22008",
+          "chassisLast": "24497",
+          "chassisNumericStart": 22008,
+          "chassisNumericEnd": 24497,
+          "count": 2490
+        },
+        "1989": {
+          "chassisFirst": "24513",
+          "chassisLast": "27799",
+          "chassisNumericStart": 24513,
+          "chassisNumericEnd": 27799,
+          "count": 3287
+        },
+        "1990": {
+          "chassisFirst": "31008",
+          "chassisLast": "33748",
+          "chassisNumericStart": 31008,
+          "chassisNumericEnd": 33748,
+          "count": 2741
+        },
+        "1991": {
+          "chassisFirst": "33749",
+          "chassisLast": "36282",
+          "chassisNumericStart": 33749,
+          "chassisNumericEnd": 36282,
+          "count": 2534
+        },
+        "1992": {
+          "chassisFirst": "44022",
+          "chassisLast": "44562",
+          "chassisNumericStart": 44022,
+          "chassisNumericEnd": 44562,
+          "count": 541
+        }
+      }
+    },
+    "Flying Spur (2014-2019)": {
+      "yearStart": 2014,
+      "yearEnd": 2014,
+      "years": {
+        "2014": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Mk VI": {
+      "yearStart": 1946,
+      "yearEnd": 1952,
+      "years": {
+        "1946": {
+          "chassisFirst": "B2AK",
+          "chassisLast": "B254AK",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 254,
+          "count": 253
+        },
+        "1947": {
+          "chassisFirst": "B1AJ",
+          "chassisLast": "B500CF",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 500,
+          "count": 1546
+        },
+        "1948": {
+          "chassisFirst": "B1CD",
+          "chassisLast": "B501DZ",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 501,
+          "count": 1501
+        },
+        "1949": {
+          "chassisFirst": "B2EY",
+          "chassisLast": "B601FU",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 601,
+          "count": 2100
+        },
+        "1950": {
+          "chassisFirst": "B1GT",
+          "chassisLast": "B251JN",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 251,
+          "count": 1401
+        },
+        "1951": {
+          "chassisFirst": "B2KM",
+          "chassisLast": "B500NZ",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 500,
+          "count": 2501
+        },
+        "1952": {
+          "chassisFirst": "B1NY",
+          "chassisLast": "B301PU",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 301,
+          "count": 1101
+        }
+      }
+    },
+    "Mulsanne": {
+      "yearStart": 1980,
+      "yearEnd": 1987,
+      "years": {
+        "1980": {
+          "chassisFirst": "1009",
+          "chassisLast": "1496",
+          "chassisNumericStart": 1009,
+          "chassisNumericEnd": 1496,
+          "count": 488
+        },
+        "1981": {
+          "chassisFirst": "1657",
+          "chassisLast": "3974",
+          "chassisNumericStart": 1657,
+          "chassisNumericEnd": 3974,
+          "count": 2318
+        },
+        "1982": {
+          "chassisFirst": "3975",
+          "chassisLast": "6294",
+          "chassisNumericStart": 3975,
+          "chassisNumericEnd": 6294,
+          "count": 2320
+        },
+        "1983": {
+          "chassisFirst": "6521",
+          "chassisLast": "7900",
+          "chassisNumericStart": 6521,
+          "chassisNumericEnd": 7900,
+          "count": 1380
+        },
+        "1984": {
+          "chassisFirst": "8217",
+          "chassisLast": "10044",
+          "chassisNumericStart": 8217,
+          "chassisNumericEnd": 10044,
+          "count": 1828
+        },
+        "1985": {
+          "chassisFirst": "12094",
+          "chassisLast": "13785",
+          "chassisNumericStart": 12094,
+          "chassisNumericEnd": 13785,
+          "count": 1692
+        },
+        "1986": {
+          "chassisFirst": "13878",
+          "chassisLast": "16421",
+          "chassisNumericStart": 13878,
+          "chassisNumericEnd": 16421,
+          "count": 2544
+        },
+        "1987": {
+          "chassisFirst": "16422",
+          "chassisLast": "21999",
+          "chassisNumericStart": 16422,
+          "chassisNumericEnd": 21999,
+          "count": 5578
+        }
+      }
+    },
+    "Mulsanne (2011-2021)": {
+      "yearStart": 2011,
+      "yearEnd": 2011,
+      "years": {
+        "2011": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Mulsanne S": {
+      "yearStart": 1988,
+      "yearEnd": 1992,
+      "years": {
+        "1988": {
+          "chassisFirst": "21058",
+          "chassisLast": "24501",
+          "chassisNumericStart": 21058,
+          "chassisNumericEnd": 24501,
+          "count": 3444
+        },
+        "1989": {
+          "chassisFirst": "24515",
+          "chassisLast": "27796",
+          "chassisNumericStart": 24515,
+          "chassisNumericEnd": 27796,
+          "count": 3282
+        },
+        "1990": {
+          "chassisFirst": "31006",
+          "chassisLast": "33738",
+          "chassisNumericStart": 31006,
+          "chassisNumericEnd": 33738,
+          "count": 2733
+        },
+        "1991": {
+          "chassisFirst": "33763",
+          "chassisLast": "36291",
+          "chassisNumericStart": 33763,
+          "chassisNumericEnd": 36291,
+          "count": 2529
+        },
+        "1992": {
+          "chassisFirst": "44015",
+          "chassisLast": "44588",
+          "chassisNumericStart": 44015,
+          "chassisNumericEnd": 44588,
+          "count": 574
+        }
+      }
+    },
+    "Mulsanne SL": {
+      "yearStart": 1988,
+      "yearEnd": 1992,
+      "years": {
+        "1988": {
+          "chassisFirst": "22239",
+          "chassisLast": "24028",
+          "chassisNumericStart": 22239,
+          "chassisNumericEnd": 24028,
+          "count": 1790
+        },
+        "1989": {
+          "chassisFirst": "24569",
+          "chassisLast": "27775",
+          "chassisNumericStart": 24569,
+          "chassisNumericEnd": 27775,
+          "count": 3207
+        },
+        "1990": {
+          "chassisFirst": "31223",
+          "chassisLast": "33617",
+          "chassisNumericStart": 31223,
+          "chassisNumericEnd": 33617,
+          "count": 2395
+        },
+        "1991": {
+          "chassisFirst": "33987",
+          "chassisLast": "36253",
+          "chassisNumericStart": 33987,
+          "chassisNumericEnd": 36253,
+          "count": 2267
+        },
+        "1992": {
+          "chassisFirst": "44056",
+          "chassisLast": "44582",
+          "chassisNumericStart": 44056,
+          "chassisNumericEnd": 44582,
+          "count": 527
+        }
+      }
+    },
+    "Mulsanne Turbo": {
+      "yearStart": 1982,
+      "yearEnd": 1986,
+      "years": {
+        "1982": {
+          "chassisFirst": "4233",
+          "chassisLast": "6581",
+          "chassisNumericStart": 4233,
+          "chassisNumericEnd": 6581,
+          "count": 2349
+        },
+        "1983": {
+          "chassisFirst": "6639",
+          "chassisLast": "8178",
+          "chassisNumericStart": 6639,
+          "chassisNumericEnd": 8178,
+          "count": 1540
+        },
+        "1984": {
+          "chassisFirst": "8190",
+          "chassisLast": "10099",
+          "chassisNumericStart": 8190,
+          "chassisNumericEnd": 10099,
+          "count": 1910
+        },
+        "1985": {
+          "chassisFirst": "12005",
+          "chassisLast": "14162",
+          "chassisNumericStart": 12005,
+          "chassisNumericEnd": 14162,
+          "count": 2158
+        },
+        "1986": {
+          "chassisFirst": "15787",
+          "chassisLast": "15787",
+          "chassisNumericStart": 15787,
+          "chassisNumericEnd": 15787,
+          "count": 1
+        }
+      }
+    },
+    "New Continental Convertible": {
+      "yearStart": 2018,
+      "yearEnd": 2018,
+      "years": {
+        "2018": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "New Continental GT": {
+      "yearStart": 2018,
+      "yearEnd": 2018,
+      "years": {
+        "2018": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "New Flying Spur": {
+      "yearStart": 2020,
+      "yearEnd": 2020,
+      "years": {
+        "2020": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "R Type": {
+      "yearStart": 1952,
+      "yearEnd": 1954,
+      "years": {
+        "1952": {
+          "chassisFirst": "B2RT",
+          "chassisLast": "B500SR",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 500,
+          "count": 739
+        },
+        "1953": {
+          "chassisFirst": "B1SP",
+          "chassisLast": "B250UM",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 250,
+          "count": 2001
+        },
+        "1954": {
+          "chassisFirst": "B2WH",
+          "chassisLast": "B250ZY",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 250,
+          "count": 1899
+        }
+      }
+    },
+    "R Type Continental": {
+      "yearStart": 1952,
+      "yearEnd": 1955,
+      "years": {
+        "1952": {
+          "chassisFirst": "BC1A",
+          "chassisLast": "BC26A",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 26,
+          "count": 26
+        },
+        "1953": {
+          "chassisFirst": "BC1B",
+          "chassisLast": "BC78C",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 78,
+          "count": 103
+        },
+        "1954": {
+          "chassisFirst": "BC1D",
+          "chassisLast": "BC74D",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 74,
+          "count": 74
+        },
+        "1955": {
+          "chassisFirst": "BC1E",
+          "chassisLast": "BC9E",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 9,
+          "count": 9
+        }
+      }
+    },
+    "S1": {
+      "yearStart": 1955,
+      "yearEnd": 1959,
+      "years": {
+        "1955": {
+          "chassisFirst": "B2AN",
+          "chassisLast": "B250BA",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 250,
+          "count": 1249
+        },
+        "1956": {
+          "chassisFirst": "B1BC",
+          "chassisLast": "B351DE",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 351,
+          "count": 1951
+        },
+        "1957": {
+          "chassisFirst": "B2EG",
+          "chassisLast": "ALB36",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 36,
+          "count": 1985
+        },
+        "1958": {
+          "chassisFirst": "B1FD",
+          "chassisLast": "B651FD",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 651,
+          "count": 651
+        },
+        "1959": {
+          "chassisFirst": "B1GD",
+          "chassisLast": "B50HA",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 50,
+          "count": 344
+        }
+      }
+    },
+    "S1 Continental": {
+      "yearStart": 1955,
+      "yearEnd": 1958,
+      "years": {
+        "1955": {
+          "chassisFirst": "BC1AF",
+          "chassisLast": "BC101AF",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1956": {
+          "chassisFirst": "BC1BG",
+          "chassisLast": "BC101BG",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1957": {
+          "chassisFirst": "BC1CH",
+          "chassisLast": "BC51EL",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 51,
+          "count": 153
+        },
+        "1958": {
+          "chassisFirst": "BC1FM",
+          "chassisLast": "BC31GN",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 31,
+          "count": 82
+        }
+      }
+    },
+    "S2": {
+      "yearStart": 1959,
+      "yearEnd": 1961,
+      "years": {
+        "1959": {
+          "chassisFirst": "B1AA",
+          "chassisLast": "B326AM",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 326,
+          "count": 650
+        },
+        "1960": {
+          "chassisFirst": "B1BR",
+          "chassisLast": "LBA26",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 26,
+          "count": 2226
+        },
+        "1961": {
+          "chassisFirst": "B1DV",
+          "chassisLast": "LBB33",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 33,
+          "count": 909
+        }
+      }
+    },
+    "S2 Continental": {
+      "yearStart": 1960,
+      "yearEnd": 1961,
+      "years": {
+        "1960": {
+          "chassisFirst": "BC1BY",
+          "chassisLast": "BC101BY",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1961": {
+          "chassisFirst": "BC1AR",
+          "chassisLast": "BC139CZ",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 139,
+          "count": 290
+        }
+      }
+    },
+    "S3": {
+      "yearStart": 1962,
+      "yearEnd": 1965,
+      "years": {
+        "1962": {
+          "chassisFirst": "B2AV",
+          "chassisLast": "B828CN",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 828,
+          "count": 852
+        },
+        "1963": {
+          "chassisFirst": "B2DF",
+          "chassisLast": "B530EC",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 530,
+          "count": 726
+        },
+        "1964": {
+          "chassisFirst": "B2FG",
+          "chassisLast": "BBL12",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 12,
+          "count": 559
+        },
+        "1965": {
+          "chassisFirst": "B2HN",
+          "chassisLast": "BCL22",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 22,
+          "count": 488
+        }
+      }
+    },
+    "S3 Continental": {
+      "yearStart": 1962,
+      "yearEnd": 1965,
+      "years": {
+        "1962": {
+          "chassisFirst": "BC2XA",
+          "chassisLast": "BC174XA",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 174,
+          "count": 173
+        },
+        "1963": {
+          "chassisFirst": "BC2XB",
+          "chassisLast": "BC202XC",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 202,
+          "count": 402
+        },
+        "1965": {
+          "chassisFirst": "BC2XD",
+          "chassisLast": "BC88XE",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 88,
+          "count": 114
+        }
+      }
+    },
+    "Supersports": {
+      "yearStart": 2017,
+      "yearEnd": 2017,
+      "years": {
+        "2017": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Supersports Convertible": {
+      "yearStart": 2017,
+      "yearEnd": 2017,
+      "years": {
+        "2017": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "T1": {
+      "yearStart": 1965,
+      "yearEnd": 1976,
+      "years": {
+        "1965": {
+          "chassisFirst": "1001",
+          "chassisLast": "1147",
+          "chassisNumericStart": 1001,
+          "chassisNumericEnd": 1147,
+          "count": 147
+        },
+        "1966": {
+          "chassisFirst": "1148",
+          "chassisLast": "2044",
+          "chassisNumericStart": 1148,
+          "chassisNumericEnd": 2044,
+          "count": 897
+        },
+        "1967": {
+          "chassisFirst": "2045",
+          "chassisLast": "3637",
+          "chassisNumericStart": 2045,
+          "chassisNumericEnd": 3637,
+          "count": 1593
+        },
+        "1968": {
+          "chassisFirst": "3638",
+          "chassisLast": "5357",
+          "chassisNumericStart": 3638,
+          "chassisNumericEnd": 5357,
+          "count": 1720
+        },
+        "1969": {
+          "chassisFirst": "5358",
+          "chassisLast": "7976",
+          "chassisNumericStart": 5358,
+          "chassisNumericEnd": 7976,
+          "count": 2619
+        },
+        "1970": {
+          "chassisFirst": "7977",
+          "chassisLast": "9936",
+          "chassisNumericStart": 7977,
+          "chassisNumericEnd": 9936,
+          "count": 1960
+        },
+        "1971": {
+          "chassisFirst": "10000",
+          "chassisLast": "12880",
+          "chassisNumericStart": 10000,
+          "chassisNumericEnd": 12880,
+          "count": 2881
+        },
+        "1972": {
+          "chassisFirst": "13000",
+          "chassisLast": "14746",
+          "chassisNumericStart": 13000,
+          "chassisNumericEnd": 14746,
+          "count": 1747
+        },
+        "1973": {
+          "chassisFirst": "14747",
+          "chassisLast": "17619",
+          "chassisNumericStart": 14747,
+          "chassisNumericEnd": 17619,
+          "count": 2873
+        },
+        "1974": {
+          "chassisFirst": "17620",
+          "chassisLast": "20687",
+          "chassisNumericStart": 17620,
+          "chassisNumericEnd": 20687,
+          "count": 3068
+        },
+        "1975": {
+          "chassisFirst": "20688",
+          "chassisLast": "23040",
+          "chassisNumericStart": 20688,
+          "chassisNumericEnd": 23040,
+          "count": 2353
+        },
+        "1976": {
+          "chassisFirst": "23041",
+          "chassisLast": "26700",
+          "chassisNumericStart": 23041,
+          "chassisNumericEnd": 26700,
+          "count": 3660
+        }
+      }
+    },
+    "T2": {
+      "yearStart": 1976,
+      "yearEnd": 1981,
+      "years": {
+        "1976": {
+          "chassisFirst": "30001",
+          "chassisLast": "30003",
+          "chassisNumericStart": 30001,
+          "chassisNumericEnd": 30003,
+          "count": 3
+        },
+        "1977": {
+          "chassisFirst": "30004",
+          "chassisLast": "33327",
+          "chassisNumericStart": 30004,
+          "chassisNumericEnd": 33327,
+          "count": 3324
+        },
+        "1978": {
+          "chassisFirst": "33328",
+          "chassisLast": "38536",
+          "chassisNumericStart": 33328,
+          "chassisNumericEnd": 38536,
+          "count": 5209
+        },
+        "1979": {
+          "chassisFirst": "38537",
+          "chassisLast": "39510",
+          "chassisNumericStart": 38537,
+          "chassisNumericEnd": 39510,
+          "count": 974
+        },
+        "1980": {
+          "chassisFirst": "39511",
+          "chassisLast": "41580",
+          "chassisNumericStart": 39511,
+          "chassisNumericEnd": 41580,
+          "count": 2070
+        },
+        "1981": {
+          "chassisFirst": "41581",
+          "chassisLast": "41601",
+          "chassisNumericStart": 41581,
+          "chassisNumericEnd": 41601,
+          "count": 21
+        }
+      }
+    },
+    "Turbo R": {
+      "yearStart": 1985,
+      "yearEnd": 1997,
+      "years": {
+        "1985": {
+          "chassisFirst": "12695",
+          "chassisLast": "13833",
+          "chassisNumericStart": 12695,
+          "chassisNumericEnd": 13833,
+          "count": 1139
+        },
+        "1986": {
+          "chassisFirst": "13875",
+          "chassisLast": "16570",
+          "chassisNumericStart": 13875,
+          "chassisNumericEnd": 16570,
+          "count": 2696
+        },
+        "1987": {
+          "chassisFirst": "20001",
+          "chassisLast": "22007",
+          "chassisNumericStart": 20001,
+          "chassisNumericEnd": 22007,
+          "count": 2007
+        },
+        "1988": {
+          "chassisFirst": "22011",
+          "chassisLast": "23935",
+          "chassisNumericStart": 22011,
+          "chassisNumericEnd": 23935,
+          "count": 1925
+        },
+        "1989": {
+          "chassisFirst": "24519",
+          "chassisLast": "27793",
+          "chassisNumericStart": 24519,
+          "chassisNumericEnd": 27793,
+          "count": 3275
+        },
+        "1990": {
+          "chassisFirst": "31004",
+          "chassisLast": "33744",
+          "chassisNumericStart": 31004,
+          "chassisNumericEnd": 33744,
+          "count": 2741
+        },
+        "1991": {
+          "chassisFirst": "33747",
+          "chassisLast": "36323",
+          "chassisNumericStart": 33747,
+          "chassisNumericEnd": 36323,
+          "count": 2577
+        },
+        "1992": {
+          "chassisFirst": "44002",
+          "chassisLast": "44583",
+          "chassisNumericStart": 44002,
+          "chassisNumericEnd": 44583,
+          "count": 582
+        },
+        "1993": {
+          "chassisFirst": "46003",
+          "chassisLast": "46782",
+          "chassisNumericStart": 46003,
+          "chassisNumericEnd": 46782,
+          "count": 780
+        },
+        "1994": {
+          "chassisFirst": "54002",
+          "chassisLast": "55070",
+          "chassisNumericStart": 54002,
+          "chassisNumericEnd": 55070,
+          "count": 1069
+        },
+        "1995": {
+          "chassisFirst": "55073",
+          "chassisLast": "55759",
+          "chassisNumericStart": 55073,
+          "chassisNumericEnd": 55759,
+          "count": 687
+        },
+        "1996": {
+          "chassisFirst": "57002",
+          "chassisLast": "58286",
+          "chassisNumericStart": 57002,
+          "chassisNumericEnd": 58286,
+          "count": 1285
+        },
+        "1997": {
+          "chassisFirst": "59153",
+          "chassisLast": "60321",
+          "chassisNumericStart": 59153,
+          "chassisNumericEnd": 60321,
+          "count": 1169
+        }
+      }
+    },
+    "Turbo RL": {
+      "yearStart": 1985,
+      "yearEnd": 1997,
+      "years": {
+        "1985": {
+          "chassisFirst": "12433",
+          "chassisLast": "13833",
+          "chassisNumericStart": 12433,
+          "chassisNumericEnd": 13833,
+          "count": 1401
+        },
+        "1986": {
+          "chassisFirst": "13875",
+          "chassisLast": "16570",
+          "chassisNumericStart": 13875,
+          "chassisNumericEnd": 16570,
+          "count": 2696
+        },
+        "1987": {
+          "chassisFirst": "20001",
+          "chassisLast": "22007",
+          "chassisNumericStart": 20001,
+          "chassisNumericEnd": 22007,
+          "count": 2007
+        },
+        "1988": {
+          "chassisFirst": "22011",
+          "chassisLast": "23935",
+          "chassisNumericStart": 22011,
+          "chassisNumericEnd": 23935,
+          "count": 1925
+        },
+        "1989": {
+          "chassisFirst": "24519",
+          "chassisLast": "27793",
+          "chassisNumericStart": 24519,
+          "chassisNumericEnd": 27793,
+          "count": 3275
+        },
+        "1990": {
+          "chassisFirst": "31033",
+          "chassisLast": "33728",
+          "chassisNumericStart": 31033,
+          "chassisNumericEnd": 33728,
+          "count": 2696
+        },
+        "1991": {
+          "chassisFirst": "33765",
+          "chassisLast": "36306",
+          "chassisNumericStart": 33765,
+          "chassisNumericEnd": 36306,
+          "count": 2542
+        },
+        "1992": {
+          "chassisFirst": "44006",
+          "chassisLast": "44585",
+          "chassisNumericStart": 44006,
+          "chassisNumericEnd": 44585,
+          "count": 580
+        },
+        "1993": {
+          "chassisFirst": "46018",
+          "chassisLast": "46783",
+          "chassisNumericStart": 46018,
+          "chassisNumericEnd": 46783,
+          "count": 766
+        },
+        "1994": {
+          "chassisFirst": "54017",
+          "chassisLast": "55043",
+          "chassisNumericStart": 54017,
+          "chassisNumericEnd": 55043,
+          "count": 1027
+        },
+        "1995": {
+          "chassisFirst": "55056",
+          "chassisLast": "55751",
+          "chassisNumericStart": 55056,
+          "chassisNumericEnd": 55751,
+          "count": 696
+        },
+        "1996": {
+          "chassisFirst": "55753",
+          "chassisLast": "58291",
+          "chassisNumericStart": 55753,
+          "chassisNumericEnd": 58291,
+          "count": 2539
+        },
+        "1997": {
+          "chassisFirst": "59002",
+          "chassisLast": "60321",
+          "chassisNumericStart": 59002,
+          "chassisNumericEnd": 60321,
+          "count": 1320
+        }
+      }
+    },
+    "Turbo RT": {
+      "yearStart": 1998,
+      "yearEnd": 1999,
+      "years": {
+        "1998": {
+          "chassisFirst": "66006",
+          "chassisLast": "66581",
+          "chassisNumericStart": 66006,
+          "chassisNumericEnd": 66581,
+          "count": 576
+        },
+        "1999": {
+          "chassisFirst": "66582",
+          "chassisLast": "66583",
+          "chassisNumericStart": 66582,
+          "chassisNumericEnd": 66583,
+          "count": 2
+        }
+      }
+    },
+    "Turbo RT Mulliner": {
+      "yearStart": 1998,
+      "yearEnd": 1999,
+      "years": {
+        "1998": {
+          "chassisFirst": "66432",
+          "chassisLast": "66542",
+          "chassisNumericStart": 66432,
+          "chassisNumericEnd": 66542,
+          "count": 111
+        },
+        "1999": {
+          "chassisFirst": "66543",
+          "chassisLast": "66750",
+          "chassisNumericStart": 66543,
+          "chassisNumericEnd": 66750,
+          "count": 208
+        }
+      }
+    },
+    "Turbo S": {
+      "yearStart": 1995,
+      "yearEnd": 1995,
+      "years": {
+        "1995": {
+          "chassisFirst": "56801",
+          "chassisLast": "56860",
+          "chassisNumericStart": 56801,
+          "chassisNumericEnd": 56860,
+          "count": 60
+        }
+      }
+    }
+  },
+  "Rolls-Royce": {
+    "Camargue (1973-1983)": {
+      "yearStart": 1973,
+      "yearEnd": 1983,
+      "years": {
+        "1973": {
+          "chassisFirst": "14674",
+          "chassisLast": "16647",
+          "chassisNumericStart": 14674,
+          "chassisNumericEnd": 16647,
+          "count": 1974
+        },
+        "1974": {
+          "chassisFirst": "16648",
+          "chassisLast": "19094",
+          "chassisNumericStart": 16648,
+          "chassisNumericEnd": 19094,
+          "count": 2447
+        },
+        "1975": {
+          "chassisFirst": "19095",
+          "chassisLast": "19548",
+          "chassisNumericStart": 19095,
+          "chassisNumericEnd": 19548,
+          "count": 454
+        },
+        "1976": {
+          "chassisFirst": "19549",
+          "chassisLast": "22193",
+          "chassisNumericStart": 19549,
+          "chassisNumericEnd": 22193,
+          "count": 2645
+        },
+        "1977": {
+          "chassisFirst": "22194",
+          "chassisLast": "31166",
+          "chassisNumericStart": 22194,
+          "chassisNumericEnd": 31166,
+          "count": 8973
+        },
+        "1978": {
+          "chassisFirst": "31167",
+          "chassisLast": "32212",
+          "chassisNumericStart": 31167,
+          "chassisNumericEnd": 32212,
+          "count": 1046
+        },
+        "1979": {
+          "chassisFirst": "32213",
+          "chassisLast": "50085",
+          "chassisNumericStart": 32213,
+          "chassisNumericEnd": 50085,
+          "count": 17873
+        },
+        "1980": {
+          "chassisFirst": "50086",
+          "chassisLast": "50514",
+          "chassisNumericStart": 50086,
+          "chassisNumericEnd": 50514,
+          "count": 429
+        },
+        "1981": {
+          "chassisFirst": "50515",
+          "chassisLast": "50546",
+          "chassisNumericStart": 50515,
+          "chassisNumericEnd": 50546,
+          "count": 32
+        },
+        "1982": {
+          "chassisFirst": "50547",
+          "chassisLast": "50613",
+          "chassisNumericStart": 50547,
+          "chassisNumericEnd": 50613,
+          "count": 67
+        },
+        "1983": {
+          "chassisFirst": "50614",
+          "chassisLast": "50776",
+          "chassisNumericStart": 50614,
+          "chassisNumericEnd": 50776,
+          "count": 163
+        }
+      }
+    },
+    "Camargue (1981-1987)": {
+      "yearStart": 1981,
+      "yearEnd": 1987,
+      "years": {
+        "1981": {
+          "chassisFirst": "1570",
+          "chassisLast": "4494",
+          "chassisNumericStart": 1570,
+          "chassisNumericEnd": 4494,
+          "count": 2925
+        },
+        "1982": {
+          "chassisFirst": "4495",
+          "chassisLast": "6125",
+          "chassisNumericStart": 4495,
+          "chassisNumericEnd": 6125,
+          "count": 1631
+        },
+        "1983": {
+          "chassisFirst": "6126",
+          "chassisLast": "7777",
+          "chassisNumericStart": 6126,
+          "chassisNumericEnd": 7777,
+          "count": 1652
+        },
+        "1984": {
+          "chassisFirst": "7867",
+          "chassisLast": "9039",
+          "chassisNumericStart": 7867,
+          "chassisNumericEnd": 9039,
+          "count": 1173
+        },
+        "1985": {
+          "chassisFirst": "9122",
+          "chassisLast": "10376",
+          "chassisNumericStart": 9122,
+          "chassisNumericEnd": 10376,
+          "count": 1255
+        },
+        "1986": {
+          "chassisFirst": "10377",
+          "chassisLast": "10400",
+          "chassisNumericStart": 10377,
+          "chassisNumericEnd": 10400,
+          "count": 24
+        },
+        "1987": {
+          "chassisFirst": "10401",
+          "chassisLast": "10414",
+          "chassisNumericStart": 10401,
+          "chassisNumericEnd": 10414,
+          "count": 14
+        }
+      }
+    },
+    "Corniche (1970-1982)": {
+      "yearStart": 1970,
+      "yearEnd": 1982,
+      "years": {
+        "1970": {
+          "chassisFirst": "9770",
+          "chassisLast": "9982",
+          "chassisNumericStart": 9770,
+          "chassisNumericEnd": 9982,
+          "count": 213
+        },
+        "1971": {
+          "chassisFirst": "10012",
+          "chassisLast": "12945",
+          "chassisNumericStart": 10012,
+          "chassisNumericEnd": 12945,
+          "count": 2934
+        },
+        "1972": {
+          "chassisFirst": "12946",
+          "chassisLast": "14271",
+          "chassisNumericStart": 12946,
+          "chassisNumericEnd": 14271,
+          "count": 1326
+        },
+        "1973": {
+          "chassisFirst": "14272",
+          "chassisLast": "17840",
+          "chassisNumericStart": 14272,
+          "chassisNumericEnd": 17840,
+          "count": 3569
+        },
+        "1974": {
+          "chassisFirst": "17841",
+          "chassisLast": "20290",
+          "chassisNumericStart": 17841,
+          "chassisNumericEnd": 20290,
+          "count": 2450
+        },
+        "1975": {
+          "chassisFirst": "20291",
+          "chassisLast": "23832",
+          "chassisNumericStart": 20291,
+          "chassisNumericEnd": 23832,
+          "count": 3542
+        },
+        "1976": {
+          "chassisFirst": "23833",
+          "chassisLast": "25554",
+          "chassisNumericStart": 23833,
+          "chassisNumericEnd": 25554,
+          "count": 1722
+        },
+        "1977": {
+          "chassisFirst": "25555",
+          "chassisLast": "32558",
+          "chassisNumericStart": 25555,
+          "chassisNumericEnd": 32558,
+          "count": 7004
+        },
+        "1978": {
+          "chassisFirst": "32559",
+          "chassisLast": "35800",
+          "chassisNumericStart": 32559,
+          "chassisNumericEnd": 35800,
+          "count": 3242
+        },
+        "1979": {
+          "chassisFirst": "35801",
+          "chassisLast": "50380",
+          "chassisNumericStart": 35801,
+          "chassisNumericEnd": 50380,
+          "count": 14580
+        },
+        "1980": {
+          "chassisFirst": "50381",
+          "chassisLast": "50752",
+          "chassisNumericStart": 50381,
+          "chassisNumericEnd": 50752,
+          "count": 372
+        },
+        "1981": {
+          "chassisFirst": "50753",
+          "chassisLast": "50755",
+          "chassisNumericStart": 50753,
+          "chassisNumericEnd": 50755,
+          "count": 3
+        },
+        "1982": {
+          "chassisFirst": "50756",
+          "chassisLast": "50757",
+          "chassisNumericStart": 50756,
+          "chassisNumericEnd": 50757,
+          "count": 2
+        }
+      }
+    },
+    "Corniche (1981-2001)": {
+      "yearStart": 1981,
+      "yearEnd": 2001,
+      "years": {
+        "1981": {
+          "chassisFirst": "1557",
+          "chassisLast": "2565",
+          "chassisNumericStart": 1557,
+          "chassisNumericEnd": 2565,
+          "count": 1009
+        },
+        "1982": {
+          "chassisFirst": "2566",
+          "chassisLast": "5699",
+          "chassisNumericStart": 2566,
+          "chassisNumericEnd": 5699,
+          "count": 3134
+        },
+        "1983": {
+          "chassisFirst": "5700",
+          "chassisLast": "7741",
+          "chassisNumericStart": 5700,
+          "chassisNumericEnd": 7741,
+          "count": 2042
+        },
+        "1984": {
+          "chassisFirst": "7742",
+          "chassisLast": "9027",
+          "chassisNumericStart": 7742,
+          "chassisNumericEnd": 9027,
+          "count": 1286
+        },
+        "1985": {
+          "chassisFirst": "9028",
+          "chassisLast": "10371",
+          "chassisNumericStart": 9028,
+          "chassisNumericEnd": 10371,
+          "count": 1344
+        },
+        "1986": {
+          "chassisFirst": "13162",
+          "chassisLast": "16968",
+          "chassisNumericStart": 13162,
+          "chassisNumericEnd": 16968,
+          "count": 3807
+        },
+        "1987": {
+          "chassisFirst": "20010",
+          "chassisLast": "21599",
+          "chassisNumericStart": 20010,
+          "chassisNumericEnd": 21599,
+          "count": 1590
+        },
+        "1988": {
+          "chassisFirst": "21600",
+          "chassisLast": "24637",
+          "chassisNumericStart": 21600,
+          "chassisNumericEnd": 24637,
+          "count": 3038
+        },
+        "1989": {
+          "chassisFirst": "24638",
+          "chassisLast": "29289",
+          "chassisNumericStart": 24638,
+          "chassisNumericEnd": 29289,
+          "count": 4652
+        },
+        "1990": {
+          "chassisFirst": "30001",
+          "chassisLast": "30276",
+          "chassisNumericStart": 30001,
+          "chassisNumericEnd": 30276,
+          "count": 276
+        },
+        "1991": {
+          "chassisFirst": "30277",
+          "chassisLast": "30636",
+          "chassisNumericStart": 30277,
+          "chassisNumericEnd": 30636,
+          "count": 360
+        },
+        "1992": {
+          "chassisFirst": "40001",
+          "chassisLast": "40089",
+          "chassisNumericStart": 40001,
+          "chassisNumericEnd": 40089,
+          "count": 89
+        },
+        "1993": {
+          "chassisFirst": "40090",
+          "chassisLast": "40533",
+          "chassisNumericStart": 40090,
+          "chassisNumericEnd": 40533,
+          "count": 444
+        },
+        "1994": {
+          "chassisFirst": "50001",
+          "chassisLast": "50053",
+          "chassisNumericStart": 50001,
+          "chassisNumericEnd": 50053,
+          "count": 53
+        },
+        "1995": {
+          "chassisFirst": "50054",
+          "chassisLast": "50170",
+          "chassisNumericStart": 50054,
+          "chassisNumericEnd": 50170,
+          "count": 117
+        },
+        "1999": {
+          "chassisFirst": "68001",
+          "chassisLast": "68006",
+          "chassisNumericStart": 68001,
+          "chassisNumericEnd": 68006,
+          "count": 6
+        },
+        "2000": {
+          "chassisFirst": "68007",
+          "chassisLast": "68173",
+          "chassisNumericStart": 68007,
+          "chassisNumericEnd": 68173,
+          "count": 167
+        },
+        "2001": {
+          "chassisFirst": "68501",
+          "chassisLast": "68621",
+          "chassisNumericStart": 68501,
+          "chassisNumericEnd": 68621,
+          "count": 121
+        }
+      }
+    },
+    "Corniche (2002)": {
+      "yearStart": 2002,
+      "yearEnd": 2002,
+      "years": {
+        "2002": {
+          "chassisFirst": "2000",
+          "chassisLast": "2079",
+          "chassisNumericStart": 2000,
+          "chassisNumericEnd": 2079,
+          "count": 80
+        }
+      }
+    },
+    "Cullinan": {
+      "yearStart": 2019,
+      "yearEnd": 2019,
+      "years": {
+        "2019": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Dawn": {
+      "yearStart": 2015,
+      "yearEnd": 2015,
+      "years": {
+        "2015": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Flying Spur (1995)": {
+      "yearStart": 1995,
+      "yearEnd": 1995,
+      "years": {
+        "1995": {
+          "chassisFirst": "54974",
+          "chassisLast": "55761",
+          "chassisNumericStart": 54974,
+          "chassisNumericEnd": 55761,
+          "count": 788
+        }
+      }
+    },
+    "Ghost I": {
+      "yearStart": 2009,
+      "yearEnd": 2009,
+      "years": {
+        "2009": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Ghost II": {
+      "yearStart": 2014,
+      "yearEnd": 2014,
+      "years": {
+        "2014": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Park Ward": {
+      "yearStart": 2000,
+      "yearEnd": 2002,
+      "years": {
+        "2000": {
+          "chassisFirst": "7501",
+          "chassisLast": "7515",
+          "chassisNumericStart": 7501,
+          "chassisNumericEnd": 7515,
+          "count": 15
+        },
+        "2001": {
+          "chassisFirst": "7551",
+          "chassisLast": "7638",
+          "chassisNumericStart": 7551,
+          "chassisNumericEnd": 7638,
+          "count": 88
+        },
+        "2002": {
+          "chassisFirst": "19000",
+          "chassisLast": "19120",
+          "chassisNumericStart": 19000,
+          "chassisNumericEnd": 19120,
+          "count": 121
+        }
+      }
+    },
+    "Phantom Coupe": {
+      "yearStart": 2008,
+      "yearEnd": 2008,
+      "years": {
+        "2008": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Phantom Drophead Coupe": {
+      "yearStart": 2007,
+      "yearEnd": 2007,
+      "years": {
+        "2007": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Phantom IV": {
+      "yearStart": 1951,
+      "yearEnd": 1955,
+      "years": {
+        "1951": {
+          "chassisFirst": "4AF2",
+          "chassisLast": "4AF22",
+          "chassisNumericStart": 42,
+          "chassisNumericEnd": 422,
+          "count": 21
+        },
+        "1953": {
+          "chassisFirst": "4BP1",
+          "chassisLast": "4BP7",
+          "chassisNumericStart": 41,
+          "chassisNumericEnd": 47,
+          "count": 7
+        },
+        "1955": {
+          "chassisFirst": "4CS2",
+          "chassisLast": "4CS6",
+          "chassisNumericStart": 42,
+          "chassisNumericEnd": 46,
+          "count": 5
+        }
+      }
+    },
+    "Phantom V": {
+      "yearStart": 1959,
+      "yearEnd": 1966,
+      "years": {
+        "1959": {
+          "chassisFirst": "5AS1",
+          "chassisLast": "5AS101",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 5101,
+          "count": 101
+        },
+        "1960": {
+          "chassisFirst": "5AT2",
+          "chassisLast": "5AT101",
+          "chassisNumericStart": 52,
+          "chassisNumericEnd": 5101,
+          "count": 100
+        },
+        "1961": {
+          "chassisFirst": "5BV1",
+          "chassisLast": "5CG79",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 579,
+          "count": 279
+        },
+        "1962": {
+          "chassisFirst": "5VA1",
+          "chassisLast": "5VA123",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 5123,
+          "count": 123
+        },
+        "1963": {
+          "chassisFirst": "5VB1",
+          "chassisLast": "5VB51",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 551,
+          "count": 51
+        },
+        "1964": {
+          "chassisFirst": "5VC1",
+          "chassisLast": "5VD101",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 5101,
+          "count": 152
+        },
+        "1965": {
+          "chassisFirst": "5VE1",
+          "chassisLast": "5VE51",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 551,
+          "count": 51
+        },
+        "1966": {
+          "chassisFirst": "5VF1",
+          "chassisLast": "5VF183",
+          "chassisNumericStart": 51,
+          "chassisNumericEnd": 5183,
+          "count": 183
+        }
+      }
+    },
+    "Phantom VI": {
+      "yearStart": 1968,
+      "yearEnd": 1978,
+      "years": {
+        "1968": {
+          "chassisFirst": "4108",
+          "chassisLast": "4874",
+          "chassisNumericStart": 4108,
+          "chassisNumericEnd": 4874,
+          "count": 767
+        },
+        "1978": {
+          "chassisFirst": "101",
+          "chassisLast": "134",
+          "chassisNumericStart": 101,
+          "chassisNumericEnd": 134,
+          "count": 34
+        }
+      }
+    },
+    "Phantom VII": {
+      "yearStart": 2003,
+      "yearEnd": 2003,
+      "years": {
+        "2003": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Phantom VIII": {
+      "yearStart": 2017,
+      "yearEnd": 2017,
+      "years": {
+        "2017": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Silver Cloud I": {
+      "yearStart": 1955,
+      "yearEnd": 1959,
+      "years": {
+        "1955": {
+          "chassisFirst": "SWA2",
+          "chassisLast": "SWA250",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 250,
+          "count": 249
+        },
+        "1956": {
+          "chassisFirst": "SXA1",
+          "chassisLast": "SCC151",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 151,
+          "count": 1051
+        },
+        "1957": {
+          "chassisFirst": "SDD2",
+          "chassisLast": "ALC26",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 26,
+          "count": 1926
+        },
+        "1958": {
+          "chassisFirst": "SHF1",
+          "chassisLast": "CLC47",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 47,
+          "count": 598
+        },
+        "1959": {
+          "chassisFirst": "SKG1",
+          "chassisLast": "SNH262",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 262,
+          "count": 776
+        }
+      }
+    },
+    "Silver Cloud II": {
+      "yearStart": 1959,
+      "yearEnd": 1962,
+      "years": {
+        "1959": {
+          "chassisFirst": "SPA2",
+          "chassisLast": "LCA76",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 76,
+          "count": 726
+        },
+        "1960": {
+          "chassisFirst": "STB2",
+          "chassisLast": "LCB101",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 101,
+          "count": 2501
+        },
+        "1961": {
+          "chassisFirst": "SYD2",
+          "chassisLast": "LCC101",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 101,
+          "count": 1886
+        },
+        "1962": {
+          "chassisFirst": "LCD1",
+          "chassisLast": "LCD25",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 25,
+          "count": 25
+        }
+      }
+    },
+    "Silver Cloud III": {
+      "yearStart": 1962,
+      "yearEnd": 1965,
+      "years": {
+        "1962": {
+          "chassisFirst": "SAZ1",
+          "chassisLast": "CAL83",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 83,
+          "count": 1022
+        },
+        "1963": {
+          "chassisFirst": "SDW1",
+          "chassisLast": "CCL101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 2061
+        },
+        "1964": {
+          "chassisFirst": "SGT1",
+          "chassisLast": "CEL105",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 105,
+          "count": 1216
+        },
+        "1965": {
+          "chassisFirst": "SJR1",
+          "chassisLast": "CGL29",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 29,
+          "count": 1116
+        }
+      }
+    },
+    "Silver Cloud III Coachbuilt": {
+      "yearStart": 1965,
+      "yearEnd": 1965,
+      "years": {
+        "1965": {
+          "chassisFirst": "CSC1B",
+          "chassisLast": "CSC19C",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 19,
+          "count": 160
+        }
+      }
+    },
+    "Silver Dawn (1949-1955)": {
+      "yearStart": 1949,
+      "yearEnd": 1954,
+      "years": {
+        "1949": {
+          "chassisFirst": "SBA2",
+          "chassisLast": "SBA138",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 138,
+          "count": 137
+        },
+        "1950": {
+          "chassisFirst": "SCA1",
+          "chassisLast": "SDB140",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 140,
+          "count": 202
+        },
+        "1951": {
+          "chassisFirst": "SFC2",
+          "chassisLast": "SFC160",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 160,
+          "count": 159
+        },
+        "1952": {
+          "chassisFirst": "SHD2",
+          "chassisLast": "SMF76",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 76,
+          "count": 234
+        },
+        "1953": {
+          "chassisFirst": "SNF1",
+          "chassisLast": "SNF125",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 125,
+          "count": 125
+        },
+        "1954": {
+          "chassisFirst": "SOG2",
+          "chassisLast": "SVJ135",
+          "chassisNumericStart": 2,
+          "chassisNumericEnd": 135,
+          "count": 664
+        }
+      }
+    },
+    "Silver Dawn (1995-1998)": {
+      "yearStart": 1995,
+      "yearEnd": 1998,
+      "years": {
+        "1995": {
+          "chassisFirst": "54846",
+          "chassisLast": "55702",
+          "chassisNumericStart": 54846,
+          "chassisNumericEnd": 55702,
+          "count": 857
+        },
+        "1996": {
+          "chassisFirst": "57031",
+          "chassisLast": "58198",
+          "chassisNumericStart": 57031,
+          "chassisNumericEnd": 58198,
+          "count": 1168
+        },
+        "1997": {
+          "chassisFirst": "59001",
+          "chassisLast": "60293",
+          "chassisNumericStart": 59001,
+          "chassisNumericEnd": 60293,
+          "count": 1293
+        },
+        "1998": {
+          "chassisFirst": "66005",
+          "chassisLast": "66305",
+          "chassisNumericStart": 66005,
+          "chassisNumericEnd": 66305,
+          "count": 301
+        }
+      }
+    },
+    "Silver Seraph": {
+      "yearStart": 1998,
+      "yearEnd": 2002,
+      "years": {
+        "1998": {
+          "chassisFirst": "1002",
+          "chassisLast": "1077",
+          "chassisNumericStart": 1002,
+          "chassisNumericEnd": 1077,
+          "count": 76
+        },
+        "1999": {
+          "chassisFirst": "1078",
+          "chassisLast": "3051",
+          "chassisNumericStart": 1078,
+          "chassisNumericEnd": 3051,
+          "count": 1974
+        },
+        "2000": {
+          "chassisFirst": "4006",
+          "chassisLast": "5471",
+          "chassisNumericStart": 4006,
+          "chassisNumericEnd": 5471,
+          "count": 1466
+        },
+        "2001": {
+          "chassisFirst": "5565",
+          "chassisLast": "6782",
+          "chassisNumericStart": 5565,
+          "chassisNumericEnd": 6782,
+          "count": 1218
+        },
+        "2002": {
+          "chassisFirst": "8189",
+          "chassisLast": "8853",
+          "chassisNumericStart": 8189,
+          "chassisNumericEnd": 8853,
+          "count": 665
+        }
+      }
+    },
+    "Silver Seraph LOL": {
+      "yearStart": 2001,
+      "yearEnd": 2002,
+      "years": {
+        "2001": {
+          "chassisFirst": "6558",
+          "chassisLast": "6784",
+          "chassisNumericStart": 6558,
+          "chassisNumericEnd": 6784,
+          "count": 227
+        },
+        "2002": {
+          "chassisFirst": "8015",
+          "chassisLast": "8854",
+          "chassisNumericStart": 8015,
+          "chassisNumericEnd": 8854,
+          "count": 840
+        }
+      }
+    },
+    "Silver Shadow": {
+      "yearStart": 1965,
+      "yearEnd": 1976,
+      "years": {
+        "1965": {
+          "chassisFirst": "1001",
+          "chassisLast": "1147",
+          "chassisNumericStart": 1001,
+          "chassisNumericEnd": 1147,
+          "count": 147
+        },
+        "1966": {
+          "chassisFirst": "1148",
+          "chassisLast": "2044",
+          "chassisNumericStart": 1148,
+          "chassisNumericEnd": 2044,
+          "count": 897
+        },
+        "1967": {
+          "chassisFirst": "2045",
+          "chassisLast": "3637",
+          "chassisNumericStart": 2045,
+          "chassisNumericEnd": 3637,
+          "count": 1593
+        },
+        "1968": {
+          "chassisFirst": "3638",
+          "chassisLast": "5357",
+          "chassisNumericStart": 3638,
+          "chassisNumericEnd": 5357,
+          "count": 1720
+        },
+        "1969": {
+          "chassisFirst": "5358",
+          "chassisLast": "7976",
+          "chassisNumericStart": 5358,
+          "chassisNumericEnd": 7976,
+          "count": 2619
+        },
+        "1970": {
+          "chassisFirst": "7977",
+          "chassisLast": "9936",
+          "chassisNumericStart": 7977,
+          "chassisNumericEnd": 9936,
+          "count": 1960
+        },
+        "1971": {
+          "chassisFirst": "10000",
+          "chassisLast": "12880",
+          "chassisNumericStart": 10000,
+          "chassisNumericEnd": 12880,
+          "count": 2881
+        },
+        "1972": {
+          "chassisFirst": "13000",
+          "chassisLast": "14746",
+          "chassisNumericStart": 13000,
+          "chassisNumericEnd": 14746,
+          "count": 1747
+        },
+        "1973": {
+          "chassisFirst": "14747",
+          "chassisLast": "17619",
+          "chassisNumericStart": 14747,
+          "chassisNumericEnd": 17619,
+          "count": 2873
+        },
+        "1974": {
+          "chassisFirst": "17620",
+          "chassisLast": "20687",
+          "chassisNumericStart": 17620,
+          "chassisNumericEnd": 20687,
+          "count": 3068
+        },
+        "1975": {
+          "chassisFirst": "20688",
+          "chassisLast": "23040",
+          "chassisNumericStart": 20688,
+          "chassisNumericEnd": 23040,
+          "count": 2353
+        },
+        "1976": {
+          "chassisFirst": "23041",
+          "chassisLast": "26700",
+          "chassisNumericStart": 23041,
+          "chassisNumericEnd": 26700,
+          "count": 3660
+        }
+      }
+    },
+    "Silver Shadow (2 Door)": {
+      "yearStart": 1965,
+      "yearEnd": 1971,
+      "years": {
+        "1965": {
+          "chassisFirst": "1067",
+          "chassisLast": "1148",
+          "chassisNumericStart": 1067,
+          "chassisNumericEnd": 1148,
+          "count": 82
+        },
+        "1966": {
+          "chassisFirst": "1168",
+          "chassisLast": "2129",
+          "chassisNumericStart": 1168,
+          "chassisNumericEnd": 2129,
+          "count": 962
+        },
+        "1967": {
+          "chassisFirst": "2130",
+          "chassisLast": "3735",
+          "chassisNumericStart": 2130,
+          "chassisNumericEnd": 3735,
+          "count": 1606
+        },
+        "1968": {
+          "chassisFirst": "3736",
+          "chassisLast": "6378",
+          "chassisNumericStart": 3736,
+          "chassisNumericEnd": 6378,
+          "count": 2643
+        },
+        "1969": {
+          "chassisFirst": "6379",
+          "chassisLast": "7636",
+          "chassisNumericStart": 6379,
+          "chassisNumericEnd": 7636,
+          "count": 1258
+        },
+        "1970": {
+          "chassisFirst": "7637",
+          "chassisLast": "9167",
+          "chassisNumericStart": 7637,
+          "chassisNumericEnd": 9167,
+          "count": 1531
+        },
+        "1971": {
+          "chassisFirst": "9168",
+          "chassisLast": "9769",
+          "chassisNumericStart": 9168,
+          "chassisNumericEnd": 9769,
+          "count": 602
+        }
+      }
+    },
+    "Silver Shadow II": {
+      "yearStart": 1976,
+      "yearEnd": 1981,
+      "years": {
+        "1976": {
+          "chassisFirst": "30001",
+          "chassisLast": "30003",
+          "chassisNumericStart": 30001,
+          "chassisNumericEnd": 30003,
+          "count": 3
+        },
+        "1977": {
+          "chassisFirst": "30004",
+          "chassisLast": "33327",
+          "chassisNumericStart": 30004,
+          "chassisNumericEnd": 33327,
+          "count": 3324
+        },
+        "1978": {
+          "chassisFirst": "33328",
+          "chassisLast": "38536",
+          "chassisNumericStart": 33328,
+          "chassisNumericEnd": 38536,
+          "count": 5209
+        },
+        "1979": {
+          "chassisFirst": "38537",
+          "chassisLast": "39510",
+          "chassisNumericStart": 38537,
+          "chassisNumericEnd": 39510,
+          "count": 974
+        },
+        "1980": {
+          "chassisFirst": "39511",
+          "chassisLast": "41580",
+          "chassisNumericStart": 39511,
+          "chassisNumericEnd": 41580,
+          "count": 2070
+        },
+        "1981": {
+          "chassisFirst": "41581",
+          "chassisLast": "41601",
+          "chassisNumericStart": 41581,
+          "chassisNumericEnd": 41601,
+          "count": 21
+        }
+      }
+    },
+    "Silver Spirit": {
+      "yearStart": 1980,
+      "yearEnd": 1997,
+      "years": {
+        "1980": {
+          "chassisFirst": "1001",
+          "chassisLast": "1516",
+          "chassisNumericStart": 1001,
+          "chassisNumericEnd": 1516,
+          "count": 516
+        },
+        "1981": {
+          "chassisFirst": "1517",
+          "chassisLast": "3962",
+          "chassisNumericStart": 1517,
+          "chassisNumericEnd": 3962,
+          "count": 2446
+        },
+        "1982": {
+          "chassisFirst": "3963",
+          "chassisLast": "6574",
+          "chassisNumericStart": 3963,
+          "chassisNumericEnd": 6574,
+          "count": 2612
+        },
+        "1983": {
+          "chassisFirst": "6608",
+          "chassisLast": "7931",
+          "chassisNumericStart": 6608,
+          "chassisNumericEnd": 7931,
+          "count": 1324
+        },
+        "1984": {
+          "chassisFirst": "8170",
+          "chassisLast": "10126",
+          "chassisNumericStart": 8170,
+          "chassisNumericEnd": 10126,
+          "count": 1957
+        },
+        "1985": {
+          "chassisFirst": "12001",
+          "chassisLast": "13860",
+          "chassisNumericStart": 12001,
+          "chassisNumericEnd": 13860,
+          "count": 1860
+        },
+        "1986": {
+          "chassisFirst": "13869",
+          "chassisLast": "16930",
+          "chassisNumericStart": 13869,
+          "chassisNumericEnd": 16930,
+          "count": 3062
+        },
+        "1987": {
+          "chassisFirst": "20003",
+          "chassisLast": "21955",
+          "chassisNumericStart": 20003,
+          "chassisNumericEnd": 21955,
+          "count": 1953
+        },
+        "1988": {
+          "chassisFirst": "21956",
+          "chassisLast": "24497",
+          "chassisNumericStart": 21956,
+          "chassisNumericEnd": 24497,
+          "count": 2542
+        },
+        "1989": {
+          "chassisFirst": "24514",
+          "chassisLast": "27798",
+          "chassisNumericStart": 24514,
+          "chassisNumericEnd": 27798,
+          "count": 3285
+        },
+        "1990": {
+          "chassisFirst": "31001",
+          "chassisLast": "33743",
+          "chassisNumericStart": 31001,
+          "chassisNumericEnd": 33743,
+          "count": 2743
+        },
+        "1991": {
+          "chassisFirst": "33748",
+          "chassisLast": "36318",
+          "chassisNumericStart": 33748,
+          "chassisNumericEnd": 36318,
+          "count": 2571
+        },
+        "1992": {
+          "chassisFirst": "44007",
+          "chassisLast": "44587",
+          "chassisNumericStart": 44007,
+          "chassisNumericEnd": 44587,
+          "count": 581
+        },
+        "1993": {
+          "chassisFirst": "46009",
+          "chassisLast": "46740",
+          "chassisNumericStart": 46009,
+          "chassisNumericEnd": 46740,
+          "count": 732
+        },
+        "1994": {
+          "chassisFirst": "54003",
+          "chassisLast": "55071",
+          "chassisNumericStart": 54003,
+          "chassisNumericEnd": 55071,
+          "count": 1069
+        },
+        "1995": {
+          "chassisFirst": "55076",
+          "chassisLast": "55760",
+          "chassisNumericStart": 55076,
+          "chassisNumericEnd": 55760,
+          "count": 685
+        },
+        "1996": {
+          "chassisFirst": "57003",
+          "chassisLast": "58278",
+          "chassisNumericStart": 57003,
+          "chassisNumericEnd": 58278,
+          "count": 1276
+        },
+        "1997": {
+          "chassisFirst": "59086",
+          "chassisLast": "59368",
+          "chassisNumericStart": 59086,
+          "chassisNumericEnd": 59368,
+          "count": 283
+        }
+      }
+    },
+    "Silver Spur": {
+      "yearStart": 1980,
+      "yearEnd": 2000,
+      "years": {
+        "1980": {
+          "chassisFirst": "1006",
+          "chassisLast": "1239",
+          "chassisNumericStart": 1006,
+          "chassisNumericEnd": 1239,
+          "count": 234
+        },
+        "1981": {
+          "chassisFirst": "1539",
+          "chassisLast": "3922",
+          "chassisNumericStart": 1539,
+          "chassisNumericEnd": 3922,
+          "count": 2384
+        },
+        "1982": {
+          "chassisFirst": "3923",
+          "chassisLast": "6598",
+          "chassisNumericStart": 3923,
+          "chassisNumericEnd": 6598,
+          "count": 2676
+        },
+        "1983": {
+          "chassisFirst": "6599",
+          "chassisLast": "8164",
+          "chassisNumericStart": 6599,
+          "chassisNumericEnd": 8164,
+          "count": 1566
+        },
+        "1984": {
+          "chassisFirst": "8165",
+          "chassisLast": "10127",
+          "chassisNumericStart": 8165,
+          "chassisNumericEnd": 10127,
+          "count": 1963
+        },
+        "1985": {
+          "chassisFirst": "12002",
+          "chassisLast": "14025",
+          "chassisNumericStart": 12002,
+          "chassisNumericEnd": 14025,
+          "count": 2024
+        },
+        "1986": {
+          "chassisFirst": "14026",
+          "chassisLast": "16564",
+          "chassisNumericStart": 14026,
+          "chassisNumericEnd": 16564,
+          "count": 2539
+        },
+        "1987": {
+          "chassisFirst": "16565",
+          "chassisLast": "22002",
+          "chassisNumericStart": 16565,
+          "chassisNumericEnd": 22002,
+          "count": 5438
+        },
+        "1988": {
+          "chassisFirst": "22054",
+          "chassisLast": "24503",
+          "chassisNumericStart": 22054,
+          "chassisNumericEnd": 24503,
+          "count": 2450
+        },
+        "1989": {
+          "chassisFirst": "24516",
+          "chassisLast": "27780",
+          "chassisNumericStart": 24516,
+          "chassisNumericEnd": 27780,
+          "count": 3265
+        },
+        "1990": {
+          "chassisFirst": "31002",
+          "chassisLast": "33715",
+          "chassisNumericStart": 31002,
+          "chassisNumericEnd": 33715,
+          "count": 2714
+        },
+        "1991": {
+          "chassisFirst": "33757",
+          "chassisLast": "36323",
+          "chassisNumericStart": 33757,
+          "chassisNumericEnd": 36323,
+          "count": 2567
+        },
+        "1992": {
+          "chassisFirst": "44001",
+          "chassisLast": "44573",
+          "chassisNumericStart": 44001,
+          "chassisNumericEnd": 44573,
+          "count": 573
+        },
+        "1993": {
+          "chassisFirst": "46001",
+          "chassisLast": "46781",
+          "chassisNumericStart": 46001,
+          "chassisNumericEnd": 46781,
+          "count": 781
+        },
+        "1994": {
+          "chassisFirst": "54001",
+          "chassisLast": "55069",
+          "chassisNumericStart": 54001,
+          "chassisNumericEnd": 55069,
+          "count": 1069
+        },
+        "1995": {
+          "chassisFirst": "55080",
+          "chassisLast": "55749",
+          "chassisNumericStart": 55080,
+          "chassisNumericEnd": 55749,
+          "count": 670
+        },
+        "1996": {
+          "chassisFirst": "57001",
+          "chassisLast": "58503",
+          "chassisNumericStart": 57001,
+          "chassisNumericEnd": 58503,
+          "count": 1503
+        },
+        "1997": {
+          "chassisFirst": "59006",
+          "chassisLast": "60322",
+          "chassisNumericStart": 59006,
+          "chassisNumericEnd": 60322,
+          "count": 1317
+        },
+        "1998": {
+          "chassisFirst": "66001",
+          "chassisLast": "66498",
+          "chassisNumericStart": 66001,
+          "chassisNumericEnd": 66498,
+          "count": 498
+        },
+        "1999": {
+          "chassisFirst": "66501",
+          "chassisLast": "66585",
+          "chassisNumericStart": 66501,
+          "chassisNumericEnd": 66585,
+          "count": 85
+        },
+        "2000": {
+          "chassisFirst": "66587",
+          "chassisLast": "66587",
+          "chassisNumericStart": 66587,
+          "chassisNumericEnd": 66587,
+          "count": 1
+        }
+      }
+    },
+    "Silver Wraith": {
+      "yearStart": 1947,
+      "yearEnd": 1958,
+      "years": {
+        "1947": {
+          "chassisFirst": "WTA1",
+          "chassisLast": "WYA87",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 87,
+          "count": 253
+        },
+        "1948": {
+          "chassisFirst": "WZB1",
+          "chassisLast": "WDC101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 304
+        },
+        "1949": {
+          "chassisFirst": "WFC1",
+          "chassisLast": "WGC101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 202
+        },
+        "1950": {
+          "chassisFirst": "WHD1",
+          "chassisLast": "WLE35",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 35,
+          "count": 136
+        },
+        "1951": {
+          "chassisFirst": "WME1",
+          "chassisLast": "WOF76",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 76,
+          "count": 172
+        },
+        "1952": {
+          "chassisFirst": "WSG1",
+          "chassisLast": "ALW51",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 51,
+          "count": 243
+        },
+        "1953": {
+          "chassisFirst": "BLW1",
+          "chassisLast": "BLW101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1954": {
+          "chassisFirst": "CLW1",
+          "chassisLast": "DLW172",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 172,
+          "count": 215
+        },
+        "1955": {
+          "chassisFirst": "ELW1",
+          "chassisLast": "ELW101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1956": {
+          "chassisFirst": "FLW1",
+          "chassisLast": "FLW101",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 101,
+          "count": 101
+        },
+        "1957": {
+          "chassisFirst": "GLW1",
+          "chassisLast": "GLW26",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 26,
+          "count": 26
+        },
+        "1958": {
+          "chassisFirst": "HLW1",
+          "chassisLast": "HLW52",
+          "chassisNumericStart": 1,
+          "chassisNumericEnd": 52,
+          "count": 52
+        }
+      }
+    },
+    "Silver Wraith II": {
+      "yearStart": 1977,
+      "yearEnd": 1981,
+      "years": {
+        "1977": {
+          "chassisFirst": "30083",
+          "chassisLast": "32940",
+          "chassisNumericStart": 30083,
+          "chassisNumericEnd": 32940,
+          "count": 2858
+        },
+        "1978": {
+          "chassisFirst": "32941",
+          "chassisLast": "36788",
+          "chassisNumericStart": 32941,
+          "chassisNumericEnd": 36788,
+          "count": 3848
+        },
+        "1979": {
+          "chassisFirst": "36789",
+          "chassisLast": "38767",
+          "chassisNumericStart": 36789,
+          "chassisNumericEnd": 38767,
+          "count": 1979
+        },
+        "1980": {
+          "chassisFirst": "38768",
+          "chassisLast": "40962",
+          "chassisNumericStart": 38768,
+          "chassisNumericEnd": 40962,
+          "count": 2195
+        },
+        "1981": {
+          "chassisFirst": "40963",
+          "chassisLast": "41648",
+          "chassisNumericStart": 40963,
+          "chassisNumericEnd": 41648,
+          "count": 686
+        }
+      }
+    },
+    "Spectre": {
+      "yearStart": 2023,
+      "yearEnd": 2023,
+      "years": {
+        "2023": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Touring Limousine": {
+      "yearStart": 1992,
+      "yearEnd": 1997,
+      "years": {
+        "1992": {
+          "chassisFirst": "80001",
+          "chassisLast": "80037",
+          "chassisNumericStart": 80001,
+          "chassisNumericEnd": 80037,
+          "count": 37
+        },
+        "1993": {
+          "chassisFirst": "80038",
+          "chassisLast": "80056",
+          "chassisNumericStart": 80038,
+          "chassisNumericEnd": 80056,
+          "count": 19
+        },
+        "1994": {
+          "chassisFirst": "80101",
+          "chassisLast": "80123",
+          "chassisNumericStart": 80101,
+          "chassisNumericEnd": 80123,
+          "count": 23
+        },
+        "1995": {
+          "chassisFirst": "80124",
+          "chassisLast": "80137",
+          "chassisNumericStart": 80124,
+          "chassisNumericEnd": 80137,
+          "count": 14
+        },
+        "1996": {
+          "chassisFirst": "80201",
+          "chassisLast": "80211",
+          "chassisNumericStart": 80201,
+          "chassisNumericEnd": 80211,
+          "count": 11
+        },
+        "1997": {
+          "chassisFirst": "80401",
+          "chassisLast": "80402",
+          "chassisNumericStart": 80401,
+          "chassisNumericEnd": 80402,
+          "count": 2
+        }
+      }
+    },
+    "Wraith I": {
+      "yearStart": 2013,
+      "yearEnd": 2013,
+      "years": {
+        "2013": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    },
+    "Wraith II": {
+      "yearStart": 2017,
+      "yearEnd": 2017,
+      "years": {
+        "2017": {
+          "chassisFirst": "None",
+          "chassisLast": "None",
+          "chassisNumericStart": null,
+          "chassisNumericEnd": null,
+          "count": 0
+        }
+      }
+    }
+  }
+}
