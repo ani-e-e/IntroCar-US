@@ -1,6 +1,15 @@
 import { Suspense } from 'react';
 import CataloguesContent from './CataloguesContent';
 
+export const metadata = {
+  title: 'Technical Catalogues',
+  description: 'Browse 6,800+ technical diagrams and exploded views for Rolls-Royce & Bentley parts. Find the exact part you need by viewing it in context.',
+  openGraph: {
+    title: 'Technical Catalogues | IntroCar USA',
+    description: 'Browse 6,800+ technical diagrams and exploded views for Rolls-Royce & Bentley parts.',
+  },
+};
+
 function LoadingFallback() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">

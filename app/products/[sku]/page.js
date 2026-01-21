@@ -7,7 +7,8 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import RelatedParts from '@/components/RelatedParts';
 import CatalogueLink from '@/components/CatalogueLink';
-import { ChevronRight, Package, Truck, Shield, CheckCircle, Info } from 'lucide-react';
+import ProductVideo from '@/components/ProductVideo';
+import { ChevronRight, Package, Truck, Shield, CheckCircle, Info, Video } from 'lucide-react';
 
 export default function ProductPage({ params }) {
   const { sku } = params;
@@ -122,23 +123,28 @@ export default function ProductPage({ params }) {
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          {/* Image */}
-          <div className="bg-introcar-light rounded-xl overflow-hidden border border-gray-200">
-            <div className="aspect-square relative">
-              {product.image || product.imageUrl ? (
-                <Image
-                  src={product.image || product.imageUrl}
-                  alt={product.description}
-                  fill
-                  className="object-contain p-4"
-                  unoptimized
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Package className="w-24 h-24 text-gray-300" />
-                </div>
-              )}
+          {/* Image & Video */}
+          <div>
+            <div className="bg-introcar-light rounded-xl overflow-hidden border border-gray-200">
+              <div className="aspect-square relative">
+                {product.image || product.imageUrl ? (
+                  <Image
+                    src={product.image || product.imageUrl}
+                    alt={product.description}
+                    fill
+                    className="object-contain p-4"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <Package className="w-24 h-24 text-gray-300" />
+                  </div>
+                )}
+              </div>
             </div>
+
+            {/* Product Video */}
+            <ProductVideo sku={product.sku} />
           </div>
 
           {/* Details */}

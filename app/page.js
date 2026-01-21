@@ -165,10 +165,15 @@ export default function HomePage() {
             <h2 className="text-3xl font-display font-light text-introcar-charcoal mt-2 mb-6">
               Heritage Meets Innovation
             </h2>
-            <p className="text-gray-500 mb-8 leading-relaxed">
-              IntroCar is the leading international supplier of Rolls-Royce & Bentley parts,
+            <p className="text-gray-600 mb-4 leading-relaxed">
+              IntroCar® is the leading international supplier of Rolls-Royce & Bentley parts,
               serving a global community of enthusiasts and specialists who share our passion
               for keeping the world's most beautiful cars on the road.
+            </p>
+            <p className="text-gray-500 mb-8 leading-relaxed">
+              We're proud to be the market's most trusted source of knowledge and support, and the
+              go-to destination for an unparalleled inventory including original equipment,
+              branded aftermarket, recycled & reconditioned exchange.
             </p>
             <div className="grid grid-cols-2 gap-6">
               <div className="flex items-start gap-3">
@@ -176,8 +181,8 @@ export default function HomePage() {
                   <Clock className="w-5 h-5 text-introcar-blue" />
                 </div>
                 <div>
-                  <h4 className="text-introcar-charcoal font-medium">38+ Years</h4>
-                  <p className="text-sm text-gray-500">Industry experience</p>
+                  <h4 className="text-introcar-charcoal font-medium">Est. 1988</h4>
+                  <p className="text-sm text-gray-500">Family run business</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
