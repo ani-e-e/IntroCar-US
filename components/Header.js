@@ -1,14 +1,69 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Search, ShoppingCart, Menu, X, Phone, User, ChevronDown, Check, Truck, Shield, Star } from 'lucide-react';
 
 export default function Header({ cartCount = 0 }) {
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [vehicleFinderOpen, setVehicleFinderOpen] = useState(false);
+
+  // Vehicle finder state
+  const [vehicles, setVehicles] = useState([]);
+  const [selectedMake, setSelectedMake] = useState('');
+  const [selectedModel, setSelectedModel] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  const [vehiclesLoading, setVehiclesLoading] = useState(true);
+
+  // Load vehicle data
+  useEffect(() => {
+    fetch('/data/vehicles.json')
+      .then(res => res.json())
+      .then(data => {
+        setVehicles(data);
+        setVehiclesLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to load vehicles:', err);
+        setVehiclesLoading(false);
+      });
+  }, []);
+
+  // Get unique makes
+  const makes = [...new Set(vehicles.map(v => v.make))].sort();
+
+  // Get models for selected make
+  const models = selectedMake
+    ? [...new Set(vehicles.filter(v => v.make === selectedMake).map(v => v.model))].sort()
+    : [];
+
+  // Get years for selected model
+  const getYearsForModel = () => {
+    if (!selectedMake || !selectedModel) return [];
+    const vehicle = vehicles.find(v => v.make === selectedMake && v.model === selectedModel);
+    if (!vehicle) return [];
+    const years = [];
+    for (let year = vehicle.yearStart; year <= vehicle.yearEnd; year++) {
+      years.push(year);
+    }
+    return years.reverse();
+  };
+
+  const years = getYearsForModel();
+
+  // Handle vehicle finder search
+  const handleVehicleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedMake) params.set('make', selectedMake);
+    if (selectedModel) params.set('model', selectedModel);
+    if (selectedYear) params.set('year', selectedYear);
+    router.push(`/products?${params.toString()}`);
+    setVehicleFinderOpen(false);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -139,26 +194,59 @@ export default function Header({ cartCount = 0 }) {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm text-gray-500 mb-2">Make</label>
-                <select className="input-field">
+                <select
+                  className="input-field"
+                  value={selectedMake}
+                  onChange={(e) => {
+                    setSelectedMake(e.target.value);
+                    setSelectedModel('');
+                    setSelectedYear('');
+                  }}
+                  disabled={vehiclesLoading}
+                >
                   <option value="">Select Make</option>
-                  <option value="Bentley">Bentley</option>
-                  <option value="Rolls-Royce">Rolls-Royce</option>
+                  {makes.map(make => (
+                    <option key={make} value={make}>{make}</option>
+                  ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm text-gray-500 mb-2">Model</label>
-                <select className="input-field">
+                <select
+                  className="input-field"
+                  value={selectedModel}
+                  onChange={(e) => {
+                    setSelectedModel(e.target.value);
+                    setSelectedYear('');
+                  }}
+                  disabled={!selectedMake || vehiclesLoading}
+                >
                   <option value="">Select Model</option>
+                  {models.map(model => (
+                    <option key={model} value={model}>{model}</option>
+                  ))}
                 </select>
               </div>
               <div>
                 <label className="block text-sm text-gray-500 mb-2">Year</label>
-                <select className="input-field">
+                <select
+                  className="input-field"
+                  value={selectedYear}
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  disabled={!selectedModel || vehiclesLoading}
+                >
                   <option value="">Select Year</option>
+                  {years.map(year => (
+                    <option key={year} value={year}>{year}</option>
+                  ))}
                 </select>
               </div>
               <div className="flex items-end">
-                <button className="btn-primary w-full">
+                <button
+                  className="btn-primary w-full"
+                  onClick={handleVehicleSearch}
+                  disabled={!selectedMake}
+                >
                   Find Parts
                 </button>
               </div>
