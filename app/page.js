@@ -1,5 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import VehicleFinder from '@/components/VehicleFinder';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Shield, Truck, Award, Clock, Wrench, Settings, Zap, Car, CircuitBoard, Gauge, Flame, Droplets, Filter } from 'lucide-react';
@@ -75,28 +76,7 @@ export default function HomePage() {
       {/* Vehicle Finder */}
       <section className="bg-white border-y border-gray-200">
         <div className="container-wide py-8">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="shrink-0">
-              <h2 className="text-lg font-display font-light text-introcar-charcoal">Find Parts for Your Vehicle</h2>
-              <p className="text-sm text-gray-500">Select your make, model and year</p>
-            </div>
-            <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
-              <select className="input-field">
-                <option value="">Select Make</option>
-                <option value="Bentley">Bentley</option>
-                <option value="Rolls-Royce">Rolls-Royce</option>
-              </select>
-              <select className="input-field">
-                <option value="">Select Model</option>
-              </select>
-              <select className="input-field">
-                <option value="">Select Year</option>
-              </select>
-              <button className="btn-primary">
-                Find Parts
-              </button>
-            </div>
-          </div>
+          <VehicleFinder />
         </div>
       </section>
 

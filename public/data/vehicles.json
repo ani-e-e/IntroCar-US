@@ -1,0 +1,578 @@
+[
+  {
+    "make": "Bentley",
+    "model": "Mk VI",
+    "yearStart": 1946,
+    "yearEnd": 1952
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Wraith",
+    "yearStart": 1947,
+    "yearEnd": 1958
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Dawn (1949-1955)",
+    "yearStart": 1949,
+    "yearEnd": 1955
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom IV",
+    "yearStart": 1951,
+    "yearEnd": 1956
+  },
+  {
+    "make": "Bentley",
+    "model": "R Type Continental",
+    "yearStart": 1952,
+    "yearEnd": 1955
+  },
+  {
+    "make": "Bentley",
+    "model": "R Type",
+    "yearStart": 1952,
+    "yearEnd": 1955
+  },
+  {
+    "make": "Bentley",
+    "model": "S1 Continental",
+    "yearStart": 1955,
+    "yearEnd": 1959
+  },
+  {
+    "make": "Bentley",
+    "model": "S1",
+    "yearStart": 1955,
+    "yearEnd": 1959
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Cloud I",
+    "yearStart": 1955,
+    "yearEnd": 1959
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Cloud II",
+    "yearStart": 1959,
+    "yearEnd": 1962
+  },
+  {
+    "make": "Bentley",
+    "model": "S2",
+    "yearStart": 1959,
+    "yearEnd": 1962
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom V",
+    "yearStart": 1959,
+    "yearEnd": 1968
+  },
+  {
+    "make": "Bentley",
+    "model": "S2 Continental",
+    "yearStart": 1960,
+    "yearEnd": 1962
+  },
+  {
+    "make": "Bentley",
+    "model": "S3",
+    "yearStart": 1962,
+    "yearEnd": 1965
+  },
+  {
+    "make": "Bentley",
+    "model": "S3 Continental",
+    "yearStart": 1962,
+    "yearEnd": 1965
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Cloud III",
+    "yearStart": 1962,
+    "yearEnd": 1965
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Cloud III Coachbuilt",
+    "yearStart": 1965,
+    "yearEnd": 1966
+  },
+  {
+    "make": "Bentley",
+    "model": "T1",
+    "yearStart": 1965,
+    "yearEnd": 1976
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Shadow (2 Door)",
+    "yearStart": 1965,
+    "yearEnd": 1971
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Shadow",
+    "yearStart": 1965,
+    "yearEnd": 1976
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom VI",
+    "yearStart": 1968,
+    "yearEnd": 1978
+  },
+  {
+    "make": "Bentley",
+    "model": "Corniche (1970-1982)",
+    "yearStart": 1970,
+    "yearEnd": 1982
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Corniche (1970-1982)",
+    "yearStart": 1970,
+    "yearEnd": 1982
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Camargue (1973-1983)",
+    "yearStart": 1973,
+    "yearEnd": 1983
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Shadow II",
+    "yearStart": 1976,
+    "yearEnd": 1981
+  },
+  {
+    "make": "Bentley",
+    "model": "T2",
+    "yearStart": 1976,
+    "yearEnd": 1981
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Wraith II",
+    "yearStart": 1977,
+    "yearEnd": 1981
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Spirit",
+    "yearStart": 1980,
+    "yearEnd": 1997
+  },
+  {
+    "make": "Bentley",
+    "model": "Mulsanne",
+    "yearStart": 1980,
+    "yearEnd": 1987
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Spur",
+    "yearStart": 1980,
+    "yearEnd": 2000
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Corniche (1981-2001)",
+    "yearStart": 1981,
+    "yearEnd": 2001
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Camargue (1981-1987)",
+    "yearStart": 1981,
+    "yearEnd": 1987
+  },
+  {
+    "make": "Bentley",
+    "model": "Corniche (1981-1984)",
+    "yearStart": 1981,
+    "yearEnd": 1984
+  },
+  {
+    "make": "Bentley",
+    "model": "Mulsanne Turbo",
+    "yearStart": 1982,
+    "yearEnd": 1986
+  },
+  {
+    "make": "Bentley",
+    "model": "Eight",
+    "yearStart": 1984,
+    "yearEnd": 1992
+  },
+  {
+    "make": "Bentley",
+    "model": "Turbo RL",
+    "yearStart": 1985,
+    "yearEnd": 1997
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental",
+    "yearStart": 1985,
+    "yearEnd": 1995
+  },
+  {
+    "make": "Bentley",
+    "model": "Turbo R",
+    "yearStart": 1985,
+    "yearEnd": 1997
+  },
+  {
+    "make": "Bentley",
+    "model": "Mulsanne SL",
+    "yearStart": 1988,
+    "yearEnd": 1992
+  },
+  {
+    "make": "Bentley",
+    "model": "Mulsanne S",
+    "yearStart": 1988,
+    "yearEnd": 1992
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental R (1992-2001)",
+    "yearStart": 1992,
+    "yearEnd": 2001
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Touring Limousine",
+    "yearStart": 1992,
+    "yearEnd": 1997
+  },
+  {
+    "make": "Bentley",
+    "model": "Brooklands Saloon",
+    "yearStart": 1993,
+    "yearEnd": 1998
+  },
+  {
+    "make": "Bentley",
+    "model": "Turbo S",
+    "yearStart": 1995,
+    "yearEnd": 1995
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Dawn (1995-1998)",
+    "yearStart": 1995,
+    "yearEnd": 1998
+  },
+  {
+    "make": "Bentley",
+    "model": "Azure (1995-2001)",
+    "yearStart": 1995,
+    "yearEnd": 2001
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Flying Spur (1995)",
+    "yearStart": 1995,
+    "yearEnd": 1995
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental T (1996-2001)",
+    "yearStart": 1996,
+    "yearEnd": 2001
+  },
+  {
+    "make": "Bentley",
+    "model": "Turbo RT Mulliner",
+    "yearStart": 1998,
+    "yearEnd": 1999
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Seraph",
+    "yearStart": 1998,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Green Label",
+    "yearStart": 1998,
+    "yearEnd": 2000
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental SC",
+    "yearStart": 1998,
+    "yearEnd": 2000
+  },
+  {
+    "make": "Bentley",
+    "model": "Turbo RT",
+    "yearStart": 1998,
+    "yearEnd": 1999
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Park Ward",
+    "yearStart": 2000,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage 4.4L Birkin",
+    "yearStart": 2000,
+    "yearEnd": 2001
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Red Label",
+    "yearStart": 2000,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Silver Seraph LOL",
+    "yearStart": 2001,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Le Mans",
+    "yearStart": 2001,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage T",
+    "yearStart": 2002,
+    "yearEnd": 2009
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage R",
+    "yearStart": 2002,
+    "yearEnd": 2009
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental R (2002-2003)",
+    "yearStart": 2002,
+    "yearEnd": 2003
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental T (2002-2003)",
+    "yearStart": 2002,
+    "yearEnd": 2003
+  },
+  {
+    "make": "Bentley",
+    "model": "Azure (2002-2003)",
+    "yearStart": 2002,
+    "yearEnd": 2003
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Corniche (2002)",
+    "yearStart": 2002,
+    "yearEnd": 2002
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage RL",
+    "yearStart": 2003,
+    "yearEnd": 2009
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom VII",
+    "yearStart": 2003,
+    "yearEnd": 2017
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental GT",
+    "yearStart": 2004,
+    "yearEnd": 2017
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental GT Speed",
+    "yearStart": 2004,
+    "yearEnd": 2017
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental Flying Spur",
+    "yearStart": 2005,
+    "yearEnd": 2013
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Diamond Series",
+    "yearStart": 2006,
+    "yearEnd": 2006
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Blue Train",
+    "yearStart": 2006,
+    "yearEnd": 2006
+  },
+  {
+    "make": "Bentley",
+    "model": "Azure (2006-2010)",
+    "yearStart": 2006,
+    "yearEnd": 2010
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom Drophead Coupe",
+    "yearStart": 2007,
+    "yearEnd": 2016
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental GTC",
+    "yearStart": 2007,
+    "yearEnd": 2018
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental GTC Speed",
+    "yearStart": 2007,
+    "yearEnd": 2018
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom Coupe",
+    "yearStart": 2008,
+    "yearEnd": 2016
+  },
+  {
+    "make": "Bentley",
+    "model": "Arnage Final Series",
+    "yearStart": 2009,
+    "yearEnd": 2009
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental Supersports",
+    "yearStart": 2009,
+    "yearEnd": 2013
+  },
+  {
+    "make": "Bentley",
+    "model": "Brooklands Coupe",
+    "yearStart": 2009,
+    "yearEnd": 2010
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Ghost I",
+    "yearStart": 2009,
+    "yearEnd": 2014
+  },
+  {
+    "make": "Bentley",
+    "model": "Mulsanne (2011-2021)",
+    "yearStart": 2011,
+    "yearEnd": 2021
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Wraith I",
+    "yearStart": 2013,
+    "yearEnd": 2017
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Ghost II",
+    "yearStart": 2014,
+    "yearEnd": 2020
+  },
+  {
+    "make": "Bentley",
+    "model": "Flying Spur (2014-2019)",
+    "yearStart": 2014,
+    "yearEnd": 2019
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Dawn",
+    "yearStart": 2015,
+    "yearEnd": 2023
+  },
+  {
+    "make": "Bentley",
+    "model": "Continental GT3 R",
+    "yearStart": 2015,
+    "yearEnd": 2015
+  },
+  {
+    "make": "Bentley",
+    "model": "Bentayga",
+    "yearStart": 2017,
+    "yearEnd": 2023
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Phantom VIII",
+    "yearStart": 2017,
+    "yearEnd": 2024
+  },
+  {
+    "make": "Bentley",
+    "model": "Supersports",
+    "yearStart": 2017,
+    "yearEnd": 2018
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Wraith II",
+    "yearStart": 2017,
+    "yearEnd": 2022
+  },
+  {
+    "make": "Bentley",
+    "model": "Supersports Convertible",
+    "yearStart": 2017,
+    "yearEnd": 2018
+  },
+  {
+    "make": "Bentley",
+    "model": "New Continental Convertible",
+    "yearStart": 2018,
+    "yearEnd": 2023
+  },
+  {
+    "make": "Bentley",
+    "model": "New Continental GT",
+    "yearStart": 2018,
+    "yearEnd": 2023
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Cullinan",
+    "yearStart": 2019,
+    "yearEnd": 2024
+  },
+  {
+    "make": "Bentley",
+    "model": "New Flying Spur",
+    "yearStart": 2020,
+    "yearEnd": 2023
+  },
+  {
+    "make": "Rolls-Royce",
+    "model": "Spectre",
+    "yearStart": 2023,
+    "yearEnd": 2026
+  }
+]
