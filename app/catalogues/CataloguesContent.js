@@ -8,33 +8,40 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
 
-// Catalogue card component with image error handling
-function CatalogueCard({ catalogue }) {
+// Catalogue card component with image error handling - hides card if no image
+function CatalogueCard({ catalogue, onImageError }) {
   const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // If image fails or no imageUrl, report to parent and don't render
+  useEffect(() => {
+    if (imageError && onImageError) {
+      onImageError(catalogue.id);
+    }
+  }, [imageError, catalogue.id, onImageError]);
+
+  // Don't render if no image URL or image failed to load
+  if (!catalogue.imageUrl || imageError) {
+    return null;
+  }
 
   return (
     <Link
       href={`/catalogues/${encodeURIComponent(catalogue.id)}`}
-      className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+      className={`group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
     >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-introcar-light">
-        {catalogue.imageUrl && !imageError ? (
-          <Image
-            src={catalogue.imageUrl}
-            alt={catalogue.title}
-            fill
-            className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            unoptimized
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full text-gray-400">
-            <ImageOff className="w-12 h-12 mb-2" />
-            <span className="text-xs">Diagram unavailable</span>
-          </div>
-        )}
+        <Image
+          src={catalogue.imageUrl}
+          alt={catalogue.title}
+          fill
+          className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          unoptimized
+          onError={() => setImageError(true)}
+          onLoad={() => setImageLoaded(true)}
+        />
         {/* Parts count badge */}
         <div className="absolute bottom-2 right-2 bg-introcar-blue text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
           <Package className="w-3 h-3" />
@@ -74,6 +81,7 @@ export default function CataloguesContent() {
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
   const [filters, setFilters] = useState({ makes: [], models: [], categories: [] });
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [failedImages, setFailedImages] = useState(new Set());
 
   const currentSearch = searchParams.get('search') || '';
   const currentMake = searchParams.get('make') || '';
@@ -103,6 +111,7 @@ export default function CataloguesContent() {
         setCatalogues(data.lookbooks || []);
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
         setFilters(data.filters || { makes: [], models: [], categories: [] });
+        setFailedImages(new Set()); // Reset failed images when new catalogues load
       }
     } catch (error) {
       console.error('Error fetching catalogues:', error);
@@ -302,29 +311,31 @@ export default function CataloguesContent() {
                 </div>
               </div>
 
-              {/* Chassis Number Filter */}
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Chassis Number</h3>
-                <form onSubmit={handleChassisSearch} className="space-y-2">
-                  <input
-                    type="text"
-                    placeholder="Enter 5-digit chassis..."
-                    value={localChassis}
-                    onChange={(e) => setLocalChassis(e.target.value.replace(/\D/g, '').slice(0, 5))}
-                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal placeholder-gray-400 focus:outline-none focus:border-introcar-blue text-sm font-mono text-center"
-                    maxLength={5}
-                  />
-                  <button
-                    type="submit"
-                    className="w-full py-2 bg-introcar-blue text-white text-sm rounded-lg hover:bg-introcar-blue/90 transition-colors"
-                  >
-                    Filter by Chassis
-                  </button>
-                </form>
-                <p className="text-xs text-gray-500 mt-2">
-                  Enter your chassis number to show only catalogues relevant to your vehicle.
-                </p>
-              </div>
+              {/* Chassis Number Filter - only show when Model is selected */}
+              {currentModel && (
+                <div className="bg-introcar-light/50 p-4 rounded-lg border border-introcar-blue/20">
+                  <h3 className="text-introcar-charcoal font-medium mb-2">Know your chassis?</h3>
+                  <p className="text-xs text-gray-500 mb-3">
+                    Enter the last 5 digits to narrow results to your specific vehicle.
+                  </p>
+                  <form onSubmit={handleChassisSearch} className="space-y-2">
+                    <input
+                      type="text"
+                      placeholder="e.g. 12345"
+                      value={localChassis}
+                      onChange={(e) => setLocalChassis(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                      className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal placeholder-gray-400 focus:outline-none focus:border-introcar-blue text-sm font-mono text-center"
+                      maxLength={5}
+                    />
+                    <button
+                      type="submit"
+                      className="w-full py-2 bg-introcar-blue text-white text-sm rounded-lg hover:bg-introcar-blue/90 transition-colors"
+                    >
+                      Apply Chassis Filter
+                    </button>
+                  </form>
+                </div>
+              )}
 
               {hasFilters && (
                 <button
@@ -462,9 +473,15 @@ export default function CataloguesContent() {
             {/* Catalogues Grid */}
             {!loading && catalogues.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {catalogues.map((catalogue) => (
-                  <CatalogueCard key={catalogue.id} catalogue={catalogue} />
-                ))}
+                {catalogues
+                  .filter(catalogue => !failedImages.has(catalogue.id))
+                  .map((catalogue) => (
+                    <CatalogueCard
+                      key={catalogue.id}
+                      catalogue={catalogue}
+                      onImageError={(id) => setFailedImages(prev => new Set([...prev, id]))}
+                    />
+                  ))}
               </div>
             )}
 
