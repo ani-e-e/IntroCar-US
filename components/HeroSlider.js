@@ -38,7 +38,7 @@ export default function HeroSlider() {
           <span className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-sm text-white text-sm font-medium rounded-full mb-6 border border-white/20">
             Committed to Quality
           </span>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-white mb-6 leading-tight">
             The World's Trusted Supplier of Rolls-Royce & Bentley Parts
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">

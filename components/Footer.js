@@ -37,18 +37,14 @@ export default function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {/* Logo & About */}
             <div className="col-span-2 md:col-span-1">
-              <Link href="/" className="flex items-center gap-3 mb-4">
+              <Link href="/" className="block mb-4">
                 <Image
-                  src="/images/logos/introcar-icon.png"
-                  alt="IntroCar"
-                  width={48}
-                  height={48}
-                  className="w-12 h-12"
+                  src="/images/logos/footer-logo-intro_1_.webp"
+                  alt="IntroCar USA"
+                  width={160}
+                  height={50}
+                  className="h-12 w-auto"
                 />
-                <div>
-                  <span className="text-lg font-display font-light text-white">IntroCar</span>
-                  <span className="block text-xs text-gray-300 uppercase tracking-wider">USA</span>
-                </div>
               </Link>
               <p className="text-gray-300 text-sm mb-4">
                 The Registered Home of Prestige Parts®
@@ -125,7 +121,7 @@ export default function Footer() {
               </div>
               {/* Trustpilot Widget */}
               <a
-                href="https://trstp.lt/f9yt9SV_C8"
+                href="https://www.trustpilot.com/review/introcar.co.uk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block bg-white/10 hover:bg-white/20 transition-colors rounded-lg p-4 text-center"

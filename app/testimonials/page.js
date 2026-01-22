@@ -116,7 +116,7 @@ export default function TestimonialsPage() {
               </div>
             </div>
             <a
-              href="https://trstp.lt/f9yt9SV_C8"
+              href="https://www.trustpilot.com/review/introcar.co.uk"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-6 py-3 bg-[#00B67A] text-white font-medium rounded-full hover:bg-[#00A06A] transition-colors"
@@ -169,7 +169,7 @@ export default function TestimonialsPage() {
             Rolls-Royce and Bentley enthusiasts discover IntroCar.
           </p>
           <a
-            href="https://trstp.lt/oJcPF5BdoT"
+            href="https://www.trustpilot.com/evaluate/introcar.co.uk"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center px-6 py-3 bg-[#00B67A] text-white font-medium rounded-full hover:bg-[#00A06A] transition-colors"

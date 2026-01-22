@@ -71,7 +71,7 @@ export default function HomePage() {
               <span>Price Match Guarantee</span>
             </div>
             <a
-              href="https://trstp.lt/f9yt9SV_C8"
+              href="https://www.trustpilot.com/review/introcar.co.uk"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 hover:text-introcar-blue transition-colors"

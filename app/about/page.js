@@ -170,23 +170,27 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-wrap justify-center items-center gap-12">
               <div className="text-center">
-                <Image
-                  src="/images/logos/RRBSA.png"
-                  alt="Rolls-Royce Bentley Specialist Association"
-                  width={180}
-                  height={100}
-                  className="mx-auto mb-3 object-contain"
-                />
+                <div className="h-20 flex items-center justify-center mb-3">
+                  <Image
+                    src="/images/logos/RRBSA.png"
+                    alt="Rolls-Royce Bentley Specialist Association"
+                    width={180}
+                    height={80}
+                    className="object-contain max-h-20"
+                  />
+                </div>
                 <div className="text-sm text-gray-500">Rolls-Royce Bentley Specialist Association</div>
               </div>
               <div className="text-center">
-                <Image
-                  src="/images/logos/HCVA Member.jpg"
-                  alt="Historic and Classic Vehicles Alliance"
-                  width={180}
-                  height={100}
-                  className="mx-auto mb-3 object-contain"
-                />
+                <div className="h-20 flex items-center justify-center mb-3">
+                  <Image
+                    src="/images/logos/HCVA Member.jpg"
+                    alt="Historic and Classic Vehicles Alliance"
+                    width={120}
+                    height={80}
+                    className="object-contain max-h-20"
+                  />
+                </div>
                 <div className="text-sm text-gray-500">Historic and Classic Vehicles Alliance</div>
               </div>
             </div>
