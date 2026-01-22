@@ -15,8 +15,8 @@ const path = require('path');
 // CONFIGURATION
 // ============================================
 
-// Path to the CSV mapping file
-const CSV_PATH = '/sessions/happy-quirky-cray/mnt/uploads/Video File Links.csv';
+// Path to the CSV mapping file (in project root)
+const CSV_PATH = path.join(__dirname, '..', 'Video File Links.csv');
 
 // Cloudinary folder for videos
 const CLOUDINARY_FOLDER = 'introcar-us/videos';
@@ -128,9 +128,16 @@ async function main() {
   console.log('\n🎬 IntroCar Processed Video Uploader\n');
   console.log('='.repeat(50));
 
+  // Debug: show paths
+  console.log('DEBUG: Script directory:', __dirname);
+  console.log('DEBUG: CSV path:', CSV_PATH);
+  console.log('DEBUG: CSV exists:', fs.existsSync(CSV_PATH));
+
   // Verify Cloudinary config
+  console.log('DEBUG: Checking .env...');
   if (!process.env.CLOUDINARY_CLOUD_NAME) {
     console.error('❌ Please configure Cloudinary credentials in .env');
+    console.error('   CLOUDINARY_CLOUD_NAME is:', process.env.CLOUDINARY_CLOUD_NAME || '(not set)');
     process.exit(1);
   }
 

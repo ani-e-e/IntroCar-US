@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingCart, Eye, AlertTriangle, Info } from 'lucide-react';
+import { ShoppingCart, Eye, CheckCircle, Info } from 'lucide-react';
 
 export default function ProductCard({ product, viewMode = 'grid' }) {
   const {
@@ -62,8 +62,8 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
     ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
     : null;
 
-  // Default placeholder image
-  const displayImage = imageUrl || '/images/placeholder-part.svg';
+  // Default placeholder image - use IC logo icon
+  const displayImage = imageUrl || '/images/logos/introcar-icon.png';
 
   // List View
   if (viewMode === 'list') {
@@ -80,9 +80,9 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
           />
           {nlaDate && (
             <div className="absolute top-1 right-1">
-              <span className="badge badge-nla text-xs flex items-center gap-0.5 px-1.5 py-0.5">
-                <AlertTriangle className="w-3 h-3" />
-                NLA
+              <span className="bg-introcar-blue/10 text-introcar-blue text-xs flex items-center gap-0.5 px-1.5 py-0.5 rounded-full font-medium">
+                <CheckCircle className="w-3 h-3" />
+                OE NLA
               </span>
             </div>
           )}
@@ -123,7 +123,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
                   </p>
                 )}
                 {nlaDate && (
-                  <p className="text-sm text-red-500">No Longer Available from {nlaDate}</p>
+                  <p className="text-sm text-introcar-blue">OE Discontinued: {nlaDate}</p>
                 )}
               </div>
             </div>
@@ -173,12 +173,12 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
           </div>
         )}
 
-        {/* NLA Badge */}
+        {/* NLA Badge - OE Discontinued indicator */}
         {nlaDate && (
           <div className="absolute top-3 right-3 z-10">
-            <span className="badge badge-nla flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" />
-              NLA
+            <span className="bg-introcar-blue/10 text-introcar-blue px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+              <CheckCircle className="w-3 h-3" />
+              OE NLA
             </span>
           </div>
         )}
@@ -192,7 +192,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
             className="object-contain p-4 transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             onError={(e) => {
-              e.target.src = '/images/placeholder-part.svg';
+              e.target.src = '/images/logos/introcar-icon.png';
             }}
           />
         </div>
@@ -235,9 +235,9 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
           </p>
         )}
 
-        {/* NLA Date */}
+        {/* NLA Date - OE Discontinued indicator */}
         {nlaDate && (
-          <p className="text-xs text-red-500 mt-1">NLA from {nlaDate}</p>
+          <p className="text-xs text-introcar-blue mt-1">OE Discontinued: {nlaDate}</p>
         )}
 
         {/* Price & Stock */}

@@ -138,11 +138,11 @@ export default function ProductPage({ params }) {
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-introcar-light">
                     <Image
-                      src="/images/placeholder-part.svg"
+                      src="/images/logos/introcar-icon.png"
                       alt="No image available"
                       width={200}
                       height={200}
-                      className="opacity-60"
+                      className="opacity-40"
                     />
                   </div>
                 )}

@@ -114,15 +114,15 @@ export default function Header({ cartCount = 0 }) {
       {/* Main Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="container-wide">
-          <div className="flex items-center justify-between h-20">
+          <div className="flex items-center justify-between h-24">
             {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <Image
                 src="/images/logos/introcar-logo.png"
                 alt="IntroCar - Rolls-Royce & Bentley Parts Specialists"
-                width={180}
-                height={60}
-                className="h-12 w-auto"
+                width={220}
+                height={70}
+                className="h-14 md:h-16 w-auto"
                 priority
               />
             </Link>
