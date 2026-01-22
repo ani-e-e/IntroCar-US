@@ -24,7 +24,7 @@ export default function CatalogueDetailContent() {
     async function fetchCatalogue() {
       setLoading(true);
       try {
-        const res = await fetch(`/api/lookbooks/${encodeURIComponent(catalogueId)}`);
+        const res = await fetch(`/api/catalogues/${encodeURIComponent(catalogueId)}`);
         if (res.ok) {
           const data = await res.json();
           setCatalogue(data);

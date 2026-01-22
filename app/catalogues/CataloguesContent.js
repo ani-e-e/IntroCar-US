@@ -8,40 +8,34 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
 
-// Catalogue card component with image error handling - hides card if no image
-function CatalogueCard({ catalogue, onImageError }) {
+// Catalogue card component - shows placeholder if image fails
+function CatalogueCard({ catalogue }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-
-  // If image fails or no imageUrl, report to parent and don't render
-  useEffect(() => {
-    if (imageError && onImageError) {
-      onImageError(catalogue.id);
-    }
-  }, [imageError, catalogue.id, onImageError]);
-
-  // Don't render if no image URL or image failed to load
-  if (!catalogue.imageUrl || imageError) {
-    return null;
-  }
 
   return (
     <Link
       href={`/catalogues/${encodeURIComponent(catalogue.id)}`}
-      className={`group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
+      className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all"
     >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-introcar-light">
-        <Image
-          src={catalogue.imageUrl}
-          alt={catalogue.title}
-          fill
-          className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          unoptimized
-          onError={() => setImageError(true)}
-          onLoad={() => setImageLoaded(true)}
-        />
+        {catalogue.imageUrl && !imageError ? (
+          <Image
+            src={catalogue.imageUrl}
+            alt={catalogue.title}
+            fill
+            className={`object-contain p-2 group-hover:scale-105 transition-transform duration-300 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            unoptimized
+            onError={() => setImageError(true)}
+            onLoad={() => setImageLoaded(true)}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <BookOpen className="w-16 h-16 text-gray-300" />
+          </div>
+        )}
         {/* Parts count badge */}
         <div className="absolute bottom-2 right-2 bg-introcar-blue text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
           <Package className="w-3 h-3" />
@@ -81,7 +75,6 @@ export default function CataloguesContent() {
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
   const [filters, setFilters] = useState({ makes: [], models: [], categories: [] });
   const [filtersOpen, setFiltersOpen] = useState(false);
-  const [failedImages, setFailedImages] = useState(new Set());
 
   const currentSearch = searchParams.get('search') || '';
   const currentMake = searchParams.get('make') || '';
@@ -105,13 +98,12 @@ export default function CataloguesContent() {
       params.set('page', currentPage.toString());
       params.set('limit', '24');
 
-      const res = await fetch(`/api/lookbooks?${params.toString()}`);
+      const res = await fetch(`/api/catalogues?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
-        setCatalogues(data.lookbooks || []);
+        setCatalogues(data.catalogues || []);
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
         setFilters(data.filters || { makes: [], models: [], categories: [] });
-        setFailedImages(new Set()); // Reset failed images when new catalogues load
       }
     } catch (error) {
       console.error('Error fetching catalogues:', error);
@@ -194,6 +186,12 @@ export default function CataloguesContent() {
                 <span className="text-introcar-charcoal">{currentMake}</span>
               </>
             )}
+            {currentModel && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-charcoal">{currentModel}</span>
+              </>
+            )}
             {currentCategory && (
               <>
                 <ChevronRight className="w-4 h-4" />
@@ -247,16 +245,10 @@ export default function CataloguesContent() {
               <div>
                 <h3 className="text-introcar-charcoal font-medium mb-3">Make</h3>
                 <div className="space-y-2">
-                  <button
-                    onClick={() => setFilter('make', '')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentMake ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                  >
-                    All Makes
-                  </button>
                   {filters.makes.map((make) => (
                     <button
                       key={make}
-                      onClick={() => setFilter('make', make)}
+                      onClick={() => setFilter('make', currentMake === make ? '' : make)}
                       className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                     >
                       {make}
@@ -270,16 +262,10 @@ export default function CataloguesContent() {
                 <div>
                   <h3 className="text-introcar-charcoal font-medium mb-3">Model</h3>
                   <div className="space-y-1 max-h-64 overflow-y-auto">
-                    <button
-                      onClick={() => setFilter('model', '')}
-                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentModel ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                    >
-                      All Models
-                    </button>
                     {filters.models.map((model) => (
                       <button
                         key={model}
-                        onClick={() => setFilter('model', model)}
+                        onClick={() => setFilter('model', currentModel === model ? '' : model)}
                         className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                       >
                         {model}
@@ -293,16 +279,10 @@ export default function CataloguesContent() {
               <div>
                 <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
                 <div className="space-y-1 max-h-64 overflow-y-auto">
-                  <button
-                    onClick={() => setFilter('category', '')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                  >
-                    All Categories
-                  </button>
                   {filters.categories.map((cat) => (
                     <button
                       key={cat}
-                      onClick={() => setFilter('category', cat)}
+                      onClick={() => setFilter('category', currentCategory === cat ? '' : cat)}
                       className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                     >
                       {cat}
@@ -376,7 +356,7 @@ export default function CataloguesContent() {
                   onChange={(e) => { setFilter('make', e.target.value); }}
                   className="input-field w-full"
                 >
-                  <option value="">All Makes</option>
+                  <option value="">Select Make</option>
                   {filters.makes.map(make => (
                     <option key={make} value={make}>{make}</option>
                   ))}
@@ -387,7 +367,7 @@ export default function CataloguesContent() {
                     onChange={(e) => setFilter('model', e.target.value)}
                     className="input-field w-full"
                   >
-                    <option value="">All Models</option>
+                    <option value="">Select Model</option>
                     {filters.models.map(model => (
                       <option key={model} value={model}>{model}</option>
                     ))}
@@ -398,7 +378,7 @@ export default function CataloguesContent() {
                   onChange={(e) => setFilter('category', e.target.value)}
                   className="input-field w-full"
                 >
-                  <option value="">All Categories</option>
+                  <option value="">Select Category</option>
                   {filters.categories.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
@@ -473,15 +453,12 @@ export default function CataloguesContent() {
             {/* Catalogues Grid */}
             {!loading && catalogues.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {catalogues
-                  .filter(catalogue => !failedImages.has(catalogue.id))
-                  .map((catalogue) => (
-                    <CatalogueCard
-                      key={catalogue.id}
-                      catalogue={catalogue}
-                      onImageError={(id) => setFailedImages(prev => new Set([...prev, id]))}
-                    />
-                  ))}
+                {catalogues.map((catalogue) => (
+                  <CatalogueCard
+                    key={catalogue.id}
+                    catalogue={catalogue}
+                  />
+                ))}
               </div>
             )}
 

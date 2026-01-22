@@ -139,9 +139,13 @@ export default function Header({ cartCount = 0 }) {
               <Link href="/catalogues" className="nav-link">
                 Shop by Catalogue
               </Link>
-              <Link href="/products" className="nav-link">
+              <button
+                onClick={() => setVehicleFinderOpen(!vehicleFinderOpen)}
+                className="nav-link flex items-center gap-1"
+              >
                 Shop by Model
-              </Link>
+                <ChevronDown className={`w-4 h-4 transition-transform ${vehicleFinderOpen ? 'rotate-180' : ''}`} />
+              </button>
               <Link href="/products?stockType=Prestige+Parts" className="text-introcar-blue hover:underline transition-colors font-medium">
                 Prestige Parts®
               </Link>

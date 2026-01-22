@@ -33,26 +33,32 @@ export default function ProductPage({ params }) {
     fetchProduct();
   }, [sku]);
 
-  // Format NLA date to "Dec 2015" format
+  // Format NLA date to "Sep 2014" format (from "1st September 2014" or similar)
   const formatNLADate = (dateStr) => {
     if (!dateStr) return null;
     try {
-      // Try parsing various date formats
-      const date = new Date(dateStr);
-      if (isNaN(date.getTime())) {
-        // Try UK format dd/mm/yyyy or similar
-        const parts = dateStr.split(/[\/\-\.]/);
-        if (parts.length >= 2) {
-          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-          const month = parseInt(parts[1]) - 1;
-          const year = parts[2] || parts[0];
-          if (month >= 0 && month < 12) {
-            return `${months[month]} ${year.length === 2 ? '20' + year : year}`;
+      const monthsLong = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+      const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // Try to parse format like "1st September 2014" or "24th January 2025"
+      const lowerStr = dateStr.toLowerCase();
+      for (let i = 0; i < monthsLong.length; i++) {
+        if (lowerStr.includes(monthsLong[i])) {
+          // Extract the year (4 digit number)
+          const yearMatch = dateStr.match(/\d{4}/);
+          if (yearMatch) {
+            return `${monthsShort[i]} ${yearMatch[0]}`;
           }
         }
-        return dateStr; // Return as-is if can't parse
       }
-      return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+
+      // Fallback: try parsing as standard date
+      const date = new Date(dateStr);
+      if (!isNaN(date.getTime())) {
+        return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+      }
+
+      return dateStr; // Return as-is if can't parse
     } catch {
       return dateStr;
     }
