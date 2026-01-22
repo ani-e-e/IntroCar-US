@@ -20,13 +20,17 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
     supersessions
   } = product;
 
-  // Determine stock status
+  // Determine stock status - check inStock boolean as well as quantity fields
   const getStockStatus = () => {
     if (availableNow > 0) {
       return { text: 'In Stock', class: 'badge-in-stock', available: true };
     }
     if (available1to3Days > 0) {
       return { text: '1-3 Days', class: 'badge-low-stock', available: true };
+    }
+    // Also check the inStock boolean flag
+    if (product.inStock) {
+      return { text: 'In Stock', class: 'badge-in-stock', available: true };
     }
     return { text: 'Out of Stock', class: 'badge-out-of-stock', available: false };
   };
