@@ -116,7 +116,7 @@ export default function Header({ cartCount = 0 }) {
         <div className="container-wide">
           <div className="flex items-center justify-between h-24">
             {/* Logo */}
-            <Link href="/" className="flex items-center shrink-0">
+            <Link href="/" className="flex items-center shrink-0 mr-8">
               <Image
                 src="/images/logos/introcar-logo.png"
                 alt="IntroCar - Rolls-Royce & Bentley Parts Specialists"
@@ -128,7 +128,7 @@ export default function Header({ cartCount = 0 }) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-8">
+            <nav className="hidden lg:flex items-center gap-6">
               <button
                 onClick={() => setVehicleFinderOpen(!vehicleFinderOpen)}
                 className="nav-link flex items-center gap-1"

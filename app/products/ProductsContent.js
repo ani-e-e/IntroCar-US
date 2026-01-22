@@ -132,7 +132,7 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentCategory || currentSubcategory || currentStockType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentStockType;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
 
@@ -162,6 +162,12 @@ export default function ProductsContent() {
               <>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-introcar-charcoal">{currentYear}</span>
+              </>
+            )}
+            {currentChassis && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-blue font-medium">Chassis {currentChassis}</span>
               </>
             )}
           </nav>
