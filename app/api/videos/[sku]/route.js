@@ -49,13 +49,18 @@ export async function GET(request, { params }) {
   }
 
   if (videoData) {
+    // Cloudinary video URL format
+    // Videos are stored as: Turntable/{folder}/{file}
+    const cloudinaryBase = 'https://res.cloudinary.com/durzkoyfb/video/upload';
+    const videoPath = `Turntable/${videoData.folder}/${videoData.file.replace('.mp4', '')}`;
+
     return NextResponse.json({
       hasVideo: true,
       folder: videoData.folder,
       file: videoData.file,
       allFiles: videoData.allFiles,
-      // Video URL will be served from the Turntable mount
-      videoUrl: `/api/videos/stream/${encodeURIComponent(videoData.folder)}/${encodeURIComponent(videoData.file)}`
+      // Cloudinary video URL with auto quality and format
+      videoUrl: `${cloudinaryBase}/q_auto/${videoPath}.mp4`
     });
   }
 
