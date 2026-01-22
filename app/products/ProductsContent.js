@@ -6,7 +6,41 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { Search, ChevronRight, ChevronLeft, ChevronDown, X, AlertCircle, SlidersHorizontal, Grid, List } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, AlertCircle, SlidersHorizontal, Grid, List, Package, Car, Tag } from 'lucide-react';
+
+// Collapsible filter section component
+function FilterSection({ title, icon: Icon, defaultOpen = true, children, count }) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border border-gray-200 rounded-lg overflow-hidden bg-white">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between px-4 py-3 bg-introcar-light hover:bg-gray-100 transition-colors"
+      >
+        <div className="flex items-center gap-2">
+          {Icon && <Icon className="w-4 h-4 text-introcar-blue" />}
+          <span className="font-medium text-introcar-charcoal text-sm">{title}</span>
+          {count > 0 && (
+            <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
+              {count}
+            </span>
+          )}
+        </div>
+        {isOpen ? (
+          <ChevronUp className="w-4 h-4 text-gray-500" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-gray-500" />
+        )}
+      </button>
+      {isOpen && (
+        <div className="p-3 border-t border-gray-100">
+          {children}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function ProductsContent() {
   const searchParams = useSearchParams();
@@ -178,58 +212,27 @@ export default function ProductsContent() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar */}
           <aside className="hidden lg:block w-64 shrink-0">
-            <div className="sticky top-24 space-y-6">
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Search</h3>
+            <div className="sticky top-24 space-y-4">
+              {/* Search */}
+              <div className="bg-white border border-gray-200 rounded-lg p-3">
                 <form onSubmit={handleSearch} className="relative">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <input
                     type="text"
-                    placeholder="Part number..."
+                    placeholder="Search part number..."
                     value={localSearch}
                     onChange={(e) => setLocalSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal placeholder-gray-400 focus:outline-none focus:border-introcar-blue text-sm"
+                    className="w-full pl-10 pr-4 py-2 bg-introcar-light border-0 rounded-lg text-introcar-charcoal placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-introcar-blue text-sm"
                   />
                 </form>
               </div>
 
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Make</h3>
-                <div className="space-y-2">
-                  <button onClick={() => setFilter('make', '')} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentMake ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
-                    All Makes
-                  </button>
-                  {makes.map((make) => (
-                    <button key={make} onClick={() => setFilter('make', make)} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
-                      {make}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {currentMake && models.length > 0 && (
-                <div>
-                  <h3 className="text-introcar-charcoal font-medium mb-3">Model</h3>
-                  <div className="space-y-2 max-h-64 overflow-y-auto">
-                    <button onClick={() => setFilter('model', '')} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentModel ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
-                      All Models
-                    </button>
-                    {models.map((model) => (
-                      <button key={model} onClick={() => setFilter('model', model)} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
-                        {model}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Categories with Subcategories */}
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
-                <div className="space-y-1 max-h-80 overflow-y-auto">
+              {/* Category - MOVED TO TOP for better visibility */}
+              <FilterSection title="Category" icon={Package} defaultOpen={true} count={currentCategory ? 1 : 0}>
+                <div className="space-y-1 max-h-64 overflow-y-auto">
                   <button
                     onClick={() => setCategoryFilter('')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                   >
                     All Categories
                   </button>
@@ -242,21 +245,21 @@ export default function ProductsContent() {
                           }
                           setCategoryFilter(cat.name);
                         }}
-                        className={`flex items-center justify-between w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat.name && !currentSubcategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                        className={`flex items-center justify-between w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentCategory === cat.name && !currentSubcategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                       >
-                        <span>{cat.name}</span>
+                        <span className="truncate">{cat.name}</span>
                         {cat.subcategories && cat.subcategories.length > 0 && (
-                          <ChevronDown className={`w-4 h-4 transition-transform ${expandedCategory === cat.name ? 'rotate-180' : ''}`} />
+                          <ChevronDown className={`w-4 h-4 shrink-0 transition-transform ${expandedCategory === cat.name ? 'rotate-180' : ''}`} />
                         )}
                       </button>
                       {/* Subcategories */}
                       {expandedCategory === cat.name && cat.subcategories && cat.subcategories.length > 0 && (
-                        <div className="ml-4 mt-1 space-y-1 border-l-2 border-introcar-light pl-3">
+                        <div className="ml-3 mt-1 space-y-1 border-l-2 border-introcar-blue/20 pl-3">
                           {cat.subcategories.map((sub) => (
                             <button
                               key={sub}
                               onClick={() => setCategoryFilter(cat.name, sub)}
-                              className={`block w-full text-left px-2 py-1.5 rounded text-sm ${currentCategory === cat.name && currentSubcategory === sub ? 'bg-introcar-blue text-white' : 'text-gray-500 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                              className={`block w-full text-left px-2 py-1.5 rounded text-sm transition-colors ${currentCategory === cat.name && currentSubcategory === sub ? 'bg-introcar-blue text-white' : 'text-gray-500 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                             >
                               {sub}
                             </button>
@@ -266,24 +269,87 @@ export default function ProductsContent() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </FilterSection>
 
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Part Type</h3>
-                <div className="space-y-2">
-                  <button onClick={() => setFilter('stockType', '')} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentStockType ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
+              {/* Part Type (Stock Type) - After Category */}
+              <FilterSection title="Part Type" icon={Tag} defaultOpen={true} count={currentStockType ? 1 : 0}>
+                <div className="space-y-1">
+                  <button
+                    onClick={() => setFilter('stockType', '')}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentStockType ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                  >
                     All Types
                   </button>
                   {stockTypes.map((type) => (
-                    <button key={type} onClick={() => setFilter('stockType', type)} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}>
+                    <button
+                      key={type}
+                      onClick={() => setFilter('stockType', type)}
+                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                    >
                       {type}
                     </button>
                   ))}
                 </div>
-              </div>
+              </FilterSection>
 
+              {/* Vehicle Selection */}
+              <FilterSection title="Vehicle" icon={Car} defaultOpen={!!(currentMake || currentModel)} count={(currentMake ? 1 : 0) + (currentModel ? 1 : 0)}>
+                <div className="space-y-3">
+                  {/* Make */}
+                  <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Make</label>
+                    <div className="space-y-1">
+                      <button
+                        onClick={() => setFilter('make', '')}
+                        className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentMake ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                      >
+                        All Makes
+                      </button>
+                      {makes.map((make) => (
+                        <button
+                          key={make}
+                          onClick={() => setFilter('make', make)}
+                          className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                        >
+                          {make}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Model - Only show if make selected */}
+                  {currentMake && models.length > 0 && (
+                    <div>
+                      <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Model</label>
+                      <div className="space-y-1 max-h-48 overflow-y-auto">
+                        <button
+                          onClick={() => setFilter('model', '')}
+                          className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentModel ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                        >
+                          All {currentMake} Models
+                        </button>
+                        {models.map((model) => (
+                          <button
+                            key={model}
+                            onClick={() => setFilter('model', model)}
+                            className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                          >
+                            {model}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </FilterSection>
+
+              {/* Clear Filters */}
               {hasFilters && (
-                <button onClick={clearFilters} className="w-full py-2 text-sm text-gray-500 hover:text-introcar-charcoal border border-gray-300 rounded-lg hover:border-gray-400">
+                <button
+                  onClick={clearFilters}
+                  className="w-full py-2.5 text-sm text-red-600 hover:text-red-700 border border-red-200 rounded-lg hover:border-red-300 hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
+                >
+                  <X className="w-4 h-4" />
                   Clear All Filters
                 </button>
               )}
@@ -443,27 +509,21 @@ export default function ProductsContent() {
       {filtersOpen && (
         <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/50" onClick={() => setFiltersOpen(false)} />
-          <div className="absolute right-0 top-0 bottom-0 w-80 bg-white p-6 overflow-y-auto">
-            <div className="flex items-center justify-between mb-6">
+          <div className="absolute right-0 top-0 bottom-0 w-80 bg-white overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
               <h2 className="text-lg font-display font-light text-introcar-charcoal">Filters</h2>
               <button onClick={() => setFiltersOpen(false)} className="text-gray-400 hover:text-introcar-charcoal">
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <div className="space-y-6">
+            <div className="p-6 space-y-6">
+              {/* Category - FIRST */}
               <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Make</h3>
-                <div className="space-y-2">
-                  {['', ...makes].map((make) => (
-                    <button key={make} onClick={() => { setFilter('make', make); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
-                      {make || 'All Makes'}
-                    </button>
-                  ))}
+                <div className="flex items-center gap-2 mb-3">
+                  <Package className="w-4 h-4 text-introcar-blue" />
+                  <h3 className="text-introcar-charcoal font-medium">Category</h3>
                 </div>
-              </div>
-              <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
-                <div className="space-y-2 max-h-48 overflow-y-auto">
+                <div className="space-y-1 max-h-56 overflow-y-auto">
                   <button onClick={() => { setCategoryFilter(''); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
                     All Categories
                   </button>
@@ -474,9 +534,14 @@ export default function ProductsContent() {
                   ))}
                 </div>
               </div>
+
+              {/* Part Type - SECOND */}
               <div>
-                <h3 className="text-introcar-charcoal font-medium mb-3">Part Type</h3>
-                <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-3">
+                  <Tag className="w-4 h-4 text-introcar-blue" />
+                  <h3 className="text-introcar-charcoal font-medium">Part Type</h3>
+                </div>
+                <div className="space-y-1">
                   {['', ...stockTypes].map((type) => (
                     <button key={type} onClick={() => { setFilter('stockType', type); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
                       {type || 'All Types'}
@@ -484,8 +549,37 @@ export default function ProductsContent() {
                   ))}
                 </div>
               </div>
+
+              {/* Vehicle - THIRD */}
+              <div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Car className="w-4 h-4 text-introcar-blue" />
+                  <h3 className="text-introcar-charcoal font-medium">Vehicle</h3>
+                </div>
+                <div className="space-y-1">
+                  {['', ...makes].map((make) => (
+                    <button key={make} onClick={() => { setFilter('make', make); if (!make) setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                      {make || 'All Makes'}
+                    </button>
+                  ))}
+                </div>
+                {currentMake && models.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-100">
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Model</label>
+                    <div className="space-y-1 max-h-32 overflow-y-auto">
+                      {models.map((model) => (
+                        <button key={model} onClick={() => { setFilter('model', model); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                          {model}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               {hasFilters && (
-                <button onClick={() => { clearFilters(); setFiltersOpen(false); }} className="w-full py-3 text-sm text-gray-500 hover:text-introcar-charcoal border border-gray-300 rounded-lg">
+                <button onClick={() => { clearFilters(); setFiltersOpen(false); }} className="w-full py-3 text-sm text-red-600 hover:text-red-700 border border-red-200 rounded-lg hover:bg-red-50 flex items-center justify-center gap-2">
+                  <X className="w-4 h-4" />
                   Clear All Filters
                 </button>
               )}

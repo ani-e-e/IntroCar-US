@@ -114,8 +114,13 @@ export default function Footer() {
                   <Linkedin className="w-5 h-5" />
                 </a>
               </div>
-              {/* Trustpilot Widget Placeholder */}
-              <div className="bg-white/10 rounded-lg p-4 text-center">
+              {/* Trustpilot Widget */}
+              <a
+                href="https://trstp.lt/f9yt9SV_C8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block bg-white/10 hover:bg-white/20 transition-colors rounded-lg p-4 text-center"
+              >
                 <div className="flex justify-center gap-1 mb-2">
                   {[1,2,3,4,5].map(i => (
                     <svg key={i} className="w-5 h-5 text-green-400 fill-current" viewBox="0 0 24 24">
@@ -124,7 +129,8 @@ export default function Footer() {
                   ))}
                 </div>
                 <p className="text-sm text-gray-300">Rated <span className="text-white font-semibold">Excellent</span> on Trustpilot</p>
-              </div>
+                <p className="text-xs text-gray-400 mt-1">Click to see our reviews</p>
+              </a>
             </div>
           </div>
         </div>

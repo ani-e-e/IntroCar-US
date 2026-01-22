@@ -60,12 +60,15 @@ export default function PrestigePartsPage() {
               <Star className="w-4 h-4 text-white" />
               <span className="text-sm font-medium">Our Exclusive Range</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light mb-4">
               Prestige Parts<sup>®</sup>
             </h1>
+            <p className="text-2xl text-white font-light mb-4">Heritage Meets Innovation</p>
             <p className="text-xl text-white/80 mb-8 leading-relaxed">
-              Premium quality aftermarket parts for Rolls-Royce & Bentley, developed by experts
-              with decades of marque experience. Backed by our industry-leading 3-year warranty.
+              The world's most respected brand of aftermarket parts for heritage and modern
+              Rolls-Royce and Bentley motorcars. Through relentless R&D and a passionate commitment
+              to quality, we fill vital gaps in the market with innovative products that meet or
+              exceed OEM specifications.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -77,9 +80,16 @@ export default function PrestigePartsPage() {
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts+(OE)"
-                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors"
+                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
                 Shop Prestige Parts® (OE)
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+              <Link
+                href="/products?stockType=Uprated"
+                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+              >
+                Shop Uprated
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>
@@ -189,6 +199,41 @@ export default function PrestigePartsPage() {
               Browse Prestige Parts®
               <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* International Stockists */}
+      <section className="py-16 bg-introcar-light">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto">
+            <h2 className="text-3xl font-display font-light text-introcar-charcoal mb-4">
+              International Reseller Network
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Our growing international reseller network is here to serve those who share our
+              passion for keeping the world's most beautiful cars on the road.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <a
+                href="https://prestigeparts.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-introcar-blue text-white font-medium rounded-full hover:bg-introcar-charcoal transition-colors"
+              >
+                Find International Stockists
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </a>
+              <a
+                href="https://prestigeparts.org/the-prestige-parts-range"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
+              >
+                View Full Range
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </a>
+            </div>
           </div>
         </div>
       </section>

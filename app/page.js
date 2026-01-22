@@ -3,7 +3,8 @@ import Footer from '@/components/Footer';
 import VehicleFinder from '@/components/VehicleFinder';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Shield, Truck, Award, Clock, Wrench, Settings, Zap, Car, CircuitBoard, Gauge, Flame, Droplets, Filter } from 'lucide-react';
+import { ArrowRight, Shield, Truck, Award, Clock, Wrench, Settings, Zap, Car, CircuitBoard, Gauge, Flame, Droplets, Filter, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+import HeroSlider from '@/components/HeroSlider';
 
 // Category data
 const categories = [
@@ -45,30 +46,34 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-introcar-light">
-        <div className="container-wide relative py-20 md:py-32">
-          <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 bg-introcar-blue/10 text-introcar-blue text-sm font-medium rounded-full mb-6">
-              The World's Trusted Supplier
-            </span>
-            <h1 className="text-4xl md:text-6xl font-display font-light text-introcar-charcoal mb-6 leading-tight">
-              Rolls-Royce & Bentley <span className="text-introcar-blue">Parts</span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-              230,000+ genuine, recycled & reconditioned spares. 3-year warranty on Prestige Parts®.
-              Fast shipping to the USA.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Link href="/products?make=Bentley" className="btn-primary-filled">
-                Shop Bentley
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-              <Link href="/products?make=Rolls-Royce" className="btn-primary">
-                Shop Rolls-Royce
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
+      {/* Hero Section with Slider */}
+      <HeroSlider />
+
+      {/* Trust Bar */}
+      <section className="bg-introcar-charcoal text-white py-3">
+        <div className="container-wide">
+          <div className="flex flex-wrap justify-center md:justify-between items-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-introcar-blue" />
+              <span>Family Run Business Established in 1988</span>
             </div>
+            <div className="flex items-center gap-2">
+              <Truck className="w-4 h-4 text-introcar-blue" />
+              <span>Insured Worldwide Shipping</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-introcar-blue" />
+              <span>Price Match Guarantee</span>
+            </div>
+            <a
+              href="https://trstp.lt/f9yt9SV_C8"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-introcar-blue transition-colors"
+            >
+              <Star className="w-4 h-4 text-green-500 fill-green-500" />
+              <span>Rated Excellent 5★ on Trustpilot</span>
+            </a>
           </div>
         </div>
       </section>
@@ -221,14 +226,25 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+            <Link
+              href="/about"
+              className="inline-flex items-center mt-8 px-6 py-3 bg-introcar-charcoal text-white font-medium rounded-full hover:bg-introcar-blue transition-colors"
+            >
+              More About Us
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
           </div>
           <div className="relative">
-            <div className="aspect-square bg-introcar-light rounded-2xl overflow-hidden border border-gray-200">
-              <Image
-                src="/images/logos/introcar-icon.png"
-                alt="IntroCar - Family owned since 1988"
-                fill
-                className="object-contain p-8"
+            <div className="aspect-video bg-introcar-light rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+              <iframe
+                width="100%"
+                height="100%"
+                src="https://www.youtube.com/embed/Jp-uqufYyvA?rel=0"
+                title="IntroCar - Heritage Meets Innovation"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
               />
             </div>
           </div>
