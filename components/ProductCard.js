@@ -119,7 +119,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
                 )}
                 {supersessions && supersessions.length > 0 && (
                   <p className="text-sm text-blue-600">
-                    Also known as: {supersessions.slice(0, 3).join(', ')}{supersessions.length > 3 ? '...' : ''}
+                    Related Parts: {supersessions.slice(0, 3).join(', ')}{supersessions.length > 3 ? '...' : ''}
                   </p>
                 )}
                 {nlaDate && (
@@ -231,7 +231,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
         {/* Supersession Note */}
         {supersessions && supersessions.length > 0 && (
           <p className="text-xs text-blue-600 mt-1">
-            Also known as: {supersessions.slice(0, 2).join(', ')}{supersessions.length > 2 ? '...' : ''}
+            Related Parts: {supersessions.slice(0, 2).join(', ')}{supersessions.length > 2 ? '...' : ''}
           </p>
         )}
 
