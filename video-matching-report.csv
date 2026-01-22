@@ -1,0 +1,60 @@
+Category,Video Folder,Base SKU,Auto-Match,Notes
+MATCHED,749 videos matched to parent SKU,,,No action needed - these will display automatically
+
+KIT COMBINATION,UV36385PA & UV36386PA,,,Shows UV36385PA and UV36386PA together
+KIT COMBINATION,UV36384PA & UV36383PA,,,Shows UV36384PA and UV36383PA together
+KIT COMBINATION,UR71624 & UR71625,,,Shows UR71624 and UR71625 together
+KIT COMBINATION,CD4820 & CD6223GMF,,,Shows CD4820 and CD6223GMF together
+KIT COMBINATION,PP20309PA & PP20308PA,,,Shows PP20309PA and PP20308PA together
+KIT COMBINATION,FW1926-27KIT,,,Kit containing FW1926 and FW1927
+KIT COMBINATION,3Z7857588 & 3Z7857587,,,Shows 3Z7857588 and 3Z7857587 together
+KIT COMBINATION,UR4952-53KIT,,,Kit containing UR4952 and UR4953
+KIT COMBINATION,PR55888PB.01 & PR55888PB,,,Shows PR55888PB variants
+KIT COMBINATION,UE37810 & UE46097,,,Shows UE37810 and UE46097 together
+KIT COMBINATION,RH9143 & UE30193,,,Shows RH9143 and UE30193 together
+KIT COMBINATION,RE22997 & RE19011,,,Shows RE22997 and RE19011 together
+
+PLACEHOLDER,Search part number,,,Should be renamed or removed
+PLACEHOLDER,To Edit,,,Should be renamed or removed
+
+VERSION SUFFIX,UD22715PM.01,UD22715PM,Yes,Will auto-match
+VERSION SUFFIX,PF27287PBKT-03,PF27287PBKT,Yes,Will auto-match
+VERSION SUFFIX,PF27287PBKT-02,PF27287PBKT,Yes,Will auto-match
+VERSION SUFFIX,UG13562-3,UG13562,Yes,Will auto-match
+VERSION SUFFIX,UD13209-10,UD13209,Yes,Will auto-match
+VERSION SUFFIX,UG13552-3,UG13552,Yes,Will auto-match
+VERSION SUFFIX,UG13564-5,UG13564,Yes,Will auto-match
+VERSION SUFFIX,07V103147.01,07V103147,Yes,Will auto-match
+VERSION SUFFIX,RH9162-10,RH9162,Yes,Will auto-match
+VERSION SUFFIX,UR22413-01,UR22413,Yes,Will auto-match
+VERSION SUFFIX,UE73810KT-01,UE73810KT,No,SKU not in product database
+VERSION SUFFIX,UR73257GT-01,UR73257GT,No,SKU not in product database
+VERSION SUFFIX,RH8889-1-3,RH8889-1,No,SKU not in product database
+VERSION SUFFIX,3D2819619-20,3D2819619,No,SKU not in product database
+VERSION SUFFIX,3W0839397-8,3W0839397,No,SKU not in product database
+VERSION SUFFIX,UE73812KT-01,UE73812KT,No,SKU not in product database
+
+UNMATCHED,UR18082SXR,,,SKU not in product database
+UNMATCHED,UE39519SXR,,,SKU not in product database
+UNMATCHED,RD3135KB,,,SKU not in product database
+UNMATCHED,UD2255614,,,SKU not in product database - possible typo?
+UNMATCHED,PD30984PAPL,,,SKU not in product database
+UNMATCHED,3Z00615301,,,SKU not in product database
+UNMATCHED,UE43934NF,,,SKU not in product database (folder is UE43934NF.02)
+UNMATCHED,PD30985PAPL,,,SKU not in product database
+UNMATCHED,CD5999GMFSXR,,,SKU not in product database
+UNMATCHED,UR73256-7GT,,,SKU not in product database
+UNMATCHED,PD57492PDGT,,,SKU not in product database (folder is PD57492PDGT.01)
+UNMATCHED,PD109054PAPL,,,SKU not in product database
+UNMATCHED,PD109055PAPL,,,SKU not in product database
+UNMATCHED,07C9195296L,,,SKU not in product database
+UNMATCHED,UE37583SXR,,,SKU not in product database
+UNMATCHED,UR13269SA2,,,SKU not in product database
+UNMATCHED,RH2343SX,,,SKU not in product database
+UNMATCHED,COIL3CPUSH,,,SKU not in product database - custom coil spring?
+UNMATCHED,COIL3BPUSH,,,SKU not in product database - custom coil spring?
+UNMATCHED,GRH453,,,SKU not in product database
+UNMATCHED,COIL1.5CPUSH,,,SKU not in product database - custom coil spring?
+UNMATCHED,COIL1.5BPUSH,,,SKU not in product database - custom coil spring?
+UNMATCHED,SPM1534PL,,,SKU not in product database
+UNMATCHED,UV10712CVCHR,,,SKU not in product database

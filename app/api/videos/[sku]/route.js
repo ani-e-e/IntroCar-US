@@ -72,18 +72,35 @@ export async function GET(request, { params }) {
   }
 
   if (videoData) {
-    // Cloudinary video URL format
-    // Videos are stored as: Turntable/{folder}/{file}
+    // Check if we have a direct Cloudinary URL (from processed videos)
+    if (videoData.cloudinaryUrl) {
+      return NextResponse.json({
+        hasVideo: true,
+        folder: videoData.folder,
+        file: videoData.file,
+        videoUrl: videoData.cloudinaryUrl
+      });
+    }
+
+    // Fallback: construct Cloudinary URL from folder structure
     const cloudinaryBase = 'https://res.cloudinary.com/durzkoyfb/video/upload';
-    const videoPath = `Turntable/${videoData.folder}/${videoData.file.replace('.mp4', '')}`;
+
+    // Check source type - processed videos use different path
+    let videoUrl;
+    if (videoData.source === 'processed') {
+      videoUrl = `${cloudinaryBase}/q_auto/introcar-us/videos/${videoData.folder}.mp4`;
+    } else {
+      // Original Turntable folder structure
+      const videoPath = `Turntable/${videoData.folder}/${videoData.file.replace('.mp4', '')}`;
+      videoUrl = `${cloudinaryBase}/q_auto/${videoPath}.mp4`;
+    }
 
     return NextResponse.json({
       hasVideo: true,
       folder: videoData.folder,
       file: videoData.file,
       allFiles: videoData.allFiles,
-      // Cloudinary video URL with auto quality and format
-      videoUrl: `${cloudinaryBase}/q_auto/${videoPath}.mp4`
+      videoUrl: videoUrl
     });
   }
 

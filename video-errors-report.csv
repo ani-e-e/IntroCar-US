@@ -1,0 +1,44 @@
+Category,Parent_SKU,SKU,Folder,Link,Issue,Suggestion
+FROM_MAPPING_FILE,PD57492PDGT.01-X,PD57492PDGT.01-X-X,,https://introcar-my.sharepoint.com/:v:/p/christian_domini/EeeCQJfsPGlHjOx8OTZfNoUBYjKKdbkcDcujaoMFQxJqWg?e=nAwcar,Parent SKU not in product database,SKU not found in database
+FROM_MAPPING_FILE,RH12590-3,RH12590-3-X,,https://introcar-my.sharepoint.com/:v:/p/christian_domini/EfmYW2sJN6RIhA2IXiA_REYBrsKcIdoXgAR7Axl4qRx-qg?e=mxGKTV,Parent SKU not in product database,Try base SKU: RH12590
+FROM_MAPPING_FILE,PD22923,PD22923-X,,https://introcar-my.sharepoint.com/:v:/p/christian_domini/Ecnf8hp8rf1BpkUfaaOw8BMB0uNFT3RuM180RotCVNpAqw?e=s4Um4T,Parent SKU not in product database,SKU not found in database
+FROM_MAPPING_FILE,RH2343SX-R,RH2343SX-R-X,,https://introcar-my.sharepoint.com/:v:/p/christian_domini/EURP9xFZkxpKlhnoxNE05ZgBlaFIyVrLgS0KOrwPQeq3Vw?e=EBFKsq,Parent SKU not in product database,Try base SKU: RH2343SX-R
+FROM_MAPPING_FILE,UR22413.01,UR22413.01-X,,https://introcar-my.sharepoint.com/:v:/p/christian_domini/EYItdslystRLusdKlLp2Ke4B83GwGB2UwIx5tEiyc1mCEQ?e=8F3hIr,Parent SKU not in product database,Try base SKU: UR22413
+UNMATCHED,RD3135KB,,RD3135KB,,No matching product in database,Verify SKU spelling or add product
+KIT_COMBINATION,UV36385PA & UV36386PA,,UV36385PA & UV36386PA,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+VERSION_SUFFIX,PF27287PBKT-03,,PF27287PBKT-03,,Has version suffix but base matches,Will auto-match - no action needed
+UNMATCHED,UD2255614,,UD2255614,,No matching product in database,Verify SKU spelling or add product
+VERSION_SUFFIX,UE73810KT-01,,UE73810KT-01,,Has version suffix and base doesn't match,Verify correct SKU: UE73810KT
+KIT_COMBINATION,UV36384PA & UV36383PA,,UV36384PA & UV36383PA,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+KIT_COMBINATION,UR71624 & UR71625,,UR71624 & UR71625,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+KIT_COMBINATION,CD4820 & CD6223GMF,,CD4820 & CD6223GMF,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+UNMATCHED,PD30984PAPL,,PD30984PAPL,,No matching product in database,Verify SKU spelling or add product
+UNMATCHED,3Z00615301,,3Z00615301,,No matching product in database,Verify SKU spelling or add product
+UNMATCHED,UE43934NF,,UE43934NF.02,,No matching product in database,Verify SKU spelling or add product
+VERSION_SUFFIX,PF27287PBKT-02,,PF27287PBKT-02,,Has version suffix but base matches,Will auto-match - no action needed
+UNMATCHED,PD30985PAPL,,PD30985PAPL,,No matching product in database,Verify SKU spelling or add product
+KIT_COMBINATION,PP20309PA & PP20308PA,,PP20309PA & PP20308PA,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+UNMATCHED,UR73256-7GT,,UR73256-7GT,,No matching product in database,Verify SKU spelling or add product
+UNMATCHED,PD57492PDGT,,PD57492PDGT.01,,No matching product in database,Verify SKU spelling or add product
+PLACEHOLDER,SEARCH PART NUMBER,,Search part number,,Placeholder folder,Remove or rename to valid SKU
+UNMATCHED,PD109054PAPL,,PD109054PAPL,,No matching product in database,Verify SKU spelling or add product
+VERSION_SUFFIX,UR73257GT-01,,UR73257GT-01,,Has version suffix and base doesn't match,Verify correct SKU: UR73257GT
+UNMATCHED,PD109055PAPL,,PD109055PAPL,,No matching product in database,Verify SKU spelling or add product
+UNMATCHED,07C9195296L,,07C9195296L,,No matching product in database,Verify SKU spelling or add product
+KIT_COMBINATION,FW1926-27KIT,,FW1926-27KIT,,Kit product,Verify kit SKU exists or rename
+PLACEHOLDER,TO EDIT,,To Edit,,Placeholder folder,Remove or rename to valid SKU
+KIT_COMBINATION,3Z7857588 & 3Z7857587,,3Z7857588 & 3Z7857587,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+UNMATCHED,RH2343SX,,RH2343SX,,No matching product in database,Verify SKU spelling or add product
+VERSION_SUFFIX,RH8889-1-3,,RH8889-1-3,,Has version suffix and base doesn't match,Verify correct SKU: RH8889-1
+VERSION_SUFFIX,UD13209-10,,UD13209-10,,Has version suffix but base matches,Will auto-match - no action needed
+VERSION_SUFFIX,3D2819619-20,,3D2819619-20,,Has version suffix and base doesn't match,Verify correct SKU: 3D2819619
+VERSION_SUFFIX,3W0839397-8,,3W0839397-8,,Has version suffix and base doesn't match,Verify correct SKU: 3W0839397
+VERSION_SUFFIX,UG13564-5,,UG13564-5,,Has version suffix but base matches,Will auto-match - no action needed
+VERSION_SUFFIX,RH9162-10,,RH9162-10,,Has version suffix but base matches,Will auto-match - no action needed
+VERSION_SUFFIX,UR22413-01,,UR22413-01,,Has version suffix but base matches,Will auto-match - no action needed
+KIT_COMBINATION,PR55888PB.01 & PR55888PB,,PR55888PB.01 & PR55888PB,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+KIT_COMBINATION,UE37810 & UE46097,,UE37810 & UE46097,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+KIT_COMBINATION,RH9143 & UE30193,,RH9143 & UE30193,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+KIT_COMBINATION,RE22997 & RE19011,,RE22997 & RE19011,,Shows multiple parts together,Rename folder to primary SKU or split into separate entries
+UNMATCHED,UV10712CVCHR,,UV10712CVCHR,,No matching product in database,Verify SKU spelling or add product
+VERSION_SUFFIX,UE73812KT-01,,UE73812KT-01,,Has version suffix and base doesn't match,Verify correct SKU: UE73812KT
