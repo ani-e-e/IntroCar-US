@@ -178,7 +178,7 @@ export default function OriginalEquipmentPage() {
               <ul className="space-y-3">
                 {['Parts identification assistance', 'Chassis-specific guidance', 'Technical documentation', 'Worldwide shipping'].map((item) => (
                   <li key={item} className="flex items-center gap-2 text-gray-300">
-                    <CheckCircle className="w-4 h-4 text-introcar-gold" />
+                    <CheckCircle className="w-4 h-4 text-white" />
                     {item}
                   </li>
                 ))}
@@ -186,7 +186,7 @@ export default function OriginalEquipmentPage() {
             </div>
             <div className="text-center">
               <div className="inline-block p-8 bg-white/5 rounded-2xl">
-                <Clock className="w-16 h-16 text-introcar-gold mx-auto mb-4" />
+                <Clock className="w-16 h-16 text-white mx-auto mb-4" />
                 <div className="text-4xl font-display font-light mb-2">38+</div>
                 <div className="text-gray-400">Years of Expertise</div>
               </div>

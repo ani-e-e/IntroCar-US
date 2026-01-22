@@ -57,7 +57,7 @@ export default function PrestigePartsPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
-              <Star className="w-4 h-4 text-introcar-gold" />
+              <Star className="w-4 h-4 text-white" />
               <span className="text-sm font-medium">Our Exclusive Range</span>
             </div>
             <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
@@ -70,7 +70,7 @@ export default function PrestigePartsPage() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/products?stockType=Prestige+Parts"
-                className="inline-flex items-center px-6 py-3 bg-introcar-gold text-white font-medium rounded-full hover:bg-introcar-gold/90 transition-colors"
+                className="inline-flex items-center px-6 py-3 bg-white text-introcar-blue font-medium rounded-full hover:bg-introcar-light transition-colors"
               >
                 Shop Prestige Parts®
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -184,7 +184,7 @@ export default function PrestigePartsPage() {
             </p>
             <Link
               href="/products?stockType=Prestige+Parts"
-              className="inline-flex items-center px-6 py-3 bg-introcar-gold text-white font-medium rounded-full hover:bg-introcar-gold/90 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-introcar-light transition-colors"
             >
               Browse Prestige Parts®
               <ArrowRight className="w-5 h-5 ml-2" />

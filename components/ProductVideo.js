@@ -163,7 +163,7 @@ export default function ProductVideo({ sku, parentSku }) {
 
         {/* Badge */}
         <div className="absolute top-4 left-4">
-          <span className="px-3 py-1.5 bg-introcar-gold text-white text-xs font-bold rounded-full shadow-lg">
+          <span className="px-3 py-1.5 bg-introcar-blue text-white text-xs font-bold rounded-full shadow-lg">
             TURNTABLE VIDEO
           </span>
         </div>

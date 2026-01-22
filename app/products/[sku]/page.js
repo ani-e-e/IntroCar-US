@@ -157,7 +157,7 @@ export default function ProductPage({ params }) {
           <div>
             <div className="flex flex-wrap gap-2 mb-4">
               {isPrestige && (
-                <span className="px-3 py-1 bg-introcar-gold/20 text-introcar-gold rounded-full text-sm font-medium">
+                <span className="px-3 py-1 bg-introcar-blue/10 text-introcar-blue rounded-full text-sm font-medium">
                   Prestige Parts®
                 </span>
               )}
@@ -177,7 +177,7 @@ export default function ProductPage({ params }) {
             <p className="text-gray-500 mb-6">Part Number: {product.sku} | Ref: {product.parentSku}</p>
 
             {product.price && (
-              <div className="text-3xl font-bold text-introcar-gold mb-6">
+              <div className="text-3xl font-bold text-introcar-charcoal mb-6">
                 ${product.price.toFixed(2)}
               </div>
             )}
@@ -212,14 +212,14 @@ export default function ProductPage({ params }) {
 
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="flex items-center gap-3 p-4 bg-introcar-light rounded-xl border border-gray-200">
-                <Truck className="w-5 h-5 text-introcar-gold" />
+                <Truck className="w-5 h-5 text-introcar-blue" />
                 <div>
                   <p className="text-introcar-charcoal text-sm font-medium">Fast Shipping</p>
                   <p className="text-gray-500 text-xs">Worldwide delivery</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 bg-introcar-light rounded-xl border border-gray-200">
-                <Shield className="w-5 h-5 text-introcar-gold" />
+                <Shield className="w-5 h-5 text-introcar-blue" />
                 <div>
                   <p className="text-introcar-charcoal text-sm font-medium">3-Year Warranty</p>
                   <p className="text-gray-500 text-xs">On Prestige Parts</p>
@@ -227,7 +227,7 @@ export default function ProductPage({ params }) {
               </div>
             </div>
 
-            <button className="w-full py-4 bg-introcar-gold text-white font-bold rounded-xl hover:bg-introcar-gold/90 transition-colors mb-4">
+            <button className="w-full py-4 bg-introcar-blue text-white font-bold rounded-xl hover:bg-introcar-blue/90 transition-colors mb-4">
               Add to Cart
             </button>
 

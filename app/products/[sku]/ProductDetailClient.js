@@ -90,9 +90,9 @@ export default function ProductDetailClient({ sku }) {
         <div className="bg-introcar-dark border-b border-gray-800">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <nav className="flex items-center gap-2 text-sm flex-wrap">
-              <Link href="/" className="text-gray-400 hover:text-introcar-gold">Home</Link>
+              <Link href="/" className="text-gray-400 hover:text-introcar-blue">Home</Link>
               <span className="text-gray-600">/</span>
-              <Link href="/products" className="text-gray-400 hover:text-introcar-gold">Parts Catalogue</Link>
+              <Link href="/products" className="text-gray-400 hover:text-introcar-blue">Parts Catalogue</Link>
               <span className="text-gray-600">/</span>
               <span className="text-white">{product.sku}</span>
             </nav>
@@ -123,7 +123,7 @@ export default function ProductDetailClient({ sku }) {
               {/* Badges */}
               <div className="flex flex-wrap gap-2 mt-4">
                 {product.isPrestige && (
-                  <span className="bg-introcar-gold text-introcar-dark text-sm font-bold px-3 py-1 rounded">
+                  <span className="bg-introcar-blue text-white text-sm font-bold px-3 py-1 rounded">
                     PRESTIGE PARTS®
                   </span>
                 )}
@@ -146,7 +146,7 @@ export default function ProductDetailClient({ sku }) {
 
               {/* Price */}
               <div className="flex items-baseline gap-3 mb-6">
-                <span className="text-4xl font-bold text-introcar-gold">${product.price.toLocaleString()}</span>
+                <span className="text-4xl font-bold text-introcar-charcoal">${product.price.toLocaleString()}</span>
                 {product.originalPrice && (
                   <>
                     <span className="text-xl text-gray-500 line-through">${product.originalPrice.toLocaleString()}</span>
@@ -175,12 +175,12 @@ export default function ProductDetailClient({ sku }) {
 
               {/* Warranty */}
               {product.warranty && (
-                <div className="bg-introcar-gold/10 border border-introcar-gold/30 rounded-lg p-4 mb-6">
+                <div className="bg-introcar-blue/10 border border-introcar-blue/30 rounded-lg p-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
-                    <span className="text-introcar-gold font-medium">{product.warranty}</span>
+                    <span className="text-introcar-blue font-medium">{product.warranty}</span>
                   </div>
                 </div>
               )}
@@ -207,14 +207,14 @@ export default function ProductDetailClient({ sku }) {
                   disabled={!product.inStock}
                   className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all ${
                     product.inStock
-                      ? 'bg-introcar-gold text-introcar-dark hover:bg-introcar-gold-light'
+                      ? 'bg-introcar-blue text-white hover:bg-introcar-blue/90'
                       : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                   }`}
                 >
                   {product.inStock ? 'Add to Cart' : 'Out of Stock'}
                 </button>
 
-                <button className="p-3 border border-gray-700 rounded-lg text-gray-400 hover:text-introcar-gold hover:border-introcar-gold transition-colors">
+                <button className="p-3 border border-gray-700 rounded-lg text-gray-400 hover:text-introcar-blue hover:border-introcar-blue transition-colors">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
@@ -224,7 +224,7 @@ export default function ProductDetailClient({ sku }) {
               {/* Quick info */}
               <div className="grid grid-cols-2 gap-4 py-6 border-t border-gray-800">
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                   </svg>
                   <div>
@@ -233,7 +233,7 @@ export default function ProductDetailClient({ sku }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                   <div>
@@ -242,7 +242,7 @@ export default function ProductDetailClient({ sku }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <div>
@@ -251,7 +251,7 @@ export default function ProductDetailClient({ sku }) {
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <svg className="w-5 h-5 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
                   <div>
@@ -272,7 +272,7 @@ export default function ProductDetailClient({ sku }) {
                   onClick={() => setActiveTab(tab)}
                   className={`px-6 py-4 font-medium capitalize transition-colors ${
                     activeTab === tab
-                      ? 'text-introcar-gold border-b-2 border-introcar-gold'
+                      ? 'text-introcar-blue border-b-2 border-introcar-blue'
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -305,7 +305,7 @@ export default function ProductDetailClient({ sku }) {
                   <ul className="space-y-2">
                     {(product.compatibility || []).map((vehicle, index) => (
                       <li key={index} className="flex items-center gap-2 text-gray-300">
-                        <svg className="w-4 h-4 text-introcar-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-4 h-4 text-introcar-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                         {vehicle}
