@@ -116,13 +116,15 @@ export default function Header({ cartCount = 0 }) {
         <div className="container-wide">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-3 shrink-0">
-              <div className="flex items-center">
-                <div className="w-10 h-10 border-2 border-introcar-blue rounded-full flex items-center justify-center mr-2">
-                  <span className="text-introcar-blue font-bold text-sm">IC</span>
-                </div>
-                <span className="text-2xl font-display font-light text-introcar-blue tracking-wide">IntroCar</span>
-              </div>
+            <Link href="/" className="flex items-center shrink-0">
+              <Image
+                src="/images/logos/introcar-logo.png"
+                alt="IntroCar - Rolls-Royce & Bentley Parts Specialists"
+                width={180}
+                height={60}
+                className="h-12 w-auto"
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}

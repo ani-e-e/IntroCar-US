@@ -94,14 +94,22 @@ export default function HomePage() {
               <Link
                 key={category.name}
                 href={category.href}
-                className="group relative bg-white border border-gray-200 rounded-xl p-6 text-center hover:border-introcar-blue hover:shadow-lg transition-all duration-300"
+                className="group relative bg-white border border-gray-200 rounded-xl overflow-hidden hover:border-introcar-blue hover:shadow-lg transition-all duration-300"
               >
-                <div className="w-14 h-14 mx-auto mb-4 bg-introcar-light rounded-xl flex items-center justify-center group-hover:bg-introcar-blue/10 transition-colors">
-                  <Icon className="w-7 h-7 text-introcar-blue" />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h3 className="text-white font-medium text-lg drop-shadow-md">
+                      {category.name}
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="text-introcar-charcoal font-medium group-hover:text-introcar-blue transition-colors">
-                  {category.name}
-                </h3>
               </Link>
             );
           })}
@@ -216,15 +224,12 @@ export default function HomePage() {
           </div>
           <div className="relative">
             <div className="aspect-square bg-introcar-light rounded-2xl overflow-hidden border border-gray-200">
-              {/* Placeholder for company image */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center p-8">
-                  <div className="w-24 h-24 mx-auto mb-4 border-2 border-introcar-blue rounded-full flex items-center justify-center">
-                    <span className="text-4xl font-display font-light text-introcar-blue">IC</span>
-                  </div>
-                  <p className="text-gray-500">Family owned since 1988</p>
-                </div>
-              </div>
+              <Image
+                src="/images/logos/introcar-icon.png"
+                alt="IntroCar - Family owned since 1988"
+                fill
+                className="object-contain p-8"
+              />
             </div>
           </div>
         </div>

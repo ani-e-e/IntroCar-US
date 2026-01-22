@@ -1,6 +1,7 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Shield, Award, CheckCircle, ArrowRight, Wrench, Clock, Truck, Star } from 'lucide-react';
 
 export const metadata = {
@@ -140,14 +141,16 @@ export default function PrestigePartsPage() {
                 ))}
               </ul>
             </div>
-            <div className="bg-introcar-light rounded-2xl p-8 border border-gray-200">
+            <div className="bg-white rounded-2xl p-8 border border-gray-200">
               <div className="text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-introcar-blue rounded-full flex items-center justify-center">
-                  <span className="text-2xl font-bold text-white">PP</span>
+                <div className="relative w-48 h-24 mx-auto mb-6">
+                  <Image
+                    src="/images/logos/prestige-parts-logo.png"
+                    alt="Prestige Parts®"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
-                <h3 className="text-xl font-display text-introcar-charcoal mb-2">
-                  Prestige Parts®
-                </h3>
                 <p className="text-gray-500 text-sm mb-6">
                   The trusted choice for quality-conscious owners
                 </p>
