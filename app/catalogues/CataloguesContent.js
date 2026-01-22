@@ -6,7 +6,64 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
+
+// Catalogue card component with image error handling
+function CatalogueCard({ catalogue }) {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <Link
+      href={`/catalogues/${encodeURIComponent(catalogue.id)}`}
+      className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/3] bg-introcar-light">
+        {catalogue.imageUrl && !imageError ? (
+          <Image
+            src={catalogue.imageUrl}
+            alt={catalogue.title}
+            fill
+            className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            unoptimized
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-gray-400">
+            <ImageOff className="w-12 h-12 mb-2" />
+            <span className="text-xs">Diagram unavailable</span>
+          </div>
+        )}
+        {/* Parts count badge */}
+        <div className="absolute bottom-2 right-2 bg-introcar-blue text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+          <Package className="w-3 h-3" />
+          {catalogue.hotspotCount} parts
+        </div>
+      </div>
+
+      {/* Info */}
+      <div className="p-4">
+        <h3 className="text-introcar-charcoal font-medium line-clamp-2 group-hover:text-introcar-blue transition-colors">
+          {catalogue.title}
+        </h3>
+        {/* Metadata */}
+        <div className="mt-2 flex flex-wrap gap-1">
+          {catalogue.makes?.map(make => (
+            <span key={make} className="text-xs px-2 py-0.5 bg-introcar-light rounded text-gray-600">
+              {make}
+            </span>
+          ))}
+          {catalogue.category && (
+            <span className="text-xs px-2 py-0.5 bg-introcar-blue/10 rounded text-introcar-blue">
+              {catalogue.category}
+            </span>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export default function CataloguesContent() {
   const searchParams = useSearchParams();
@@ -22,9 +79,11 @@ export default function CataloguesContent() {
   const currentMake = searchParams.get('make') || '';
   const currentModel = searchParams.get('model') || '';
   const currentCategory = searchParams.get('category') || '';
+  const currentChassis = searchParams.get('chassis') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
 
   const [localSearch, setLocalSearch] = useState(currentSearch);
+  const [localChassis, setLocalChassis] = useState(currentChassis);
 
   const fetchCatalogues = useCallback(async () => {
     setLoading(true);
@@ -34,6 +93,7 @@ export default function CataloguesContent() {
       if (currentMake) params.set('make', currentMake);
       if (currentModel) params.set('model', currentModel);
       if (currentCategory) params.set('category', currentCategory);
+      if (currentChassis) params.set('chassis', currentChassis);
       params.set('page', currentPage.toString());
       params.set('limit', '24');
 
@@ -49,7 +109,7 @@ export default function CataloguesContent() {
     } finally {
       setLoading(false);
     }
-  }, [currentSearch, currentMake, currentModel, currentCategory, currentPage]);
+  }, [currentSearch, currentMake, currentModel, currentCategory, currentChassis, currentPage]);
 
   useEffect(() => {
     fetchCatalogues();
@@ -84,6 +144,7 @@ export default function CataloguesContent() {
 
   function clearFilters() {
     router.push('/catalogues');
+    setLocalChassis('');
   }
 
   function goToPage(page) {
@@ -93,7 +154,19 @@ export default function CataloguesContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentCategory;
+  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentChassis;
+
+  function handleChassisSearch(e) {
+    e.preventDefault();
+    const params = new URLSearchParams(searchParams);
+    if (localChassis) {
+      params.set('chassis', localChassis);
+    } else {
+      params.delete('chassis');
+    }
+    params.set('page', '1');
+    router.push(`/catalogues?${params.toString()}`);
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -116,6 +189,12 @@ export default function CataloguesContent() {
               <>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-introcar-charcoal">{currentCategory}</span>
+              </>
+            )}
+            {currentChassis && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-blue font-medium">Chassis {currentChassis}</span>
               </>
             )}
           </nav>
@@ -223,6 +302,30 @@ export default function CataloguesContent() {
                 </div>
               </div>
 
+              {/* Chassis Number Filter */}
+              <div>
+                <h3 className="text-introcar-charcoal font-medium mb-3">Chassis Number</h3>
+                <form onSubmit={handleChassisSearch} className="space-y-2">
+                  <input
+                    type="text"
+                    placeholder="Enter 5-digit chassis..."
+                    value={localChassis}
+                    onChange={(e) => setLocalChassis(e.target.value.replace(/\D/g, '').slice(0, 5))}
+                    className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal placeholder-gray-400 focus:outline-none focus:border-introcar-blue text-sm font-mono text-center"
+                    maxLength={5}
+                  />
+                  <button
+                    type="submit"
+                    className="w-full py-2 bg-introcar-blue text-white text-sm rounded-lg hover:bg-introcar-blue/90 transition-colors"
+                  >
+                    Filter by Chassis
+                  </button>
+                </form>
+                <p className="text-xs text-gray-500 mt-2">
+                  Enter your chassis number to show only catalogues relevant to your vehicle.
+                </p>
+              </div>
+
               {hasFilters && (
                 <button
                   onClick={clearFilters}
@@ -327,6 +430,12 @@ export default function CataloguesContent() {
                     <button onClick={() => setFilter('category', '')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
+                {currentChassis && (
+                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-blue/10 rounded-full text-sm text-introcar-blue font-medium">
+                    Chassis: {currentChassis}
+                    <button onClick={() => { setFilter('chassis', ''); setLocalChassis(''); }}><X className="w-3 h-3" /></button>
+                  </span>
+                )}
               </div>
             )}
 
@@ -354,54 +463,7 @@ export default function CataloguesContent() {
             {!loading && catalogues.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {catalogues.map((catalogue) => (
-                  <Link
-                    key={catalogue.id}
-                    href={`/catalogues/${encodeURIComponent(catalogue.id)}`}
-                    className="group bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
-                  >
-                    {/* Image */}
-                    <div className="relative aspect-[4/3] bg-introcar-light">
-                      {catalogue.imageUrl ? (
-                        <Image
-                          src={catalogue.imageUrl}
-                          alt={catalogue.title}
-                          fill
-                          className="object-contain p-2 group-hover:scale-105 transition-transform duration-300"
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          unoptimized
-                        />
-                      ) : (
-                        <div className="flex items-center justify-center h-full">
-                          <BookOpen className="w-16 h-16 text-gray-300" />
-                        </div>
-                      )}
-                      {/* Parts count badge */}
-                      <div className="absolute bottom-2 right-2 bg-introcar-blue text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                        <Package className="w-3 h-3" />
-                        {catalogue.hotspotCount} parts
-                      </div>
-                    </div>
-
-                    {/* Info */}
-                    <div className="p-4">
-                      <h3 className="text-introcar-charcoal font-medium line-clamp-2 group-hover:text-introcar-blue transition-colors">
-                        {catalogue.title}
-                      </h3>
-                      {/* Metadata */}
-                      <div className="mt-2 flex flex-wrap gap-1">
-                        {catalogue.makes?.map(make => (
-                          <span key={make} className="text-xs px-2 py-0.5 bg-introcar-light rounded text-gray-600">
-                            {make}
-                          </span>
-                        ))}
-                        {catalogue.category && (
-                          <span className="text-xs px-2 py-0.5 bg-introcar-blue/10 rounded text-introcar-blue">
-                            {catalogue.category}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </Link>
+                  <CatalogueCard key={catalogue.id} catalogue={catalogue} />
                 ))}
               </div>
             )}

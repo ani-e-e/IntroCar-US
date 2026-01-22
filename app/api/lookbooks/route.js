@@ -13,8 +13,9 @@ export async function GET(request) {
     const make = searchParams.get('make') || '';
     const model = searchParams.get('model') || '';
     const category = searchParams.get('category') || '';
+    const chassis = searchParams.get('chassis') || '';
 
-    const result = getLookbooks({ page, limit, search, make, model, category });
+    const result = getLookbooks({ page, limit, search, make, model, category, chassis });
 
     return NextResponse.json(result);
   } catch (error) {
