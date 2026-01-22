@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, AlertCircle, SlidersHorizontal, Grid, List, Package, Car, Tag } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Info, SlidersHorizontal, Grid, List, Package, Car, Tag } from 'lucide-react';
 
 // Collapsible filter section component
 function FilterSection({ title, icon: Icon, defaultOpen = true, children, count }) {
@@ -388,22 +388,11 @@ export default function ProductsContent() {
               </div>
             </div>
 
-            {supersessionMatch && (
-              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+            {(supersessionMatch || searchType === 'variant') && currentSearch && (
+              <div className="mb-6 p-4 bg-introcar-blue/5 border border-introcar-blue/20 rounded-xl flex items-start gap-3">
+                <Info className="w-5 h-5 text-introcar-blue shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-introcar-charcoal font-medium">Superseded Part Number</p>
-                  <p className="text-gray-600 text-sm">"{supersessionMatch.oldSku}" has been replaced. Showing current parts.</p>
-                </div>
-              </div>
-            )}
-
-            {searchType === 'variant' && currentSearch && (
-              <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-introcar-charcoal font-medium">Showing all variants for "{currentSearch}"</p>
-                  <p className="text-gray-600 text-sm">Results include all suffix variants (e.g., -X, -A, -U)</p>
+                  <p className="text-introcar-charcoal font-medium">Showing all related parts for "{currentSearch}"</p>
                 </div>
               </div>
             )}
