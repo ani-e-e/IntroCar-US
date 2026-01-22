@@ -14,6 +14,7 @@ module.exports = {
           'blue': '#182155',           // Secondary - Royal Blue
           'light': '#EFEFEF',          // Tertiary - Light grey
           'white': '#FFFFFF',          // Background
+          'gold': '#B8860B',           // Accent - Gold for CTAs
         }
       },
       fontFamily: {
