@@ -10,7 +10,7 @@ export default function HeroSlider() {
       {/* Background Image - Desktop */}
       <div className="absolute inset-0 hidden md:block">
         <Image
-          src="/images/hero/top-banner.webp"
+          src="/images/hero/Stock Image_Bentley.webp"
           alt="Rolls-Royce & Bentley Parts"
           fill
           className="object-cover"
@@ -21,10 +21,10 @@ export default function HeroSlider() {
       {/* Background Image - Mobile */}
       <div className="absolute inset-0 md:hidden">
         <Image
-          src="/images/hero/top-banner-mobile.webp"
+          src="/images/hero/Stock Image_Bentley.webp"
           alt="Rolls-Royce & Bentley Parts"
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
         />
       </div>

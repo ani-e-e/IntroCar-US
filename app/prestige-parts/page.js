@@ -60,7 +60,7 @@ export default function PrestigePartsPage() {
               <Star className="w-4 h-4 text-white" />
               <span className="text-sm font-medium">Our Exclusive Range</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-4">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-4">
               Prestige Parts<sup>®</sup>
             </h1>
             <p className="text-2xl text-white font-light mb-4">Heritage Meets Innovation</p>
@@ -184,7 +184,7 @@ export default function PrestigePartsPage() {
       <section className="py-16 bg-introcar-charcoal text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl font-display font-light mb-4">
+            <h2 className="text-3xl font-display font-light text-white mb-4">
               No Longer Available from the Factory?
             </h2>
             <p className="text-gray-300 mb-8">

@@ -89,7 +89,7 @@ export default function TestimonialsPage() {
               </div>
               <span className="text-sm font-medium">Rated Excellent</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-6">
               Customer Reviews
             </h1>
             <p className="text-xl text-white/80 leading-relaxed">

@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import Link from 'next/link';
+import Image from 'next/image';
 import { ExternalLink, Calendar, ArrowRight } from 'lucide-react';
 
 export const metadata = {
@@ -8,41 +8,61 @@ export const metadata = {
   description: 'Latest news, articles, and updates from IntroCar about Rolls-Royce and Bentley parts, restorations, and the community.',
 };
 
-// Placeholder blog posts - would be fetched from Magento/Amasty Blog API
 const blogPosts = [
   {
-    title: 'New USA Tariffs on UK Auto Parts: What You Need to Know',
-    excerpt: 'Important information about recent changes to US import tariffs and how they may affect your parts orders.',
-    date: 'January 2026',
-    category: 'News',
-    url: 'https://www.introcar.com/blog/new-usa-tariffs-on-uk-auto-parts-what-you-need-to-know',
+    title: 'Assembling the UG2747-X Rear Wheel Cylinder for Bentley S1 and Rolls-Royce Silver Cloud I',
+    excerpt: 'A detailed guide on assembling the rear wheel cylinder for classic Bentley S1 and Rolls-Royce Silver Cloud I models.',
+    date: 'December 2024',
+    category: 'Technical',
+    image: '/images/blog/blog-assembling-wheel-cylinders.webp',
+    url: 'https://www.introcar.com/blog/assembling-the-ug2747-x-rear-wheel-cylinder-for-bentley-s1-and-rolls-royce-silver-cloud-i',
   },
   {
-    title: 'Spectre Bailey: A Rolls-Royce Commission Born from Loyalty and Love',
-    excerpt: 'The story behind an extraordinary bespoke Rolls-Royce creation.',
-    date: 'October 2025',
-    category: 'Feature',
-    url: 'https://www.introcar.com/blog/spectre-bailey-a-rolls-royce-commission-born-from-loyalty-and-love',
+    title: '6 Common Bentley Continental GT Issues (2004-2018) – and the Parts to Fix Them',
+    excerpt: 'Discover the most common problems affecting Bentley Continental GT models and the replacement parts available to resolve them.',
+    date: 'November 2024',
+    category: 'Technical',
+    image: '/images/blog/blog-6-common-issues-continental-gt.webp',
+    url: 'https://www.introcar.com/blog/6-common-bentley-continental-gt-issues-20042018--and-the-parts-to-fix-them',
   },
   {
-    title: 'Vibrant in Violette: A Modern Revival of a Classic Bentley Hue',
-    excerpt: 'Exploring the return of a beloved heritage color in the modern Bentley range.',
-    date: 'October 2025',
-    category: 'Feature',
-    url: 'https://www.introcar.com/blog/vibrant-in-violette-a-modern-revival-of-a-classic-bentley-hue',
+    title: "Own a Classic Rolls-Royce or Bentley? Don't Ignore These 5 Common Issues",
+    excerpt: 'Essential maintenance advice for classic Rolls-Royce and Bentley owners - the key issues to watch out for and how to address them.',
+    date: 'October 2024',
+    category: 'Technical',
+    image: '/images/blog/blog-own-a-classic-roller.webp',
+    url: 'https://www.introcar.com/blog/own-a-classic-rolls-royce-or-bentley-dont-ignore-these-5-common-issues',
   },
   {
     title: 'Supplying The Golden Roller: A Conversation Between Passion and Precision',
-    excerpt: 'Behind the scenes of a remarkable restoration project.',
+    excerpt: 'Behind the scenes of a remarkable restoration project and how IntroCar helped bring this stunning golden Rolls-Royce back to life.',
     date: 'October 2025',
     category: 'Feature',
+    image: '/images/blog/blog-supplying-golden-roller.webp',
     url: 'https://www.introcar.com/blog/supplying-the-golden-roller--a-conversation-between-passion-and-precision',
   },
   {
-    title: 'Prestige Parts: Developing Rolls-Royce and Bentley Parts 1945-Present',
-    excerpt: 'The history and development of our exclusive Prestige Parts® range.',
+    title: 'New Rolls-Royce & Bentley Parts Update – April 2025',
+    excerpt: 'The latest additions to our catalogue including new Prestige Parts releases and hard-to-find components now back in stock.',
+    date: 'April 2025',
+    category: 'News',
+    image: '/images/blog/blog-product-updates.webp',
+    url: 'https://www.introcar.com/blog/new-rolls-royce-bentley-parts-update-april-2025',
+  },
+  {
+    title: 'Mulsanne Replacement Chrome Door Handle: How-To Guide & Video Tutorial',
+    excerpt: 'Step-by-step instructions and video tutorial for replacing the chrome door handle on Bentley Mulsanne models.',
+    date: 'September 2024',
+    category: 'How-To',
+    image: '/images/blog/blog-chrome-door-handle.webp',
+    url: 'https://www.introcar.com/blog/mulsanne-replacement-chrome-door-handle-how-to-guide-video-tutorial',
+  },
+  {
+    title: 'Inside Prestige Parts: Developing Rolls-Royce and Bentley Parts 1945-Present',
+    excerpt: 'The history and development of our exclusive Prestige Parts® range - how we engineer quality aftermarket components for classic and modern marques.',
     date: 'September 2025',
-    category: 'Technical',
+    category: 'Feature',
+    image: '/images/blog/blog-inside-prestige-parts.webp',
     url: 'https://www.introcar.com/blog/prestige-parts-developing-rolls-royce-and-bentley-parts-1945-present',
   },
 ];
@@ -59,7 +79,7 @@ export default function BlogPage() {
             <span className="inline-block px-4 py-1.5 bg-white/10 text-white text-sm font-medium rounded-full mb-6">
               News & Articles
             </span>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-6">
               Blog
             </h1>
             <p className="text-xl text-white/80 leading-relaxed">
@@ -82,9 +102,14 @@ export default function BlogPage() {
                 rel="noopener noreferrer"
                 className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-introcar-blue transition-all group"
               >
-                {/* Placeholder image */}
-                <div className="aspect-video bg-introcar-light flex items-center justify-center">
-                  <div className="text-4xl font-display text-introcar-blue/20">IC</div>
+                {/* Blog Image */}
+                <div className="aspect-video relative overflow-hidden bg-introcar-light">
+                  <Image
+                    src={post.image}
+                    alt={post.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 <div className="p-6">
                   <div className="flex items-center gap-3 mb-3">

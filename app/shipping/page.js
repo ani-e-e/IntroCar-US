@@ -44,7 +44,7 @@ export default function ShippingPage() {
               <Truck className="w-8 h-8" />
               <span className="text-sm font-medium uppercase tracking-wider">Shipping</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-6">
               Delivery & Shipping
             </h1>
             <p className="text-xl text-white/80 leading-relaxed">

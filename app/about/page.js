@@ -30,16 +30,16 @@ export default function AboutPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-introcar-blue to-introcar-charcoal text-white py-20">
+      <section className="bg-gradient-to-br from-introcar-blue to-introcar-charcoal text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
-            <span className="inline-block px-4 py-1.5 bg-white/10 text-white text-sm font-medium rounded-full mb-6">
+            <span className="inline-block px-4 py-1.5 bg-white/10 text-white text-sm font-medium rounded-full mb-4">
               Our Story
             </span>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-4">
               About IntroCar
             </h1>
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-lg text-white/90 leading-relaxed">
               The leading international supplier of Rolls-Royce & Bentley parts,
               serving a global community of enthusiasts and specialists who share our
               passion for keeping the world's most beautiful cars on the road.
@@ -110,13 +110,16 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-introcar-light rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center">
-                <Image
-                  src="/images/logos/introcar-icon.png"
-                  alt="IntroCar"
-                  width={300}
-                  height={300}
-                  className="object-contain"
+              <div className="aspect-video bg-introcar-light rounded-2xl overflow-hidden border border-gray-200 shadow-lg">
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src="https://www.youtube.com/embed/Jp-uqufYyvA?rel=0"
+                  title="IntroCar - Heritage Meets Innovation"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
                 />
               </div>
             </div>
@@ -165,13 +168,25 @@ export default function AboutPage() {
             <p className="text-gray-500 mb-8">
               We're proud members of leading industry organizations
             </p>
-            <div className="flex flex-wrap justify-center gap-8 text-gray-600">
+            <div className="flex flex-wrap justify-center items-center gap-12">
               <div className="text-center">
-                <div className="text-lg font-medium">RRBSA</div>
+                <Image
+                  src="/images/logos/RRBSA.png"
+                  alt="Rolls-Royce Bentley Specialist Association"
+                  width={180}
+                  height={100}
+                  className="mx-auto mb-3 object-contain"
+                />
                 <div className="text-sm text-gray-500">Rolls-Royce Bentley Specialist Association</div>
               </div>
               <div className="text-center">
-                <div className="text-lg font-medium">HCVA</div>
+                <Image
+                  src="/images/logos/HCVA Member.jpg"
+                  alt="Historic and Classic Vehicles Alliance"
+                  width={180}
+                  height={100}
+                  className="mx-auto mb-3 object-contain"
+                />
                 <div className="text-sm text-gray-500">Historic and Classic Vehicles Alliance</div>
               </div>
             </div>

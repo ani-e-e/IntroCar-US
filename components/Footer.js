@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Phone, Mail, MapPin, Youtube, Facebook, Twitter, Linkedin } from 'lucide-react';
 
 export default function Footer() {
@@ -36,10 +37,14 @@ export default function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
             {/* Logo & About */}
             <div className="col-span-2 md:col-span-1">
-              <Link href="/" className="flex items-center gap-2 mb-4">
-                <div className="w-10 h-10 border-2 border-white rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-sm">IC</span>
-                </div>
+              <Link href="/" className="flex items-center gap-3 mb-4">
+                <Image
+                  src="/images/logos/introcar-icon.png"
+                  alt="IntroCar"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12"
+                />
                 <div>
                   <span className="text-lg font-display font-light text-white">IntroCar</span>
                   <span className="block text-xs text-gray-300 uppercase tracking-wider">USA</span>
@@ -49,14 +54,18 @@ export default function Footer() {
                 The Registered Home of Prestige Parts®
               </p>
               <div className="space-y-2 text-sm">
-                <a href="tel:+15551234567" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                <a href="tel:+442085462027" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
                   <Phone className="w-4 h-4" />
-                  +1 (555) 123-4567
+                  +44 (0)20 8546 2027
                 </a>
-                <a href="mailto:usa@introcar.com" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
+                <a href="mailto:sales@introcar.com" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
                   <Mail className="w-4 h-4" />
-                  usa@introcar.com
+                  sales@introcar.com
                 </a>
+                <div className="flex items-start gap-2 text-gray-300 pt-2">
+                  <MapPin className="w-4 h-4 mt-0.5 shrink-0" />
+                  <span>Units C & D The Pavilions,<br />2 East Road, Wimbledon,<br />London SW19 1UW</span>
+                </div>
               </div>
             </div>
 

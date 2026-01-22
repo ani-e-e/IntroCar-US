@@ -64,7 +64,7 @@ export default function OriginalEquipmentPage() {
               <Factory className="w-4 h-4" />
               <span className="text-sm font-medium">Factory Quality</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-6">
               Original Equipment
             </h1>
             <p className="text-xl text-white/80 mb-8 leading-relaxed">
@@ -167,7 +167,7 @@ export default function OriginalEquipmentPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-display font-light mb-4">
+              <h2 className="text-3xl font-display font-light text-white mb-4">
                 Expert Knowledge & Support
               </h2>
               <p className="text-gray-300 mb-6">

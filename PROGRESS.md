@@ -105,11 +105,23 @@ All footer links now have working pages:
 - `app/cart/page.js` - Cart page with shipping integration
 
 ### Files Modified Today
-- `app/page.js` - Added HeroSlider, Trust bar
-- `components/Footer.js` - Made Trustpilot widget clickable
-- `app/prestige-parts/page.js` - Updated branding, added Uprated button
+- `app/page.js` - Added HeroSlider, Trust bar, category images, part options images, YouTube video
+- `components/Footer.js` - Made Trustpilot widget clickable, added actual IC logo, updated contact info
+- `app/prestige-parts/page.js` - Updated branding, added Uprated button, fixed h1/h2 text-white
 - `app/products/ProductsContent.js` - Reordered filters with FilterSection
 - `app/layout.js` - Added CartProvider context wrapper
+- `app/about/page.js` - Added YouTube video, reduced padding, fixed text colors
+- `app/contact/page.js` - Updated address, reduced padding, fixed text colors
+- `app/testimonials/page.js` - Fixed h1 text-white
+- `app/community/page.js` - Fixed h1 text-white
+- `app/technical/page.js` - Fixed h1 text-white
+- `app/specialists/page.js` - Fixed h1 text-white
+- `app/blog/page.js` - Fixed h1 text-white
+- `app/shipping/page.js` - Fixed h1 text-white
+- `app/original-equipment/page.js` - Fixed h1/h2 text-white
+- `app/terms/page.js` - Added comprehensive legal content, fixed h1 text-white
+- `app/privacy/page.js` - Added comprehensive GDPR/CCPA-compliant content, fixed h1 text-white
+- `components/HeroSlider.js` - Changed to single banner with responsive images
 
 ### Questions Answered
 - **Payments (#5)**: Stripe ✓
@@ -214,4 +226,105 @@ c4ba877 Add missing introcar-gold color to Tailwind config
 
 ---
 
-*Last updated: January 22, 2026 - 7:15 PM*
+*Last updated: January 22, 2026 - 9:30 PM*
+
+---
+
+## Session Continuation (Jan 22 - Evening)
+
+### Additional Updates Completed
+
+#### 7. UI Polish & Text Color Fixes
+Fixed grey header text appearing on navy/dark background panels across all CMS pages:
+- Added explicit `text-white` class to all h1 elements in hero sections
+- Fixed h2 elements in dark sections (Prestige Parts NLA, Original Equipment expertise)
+- Pages updated: prestige-parts, testimonials, community, technical, specialists, blog, shipping, original-equipment, terms, privacy
+
+#### 8. Homepage Image Integration
+- Updated categories array with new category images (10 categories)
+- Added images to part options cards with hover zoom effect
+- Changed category grid from 4 to 5 columns for 10 items
+- HeroSlider now uses single responsive banner (top-banner.webp / top-banner-mobile.webp)
+
+#### 9. Footer & Contact Info Updates
+- Replaced IC placeholder logo with actual `/images/logos/introcar-icon.png`
+- Updated phone: +44 (0)20 8546 2027
+- Updated email: sales@introcar.com
+- Added full address: Units C & D The Pavilions, 2 East Road, Wimbledon, London SW19 1UW
+
+#### 10. Legal Pages - Full Content
+- **Terms & Conditions**: 14 comprehensive sections covering orders, payments, shipping, returns, warranty, liability, IP, governing law
+- **Privacy Policy**: 15 sections with GDPR and CCPA compliance, data controller info, cookie policy, user rights
+
+### Images Added by User
+- `/public/images/hero/top-banner.webp` - Desktop hero banner
+- `/public/images/hero/top-banner-mobile.webp` - Mobile hero banner
+- `/public/images/categories/cat-01-body.webp` through `cat-10-steering.webp` - 10 category images
+- `/public/images/part-options/original-crewe-genuine.webp`
+- `/public/images/part-options/prestige-parts.webp`
+- `/public/images/part-options/reconditioned-exchange-recycled.webp`
+
+### Pending Items (User to Provide)
+- ~~Higher quality hero image (current one may be low resolution)~~ ✅ Added `Stock Image_Bentley.webp`
+- ~~RRBSA and HCVA logos for About page~~ ✅ Added `RRBSA.png` and `HCVA Member.jpg`
+- ~~Blog post images (currently showing IC placeholder)~~ ✅ Added 7 blog images
+
+### Contact Information (Confirmed)
+```
+IntroCar Ltd
+Units C & D The Pavilions
+2 East Road, Wimbledon
+London SW19 1UW
+United Kingdom
+
+Tel: +44 (0)20 8546 2027
+Email: sales@introcar.com
+Company Registration: 02105867
+VAT: 468638789
+```
+
+---
+
+## Session Continuation (Jan 22 - Late Evening)
+
+### Additional Updates Completed
+
+#### 11. Association Logos Added to About Page
+- Added RRBSA logo (`/images/logos/RRBSA.png`) to "Proud Members" section
+- Added HCVA logo (`/images/logos/HCVA Member.jpg`) to "Proud Members" section
+- Logos displayed with proper sizing and captions
+
+#### 12. New High-Quality Hero Image
+- Updated HeroSlider to use new `Stock Image_Bentley.webp` (2.5MB, high quality)
+- Replaced previous low-resolution banner
+- Image used for both desktop and mobile (responsive object-fit)
+
+### Files Modified
+- `app/about/page.js` - Added Image imports for RRBSA and HCVA logos in Memberships section
+- `components/HeroSlider.js` - Updated to use new Bentley stock image
+
+### New Images Added
+- `/public/images/logos/RRBSA.png` - RRBSA membership logo
+- `/public/images/logos/HCVA Member.jpg` - HCVA membership logo
+- `/public/images/hero/Stock Image_Bentley.webp` - High-quality Bentley hero image
+
+#### 13. Blog Page Updated with Real Content
+Updated blog page with 7 actual IntroCar blog posts with images:
+1. Assembling Wheel Cylinders (Technical)
+2. 6 Common Issues - Continental GT (Technical)
+3. Own a Classic Roller (Technical)
+4. Supplying the Golden Roller (Feature)
+5. Product Updates April 2025 (News)
+6. Chrome Door Handle How-To (How-To)
+7. Inside Prestige Parts (Feature)
+
+### Blog Images Added
+- `/public/images/blog/blog-assembling-wheel-cylinders.webp`
+- `/public/images/blog/blog-6-common-issues-continental-gt.webp`
+- `/public/images/blog/blog-own-a-classic-roller.webp`
+- `/public/images/blog/blog-supplying-golden-roller.webp`
+- `/public/images/blog/blog-product-updates.webp`
+- `/public/images/blog/blog-chrome-door-handle.webp`
+- `/public/images/blog/blog-inside-prestige-parts.webp`
+
+*Last updated: January 22, 2026 - 10:15 PM*

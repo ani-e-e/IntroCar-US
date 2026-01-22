@@ -13,13 +13,13 @@ export default function ContactPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-introcar-blue to-introcar-charcoal text-white py-16">
+      <section className="bg-gradient-to-br from-introcar-blue to-introcar-charcoal text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-display font-light mb-6">
+            <h1 className="text-4xl md:text-5xl font-display font-light text-white mb-4">
               Contact Us
             </h1>
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-lg text-white/90 leading-relaxed">
               Our parts specialists are here to help. Get in touch for expert advice
               on finding the right parts for your Rolls-Royce or Bentley.
             </p>
@@ -168,11 +168,15 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-medium text-introcar-charcoal mb-2">IntroCar UK Headquarters</h3>
                     <p className="text-gray-600">
-                      Unit 5, Tolworth Tower<br />
-                      Ewell Road<br />
-                      Surbiton<br />
-                      Surrey KT6 7EL<br />
+                      Units C & D The Pavilions<br />
+                      2 East Road<br />
+                      Wimbledon<br />
+                      London SW19 1UW<br />
                       United Kingdom
+                    </p>
+                    <p className="text-sm text-gray-500 mt-3">
+                      Company Registration Number 02105867<br />
+                      VAT no. 468638789
                     </p>
                   </div>
                 </div>
