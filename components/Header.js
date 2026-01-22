@@ -120,9 +120,9 @@ export default function Header({ cartCount = 0 }) {
               <Image
                 src="/images/logos/introcar-logo.png"
                 alt="IntroCar - Rolls-Royce & Bentley Parts Specialists"
-                width={220}
-                height={70}
-                className="h-14 md:h-16 w-auto"
+                width={280}
+                height={90}
+                className="h-16 md:h-[70px] w-auto"
                 priority
               />
             </Link>
