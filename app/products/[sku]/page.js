@@ -150,7 +150,7 @@ export default function ProductPage({ params }) {
             </div>
 
             {/* Product Video */}
-            <ProductVideo sku={product.sku} />
+            <ProductVideo sku={product.sku} parentSku={product.parentSku} />
           </div>
 
           {/* Details */}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX, Maximize, RotateCw } from 'lucide-react';
 
-export default function ProductVideo({ sku }) {
+export default function ProductVideo({ sku, parentSku }) {
   const [videoData, setVideoData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,7 +14,13 @@ export default function ProductVideo({ sku }) {
   useEffect(() => {
     async function fetchVideo() {
       try {
-        const res = await fetch(`/api/videos/${encodeURIComponent(sku)}`);
+        // Build URL with parentSku if available (videos are keyed by parent SKU)
+        let url = `/api/videos/${encodeURIComponent(sku)}`;
+        if (parentSku) {
+          url += `?parentSku=${encodeURIComponent(parentSku)}`;
+        }
+
+        const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
           if (data.hasVideo) {
@@ -31,7 +37,7 @@ export default function ProductVideo({ sku }) {
     if (sku) {
       fetchVideo();
     }
-  }, [sku]);
+  }, [sku, parentSku]);
 
   const togglePlay = () => {
     if (videoRef.current) {

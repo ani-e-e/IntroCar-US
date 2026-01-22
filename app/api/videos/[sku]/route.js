@@ -31,15 +31,38 @@ function normalizeSku(sku) {
 
 export async function GET(request, { params }) {
   const { sku } = params;
+  const { searchParams } = new URL(request.url);
+  const parentSku = searchParams.get('parentSku');
   const index = loadVideoIndex();
 
-  // Try exact match first
-  let videoData = index[sku.toUpperCase()];
+  let videoData = null;
+
+  // Videos are typically keyed by PARENT SKU, so try that first
+  if (parentSku) {
+    videoData = index[parentSku.toUpperCase()];
+
+    // Try normalized parent SKU
+    if (!videoData) {
+      const normalizedParent = normalizeSku(parentSku);
+      videoData = index[normalizedParent];
+    }
+  }
+
+  // Fall back to trying the product SKU directly
+  if (!videoData) {
+    videoData = index[sku.toUpperCase()];
+  }
 
   // Try normalized match
   if (!videoData) {
     const normalizedSku = normalizeSku(sku);
     videoData = index[normalizedSku];
+  }
+
+  // Try stripping version suffixes like .01, -01, -03
+  if (!videoData) {
+    const baseSku = sku.toUpperCase().replace(/[\.-]\d+$/, '');
+    videoData = index[baseSku];
   }
 
   // Try without common prefixes

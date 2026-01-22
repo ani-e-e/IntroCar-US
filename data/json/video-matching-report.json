@@ -1,0 +1,286 @@
+{
+  "generatedAt": "2026-01-22T01:37:13.592Z",
+  "summary": {
+    "totalVideos": 803,
+    "matchedToParentSku": 749,
+    "unmatchedTotal": 54
+  },
+  "matched": {
+    "count": 749,
+    "note": "These videos will display on all variant products sharing the parent SKU"
+  },
+  "unmatched": {
+    "kitCombinations": {
+      "count": 12,
+      "items": [
+        {
+          "videoSku": "UV36385PA & UV36386PA",
+          "folder": "UV36385PA & UV36386PA"
+        },
+        {
+          "videoSku": "UV36384PA & UV36383PA",
+          "folder": "UV36384PA & UV36383PA"
+        },
+        {
+          "videoSku": "UR71624 & UR71625",
+          "folder": "UR71624 & UR71625"
+        },
+        {
+          "videoSku": "CD4820 & CD6223GMF",
+          "folder": "CD4820 & CD6223GMF"
+        },
+        {
+          "videoSku": "PP20309PA & PP20308PA",
+          "folder": "PP20309PA & PP20308PA"
+        },
+        {
+          "videoSku": "FW1926-27KIT",
+          "folder": "FW1926-27KIT"
+        },
+        {
+          "videoSku": "3Z7857588 & 3Z7857587",
+          "folder": "3Z7857588 & 3Z7857587"
+        },
+        {
+          "videoSku": "UR4952-53KIT",
+          "folder": "UR4952-53KIT"
+        },
+        {
+          "videoSku": "PR55888PB.01 & PR55888PB",
+          "folder": "PR55888PB.01 & PR55888PB"
+        },
+        {
+          "videoSku": "UE37810 & UE46097",
+          "folder": "UE37810 & UE46097"
+        },
+        {
+          "videoSku": "RH9143 & UE30193",
+          "folder": "RH9143 & UE30193"
+        },
+        {
+          "videoSku": "RE22997 & RE19011",
+          "folder": "RE22997 & RE19011"
+        }
+      ],
+      "recommendation": "These show multiple parts together. Consider linking to all component SKUs or picking one primary SKU."
+    },
+    "editPlaceholders": {
+      "count": 2,
+      "items": [
+        {
+          "videoSku": "SEARCH PART NUMBER",
+          "folder": "Search part number"
+        },
+        {
+          "videoSku": "TO EDIT",
+          "folder": "To Edit"
+        }
+      ],
+      "recommendation": "These folders should be renamed to valid SKUs or removed from Turntable."
+    },
+    "versionSuffixes": {
+      "count": 16,
+      "items": [
+        {
+          "videoSku": "UD22715PM.01",
+          "folder": "UD22715PM.01",
+          "baseSku": "UD22715PM",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "PF27287PBKT-03",
+          "folder": "PF27287PBKT-03",
+          "baseSku": "PF27287PBKT",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UE73810KT-01",
+          "folder": "UE73810KT-01",
+          "baseSku": "UE73810KT",
+          "wouldMatch": false
+        },
+        {
+          "videoSku": "PF27287PBKT-02",
+          "folder": "PF27287PBKT-02",
+          "baseSku": "PF27287PBKT",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UG13562-3",
+          "folder": "UG13562-3",
+          "baseSku": "UG13562",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UR73257GT-01",
+          "folder": "UR73257GT-01",
+          "baseSku": "UR73257GT",
+          "wouldMatch": false
+        },
+        {
+          "videoSku": "RH8889-1-3",
+          "folder": "RH8889-1-3",
+          "baseSku": "RH8889-1",
+          "wouldMatch": false
+        },
+        {
+          "videoSku": "UD13209-10",
+          "folder": "UD13209-10",
+          "baseSku": "UD13209",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UG13552-3",
+          "folder": "UG13552-3",
+          "baseSku": "UG13552",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "3D2819619-20",
+          "folder": "3D2819619-20",
+          "baseSku": "3D2819619",
+          "wouldMatch": false
+        },
+        {
+          "videoSku": "3W0839397-8",
+          "folder": "3W0839397-8",
+          "baseSku": "3W0839397",
+          "wouldMatch": false
+        },
+        {
+          "videoSku": "UG13564-5",
+          "folder": "UG13564-5",
+          "baseSku": "UG13564",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "07V103147.01",
+          "folder": "07V103147.01",
+          "baseSku": "07V103147",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "RH9162-10",
+          "folder": "RH9162-10",
+          "baseSku": "RH9162",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UR22413-01",
+          "folder": "UR22413-01",
+          "baseSku": "UR22413",
+          "wouldMatch": true
+        },
+        {
+          "videoSku": "UE73812KT-01",
+          "folder": "UE73812KT-01",
+          "baseSku": "UE73812KT",
+          "wouldMatch": false
+        }
+      ],
+      "recommendation": "Update video lookup to strip suffixes, or rename folders to match exactly."
+    },
+    "other": {
+      "count": 24,
+      "items": [
+        {
+          "videoSku": "UR18082SXR",
+          "folder": "UR18082SXR"
+        },
+        {
+          "videoSku": "UE39519SXR",
+          "folder": "UE39519SXR"
+        },
+        {
+          "videoSku": "RD3135KB",
+          "folder": "RD3135KB"
+        },
+        {
+          "videoSku": "UD2255614",
+          "folder": "UD2255614"
+        },
+        {
+          "videoSku": "PD30984PAPL",
+          "folder": "PD30984PAPL"
+        },
+        {
+          "videoSku": "3Z00615301",
+          "folder": "3Z00615301"
+        },
+        {
+          "videoSku": "UE43934NF",
+          "folder": "UE43934NF.02"
+        },
+        {
+          "videoSku": "PD30985PAPL",
+          "folder": "PD30985PAPL"
+        },
+        {
+          "videoSku": "CD5999GMFSXR",
+          "folder": "CD5999GMFSXR"
+        },
+        {
+          "videoSku": "UR73256-7GT",
+          "folder": "UR73256-7GT"
+        },
+        {
+          "videoSku": "PD57492PDGT",
+          "folder": "PD57492PDGT.01"
+        },
+        {
+          "videoSku": "PD109054PAPL",
+          "folder": "PD109054PAPL"
+        },
+        {
+          "videoSku": "PD109055PAPL",
+          "folder": "PD109055PAPL"
+        },
+        {
+          "videoSku": "07C9195296L",
+          "folder": "07C9195296L"
+        },
+        {
+          "videoSku": "UE37583SXR",
+          "folder": "UE37583SXR"
+        },
+        {
+          "videoSku": "UR13269SA2",
+          "folder": "UR13269SA2"
+        },
+        {
+          "videoSku": "RH2343SX",
+          "folder": "RH2343SX"
+        },
+        {
+          "videoSku": "COIL3CPUSH",
+          "folder": "COIL3CPUSH"
+        },
+        {
+          "videoSku": "COIL3BPUSH",
+          "folder": "COIL3BPUSH"
+        },
+        {
+          "videoSku": "GRH453",
+          "folder": "GRH453"
+        },
+        {
+          "videoSku": "COIL1.5CPUSH",
+          "folder": "COIL1.5CPUSH"
+        },
+        {
+          "videoSku": "COIL1.5BPUSH",
+          "folder": "COIL1.5BPUSH"
+        },
+        {
+          "videoSku": "SPM1534PL",
+          "folder": "SPM1534PL"
+        },
+        {
+          "videoSku": "UV10712CVCHR",
+          "folder": "UV10712CVCHR"
+        }
+      ],
+      "recommendation": "Manually verify these SKUs exist in the product database."
+    }
+  }
+}
