@@ -8,14 +8,16 @@ import HeroSlider from '@/components/HeroSlider';
 
 // Category data
 const categories = [
-  { name: 'Body', icon: Car, href: '/products?category=Body', image: '/images/categories/body.jpg' },
-  { name: 'Brakes & Hydraulics', icon: Gauge, href: '/products?category=Brakes', image: '/images/categories/brakes.jpg' },
-  { name: 'Cooling System', icon: Droplets, href: '/products?category=Cooling', image: '/images/categories/cooling.jpg' },
-  { name: 'Electrical & Ignition', icon: Zap, href: '/products?category=Electrical', image: '/images/categories/electrical.jpg' },
-  { name: 'Engine', icon: Settings, href: '/products?category=Engine', image: '/images/categories/engine.jpg' },
-  { name: 'Exhaust', icon: Flame, href: '/products?category=Exhaust', image: '/images/categories/exhaust.jpg' },
-  { name: 'Fuel System', icon: Filter, href: '/products?category=Fuel', image: '/images/categories/fuel.jpg' },
-  { name: 'Service & Maintenance', icon: Wrench, href: '/products?category=Service', image: '/images/categories/service.jpg' },
+  { name: 'Body', icon: Car, href: '/products?category=Body', image: '/images/categories/cat-01-body.webp' },
+  { name: 'Brakes & Hydraulics', icon: Gauge, href: '/products?category=Brakes', image: '/images/categories/cat-02-brakes.webp' },
+  { name: 'Cooling System', icon: Droplets, href: '/products?category=Cooling', image: '/images/categories/cat-03-cooling.webp' },
+  { name: 'Differential', icon: Settings, href: '/products?category=Differential', image: '/images/categories/cat-04-differential.webp' },
+  { name: 'Electrical & Ignition', icon: Zap, href: '/products?category=Electrical', image: '/images/categories/cat-05-electrical.webp' },
+  { name: 'Engine', icon: Settings, href: '/products?category=Engine', image: '/images/categories/cat-06-engine.webp' },
+  { name: 'Exhaust', icon: Flame, href: '/products?category=Exhaust', image: '/images/categories/cat-07-exhaust.webp' },
+  { name: 'Fuel System', icon: Filter, href: '/products?category=Fuel', image: '/images/categories/cat-08-fuel.webp' },
+  { name: 'Service & Maintenance', icon: Wrench, href: '/products?category=Service', image: '/images/categories/cat-09-service.webp' },
+  { name: 'Steering', icon: Gauge, href: '/products?category=Steering', image: '/images/categories/cat-10-steering.webp' },
 ];
 
 // Part options
@@ -25,6 +27,7 @@ const partOptions = [
     description: 'Original Equipment (OE) components sourced from Bentley Motors or their appointed agents.',
     href: '/products?stockType=Original+Equipment',
     badge: 'OE',
+    image: '/images/part-options/original-crewe-genuine.webp',
   },
   {
     title: 'Prestige Parts® Branded',
@@ -32,12 +35,14 @@ const partOptions = [
     href: '/products?stockType=Prestige+Parts',
     badge: 'PP',
     featured: true,
+    image: '/images/part-options/prestige-parts.webp',
   },
   {
     title: 'Reconditioned & Recycled',
     description: 'Components restored to full working order, tested, roadworthy & supplied with warranty.',
     href: '/products?stockType=Reconditioned+Exchange',
     badge: 'RC',
+    image: '/images/part-options/reconditioned-exchange-recycled.webp',
   },
 ];
 
@@ -92,7 +97,7 @@ export default function HomePage() {
           <p className="text-gray-500">Browse our extensive range of parts by category</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
@@ -134,35 +139,42 @@ export default function HomePage() {
               <Link
                 key={option.title}
                 href={option.href}
-                className={`relative p-8 rounded-2xl border transition-all duration-300 group ${
+                className={`relative rounded-2xl border transition-all duration-300 group overflow-hidden ${
                   option.featured
                     ? 'bg-white border-introcar-blue shadow-lg'
                     : 'bg-white border-gray-200 hover:border-gray-300 hover:shadow-lg'
                 }`}
               >
                 {option.featured && (
-                  <div className="absolute -top-3 left-6">
+                  <div className="absolute top-4 left-4 z-10">
                     <span className="badge badge-prestige">Recommended</span>
                   </div>
                 )}
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${
-                  option.featured ? 'bg-introcar-blue text-white' : 'bg-introcar-light text-introcar-charcoal'
-                }`}>
-                  <span className="font-bold">{option.badge}</span>
+                {/* Image */}
+                <div className="relative aspect-[16/9] overflow-hidden">
+                  <Image
+                    src={option.image}
+                    alt={option.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <h3 className={`text-xl font-display font-light mb-3 ${
-                  option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'
-                }`}>
-                  {option.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed">
-                  {option.description}
-                </p>
-                <div className="mt-6 flex items-center text-sm font-medium group-hover:gap-2 transition-all uppercase tracking-wider">
-                  <span className={option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'}>
-                    Shop Now
-                  </span>
-                  <ArrowRight className={`w-4 h-4 ml-1 ${option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'}`} />
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className={`text-xl font-display font-light mb-3 ${
+                    option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'
+                  }`}>
+                    {option.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {option.description}
+                  </p>
+                  <div className="mt-4 flex items-center text-sm font-medium group-hover:gap-2 transition-all uppercase tracking-wider">
+                    <span className={option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'}>
+                      Shop Now
+                    </span>
+                    <ArrowRight className={`w-4 h-4 ml-1 ${option.featured ? 'text-introcar-blue' : 'text-introcar-charcoal'}`} />
+                  </div>
                 </div>
               </Link>
             ))}
