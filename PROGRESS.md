@@ -328,3 +328,269 @@ Updated blog page with 7 actual IntroCar blog posts with images:
 - `/public/images/blog/blog-inside-prestige-parts.webp`
 
 *Last updated: January 22, 2026 - 10:15 PM*
+
+---
+
+## Session Continuation (Jan 22 - Night)
+
+### Additional Updates Completed
+
+#### 14. Terms & Conditions - Actual Content from IntroCar.com
+- Replaced generated placeholder content with actual legal terms from introcar.com/terms_conditions
+- 19 comprehensive sections covering all business terms
+- Includes: Application, Definitions, Goods, Price and Payment, Delivery, Export Terms, Risk & Title, Warranties, Claims, Returns, Force Majeure, IP, Confidentiality, Assignment, Data Protection, Severance, Variations, Third Party Rights, and Governing Law
+
+#### 15. Privacy Policy - Actual Content from IntroCar.com
+- Replaced generated placeholder content with actual privacy policy from introcar.com/privacy_policy
+- 41 comprehensive clauses covering all GDPR/CCPA requirements
+- Includes: Definitions, Data Collected, Cookies, Data Use, Disclosure, Security, Retention, User Rights, Minors, Marketing, and Contact Information
+
+#### 16. Catalogue System Improvements
+- **Renamed "Lookbook" to "Catalogue" globally** throughout the codebase
+- Created new `/api/catalogues` API endpoints (replacing `/api/lookbooks`)
+- Added `getCatalogues()` and `getCatalogueById()` functions in data-server.js
+- **Catalogues without images are now excluded** - the image IS the catalogue, no point showing empty placeholders
+- Updated CataloguesContent.js and CatalogueDetailContent.js to use new API
+
+#### 17. Lookbook Stock Type Removed from Products
+- **Lookbook/Catalogue items no longer appear in product results** - they're technical diagrams, not products for sale
+- Excluded from `filterProducts()` function
+- Excluded from `getStockTypes()` function - won't appear in Part Type filter
+- This prevents "out of stock" lookbooks appearing alongside actual products
+
+#### 18. Shop by Model - Vehicle Selector
+- Changed "Shop by Model" navigation link to open vehicle finder dropdown
+- Now both "Vehicle Part Finder" and "Shop by Model" open the same Make/Model/Year selector
+- Provides better UX - customers can filter by vehicle before seeing products
+
+#### 19. Catalogue Filter Improvements
+- Removed redundant "All Makes", "All Models", "All Categories" buttons
+- Filters are now toggleable (click again to deselect)
+- Filter priority: Make → Model → Category
+- Cleaner, more intuitive UI
+
+#### 20. NLA Date Format Fix
+- Fixed date format from "1st September 2014" to "Sep 2014"
+- Updated `formatNLADate()` function to properly parse text dates with ordinals
+- Displays as: "Bentley NLA since: Sep 2014"
+
+#### 21. Search Result Messaging - Positive Tone
+- Removed redundant "Superseded Part Number" notice (customer entered the part number, they know what they searched)
+- Changed "Showing all variants for..." (warning tone) to "Showing all related parts for..." (helpful tone)
+- Updated styling from amber/warning to blue/informative
+- Results showing variants is a POSITIVE - customer sees all options
+
+### Files Created
+- `app/api/catalogues/route.js` - New catalogues API endpoint
+- `app/api/catalogues/[id]/route.js` - Catalogue detail API endpoint
+
+### Files Modified
+- `lib/data-server.js` - Added getCatalogues(), getCatalogueById(), excluded Lookbook stock type from products
+- `app/catalogues/CataloguesContent.js` - Removed "All" buttons, toggle filters, use new API
+- `app/catalogues/[id]/CatalogueDetailContent.js` - Use new catalogues API
+- `app/terms/page.js` - Actual IntroCar legal content
+- `app/privacy/page.js` - Actual IntroCar privacy policy
+- `components/Header.js` - Shop by Model opens vehicle selector
+- `app/products/[sku]/page.js` - Fixed NLA date format
+- `app/products/ProductsContent.js` - Improved search result messaging
+
+### Git Commits
+```
+0821c05 Improve search result messaging - positive tone
+8f8a1c4 Exclude imageless catalogues, remove Lookbook from products, fix NLA date format
+230d3e1 Update Terms & Privacy with actual IntroCar legal content
+```
+
+*Last updated: January 22, 2026 - 11:45 PM*
+
+---
+
+## 📋 ACTION PLAN & TODO LIST
+
+### ✅ COMPLETED
+| # | Task | Status |
+|---|------|--------|
+| 1 | Hero images with slider | ✅ Done |
+| 2 | CMS pages (10 pages created) | ✅ Done |
+| 3 | Trustpilot links integration | ✅ Done |
+| 4 | Filter reordering (Category → Part Type → Vehicle) | ✅ Done |
+| 5 | Shipping matrix (USA DHL rates) | ✅ Done |
+| 6 | Cart system with shipping | ✅ Done |
+| 7 | Terms & Conditions (actual content) | ✅ Done |
+| 8 | Privacy Policy (actual content) | ✅ Done |
+| 9 | Rename Lookbook to Catalogue | ✅ Done |
+| 10 | Exclude imageless catalogues | ✅ Done |
+| 11 | Remove Lookbook from product results | ✅ Done |
+| 12 | Shop by Model vehicle selector | ✅ Done |
+| 13 | NLA date format (Sep 2014) | ✅ Done |
+| 14 | Search messaging improvements | ✅ Done |
+| 15 | Blog with real content & images | ✅ Done |
+| 16 | Association logos (RRBSA, HCVA) | ✅ Done |
+| 17 | Catalogue images - 100% coverage | ✅ Done |
+| 18 | Image rename - URL-friendly slugs | ✅ Done |
+| 19 | Cloudinary CDN upload | ✅ Done |
+
+### 🔄 IN PROGRESS / NEXT UP
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 20 | Stripe payments integration | 🔴 High | Provider confirmed - need to implement checkout |
+| 21 | Customer login/authentication | 🔴 High | Required for account features |
+| 22 | Address/postcode lookup (US) | 🟡 Medium | For checkout |
+
+### 📝 BACKLOG
+| # | Task | Priority | Notes |
+|---|------|----------|-------|
+| 23 | Chassis range filtering refinement | 🟡 Medium | Partially done, needs testing |
+| 24 | Magento webhook integration | 🟡 Medium | Share order data |
+| 25 | Document SKU data update process | 🟡 Medium | How to update descriptions, images, inventory |
+| 26 | Model page rich text/information | 🟡 Medium | Add content to model pages |
+| 27 | Customer vehicle matching | 🟢 Low | Save customer's car for personalized results |
+| 28 | Discount pricing tiers | 🟢 Low | Specialists/resellers pricing |
+| 29 | Security documentation | 🟢 Low | Document security measures |
+| 30 | Khaos Control integration | 🟢 Low | ERP integration |
+
+### 🎯 RECOMMENDED NEXT STEPS
+
+1. **Stripe Payments** - Implement checkout flow with Stripe
+   - Add Stripe SDK
+   - Create checkout page
+   - Handle payment intents
+   - Order confirmation
+
+2. **Customer Authentication** - User accounts
+   - Login/Register forms
+   - Password reset
+   - Session management
+   - My Account page
+
+3. **Complete Checkout Flow**
+   - Shipping address form
+   - Billing address
+   - Order review
+   - Payment processing
+   - Confirmation email
+
+---
+
+## Technical Summary
+
+### Current Architecture
+- **Framework**: Next.js 14 (App Router)
+- **Styling**: Tailwind CSS with custom IntroCar theme
+- **Data**: Server-side JSON files (products, vehicles, catalogues)
+- **State**: React Context (CartContext)
+- **Hosting**: Vercel (auto-deploy from GitHub)
+
+### Key API Endpoints
+| Endpoint | Purpose |
+|----------|---------|
+| `/api/products` | Product search & filtering |
+| `/api/products/[sku]` | Product detail |
+| `/api/catalogues` | Catalogue listing |
+| `/api/catalogues/[id]` | Catalogue detail |
+| `/api/shipping` | Shipping rate calculation |
+| `/api/vehicles` | Vehicle data for selectors |
+
+### Brand Colors
+- Primary: `introcar-blue` (#1e3a5f)
+- Text: `introcar-charcoal` (#2d2d2d)
+- Background: `introcar-light` (#f8f9fa)
+
+---
+
+*This document is updated after each development session to maintain continuity.*
+
+---
+
+## Session: January 23, 2026
+
+### Catalogue Images - 100% Coverage Achievement
+
+This session focused entirely on achieving 100% catalogue image coverage. Started with 72.8% coverage (4,991 of 6,856 catalogues had local images), ended with 100%.
+
+#### Challenge Overview
+The existing `lookbooks.json` data referenced image files that had inconsistent naming conventions from the Magento CMS:
+- Some used numeric IDs: `1472547778-93351200.jpg`
+- Some used Magento-suffixed names: `1472547778-93351200_vnegbbckontqdse1.jpg`
+- Some used descriptive names: `abs_unit_continental_gt_2004.jpg`
+- Server URLs needed encoding: `ABS%20UNIT,%20Continental%20GT%202004.jpg`
+
+#### Solution Steps
+
+##### 1. CSV Data Processing
+- Processed `lookbooks_imagelinks_3.csv` (6,870 rows) mapping SKUs to image filenames
+- Fixed Windows line ending issues (CRLF → LF)
+- Handled quoted SKUs containing commas (e.g., `"ABS Modulator, Continental GT (2004)"`)
+
+##### 2. Web Scraping for Missing Images
+- Created `scripts/scrape-image-urls.js`
+- Visited each catalogue's CMS page on introcar.com
+- Extracted actual image URLs from page HTML
+- Downloaded 1,040 previously missing images
+
+##### 3. Image Renaming to URL-Friendly Names
+- Created `scripts/rename-images.js`
+- Converts titles to slugs: `ABS Modulator (2004-2013) | Continental...` → `abs-modulator-2004-2013-continental.jpg`
+- Handles shared images (multiple catalogues can reference the same image)
+- Generates unique filenames for duplicates with numeric suffixes
+
+##### 4. Cloudinary CDN Upload
+- Created `scripts/upload-to-cloudinary.js`
+- Uploads all 6,849 catalogue images to Cloudinary
+- Updates `lookbooks.json` with Cloudinary CDN URLs
+- Provides fast global delivery for catalogue images
+
+#### Files Created
+
+**Scripts:**
+- `scripts/scrape-image-urls.js` - Scrapes actual image URLs from CMS pages
+- `scripts/rename-images.js` - Renames images to URL-friendly slugs
+- `scripts/upload-to-cloudinary.js` - Uploads images to Cloudinary CDN
+- `scripts/download-remaining-images.js` - Downloads images with filename variations
+
+**Data/Reference Files:**
+- `image-mapping.csv` - Complete SKU → filename → URL mapping
+- `image-rename-mapping.csv` - Old filename → new filename mapping
+- `lookbooks-to-check.json` - Catalogues needing image scraping
+- `cloudinary-mapping.json` - Local → Cloudinary URL mapping
+
+#### Files Modified
+- `data/json/lookbooks.json` - Updated with Cloudinary CDN image URLs
+- `README.md` - Added completion status for image tasks
+
+#### Final Results
+| Metric | Value |
+|--------|-------|
+| Total catalogues | 6,856 |
+| Local images | 6,849 |
+| Image coverage | 100% |
+| Unique image files | ~4,200 |
+| Cloudinary upload | In progress |
+
+#### Technical Notes
+
+**Slug Generation Function:**
+```javascript
+function toSlug(title) {
+  return title
+    .toLowerCase()
+    .replace(/[|]/g, '-')           // Replace | with -
+    .replace(/[()]/g, '')           // Remove parentheses
+    .replace(/[,&]/g, '-')          // Replace , and & with -
+    .replace(/[^a-z0-9-]/g, '-')    // Replace non-alphanumeric with -
+    .replace(/-+/g, '-')            // Collapse multiple dashes
+    .replace(/^-|-$/g, '')          // Trim leading/trailing dashes
+    .substring(0, 100);             // Limit length
+}
+```
+
+**Image Extraction Patterns:**
+```javascript
+const patterns = [
+  /src="(\/media\/lookbookslider\/[^"]+)"/i,
+  /src="(https:\/\/www\.introcar\.com\/media\/lookbookslider\/[^"]+)"/i,
+  /data-src="(\/media\/lookbookslider\/[^"]+)"/i,
+];
+```
+
+*Last updated: January 23, 2026*
