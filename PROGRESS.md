@@ -440,14 +440,15 @@ Updated blog page with 7 actual IntroCar blog posts with images:
 ### 📝 BACKLOG
 | # | Task | Priority | Notes |
 |---|------|----------|-------|
-| 23 | Chassis range filtering refinement | 🟡 Medium | Partially done, needs testing |
-| 24 | Magento webhook integration | 🟡 Medium | Share order data |
-| 25 | Document SKU data update process | 🟡 Medium | How to update descriptions, images, inventory |
-| 26 | Model page rich text/information | 🟡 Medium | Add content to model pages |
-| 27 | Customer vehicle matching | 🟢 Low | Save customer's car for personalized results |
-| 28 | Discount pricing tiers | 🟢 Low | Specialists/resellers pricing |
-| 29 | Security documentation | 🟢 Low | Document security measures |
-| 30 | Khaos Control integration | 🟢 Low | ERP integration |
+| 23 | Catalogue chassis differentiation | 🟡 Medium | Show chassis ranges on catalogue cards - needs attribute data from Annika |
+| 24 | Chassis range filtering refinement | 🟡 Medium | Partially done, needs testing |
+| 25 | Magento webhook integration | 🟡 Medium | Share order data |
+| 26 | Document SKU data update process | 🟡 Medium | How to update descriptions, images, inventory |
+| 27 | Model page rich text/information | 🟡 Medium | Add content to model pages |
+| 28 | Customer vehicle matching | 🟢 Low | Save customer's car for personalized results |
+| 29 | Discount pricing tiers | 🟢 Low | Specialists/resellers pricing |
+| 30 | Security documentation | 🟢 Low | Document security measures |
+| 31 | Khaos Control integration | 🟢 Low | ERP integration |
 
 ### 🎯 RECOMMENDED NEXT STEPS
 

@@ -227,7 +227,7 @@ export default function ProductsContent() {
                 </form>
               </div>
 
-              {/* Category - MOVED TO TOP for better visibility */}
+              {/* Category - TOP PRIORITY */}
               <FilterSection title="Category" icon={Package} defaultOpen={true} count={currentCategory ? 1 : 0}>
                 <div className="space-y-1 max-h-64 overflow-y-auto">
                   <button
@@ -271,29 +271,8 @@ export default function ProductsContent() {
                 </div>
               </FilterSection>
 
-              {/* Part Type (Stock Type) - After Category */}
-              <FilterSection title="Part Type" icon={Tag} defaultOpen={true} count={currentStockType ? 1 : 0}>
-                <div className="space-y-1">
-                  <button
-                    onClick={() => setFilter('stockType', '')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentStockType ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                  >
-                    All Types
-                  </button>
-                  {stockTypes.map((type) => (
-                    <button
-                      key={type}
-                      onClick={() => setFilter('stockType', type)}
-                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                    >
-                      {type}
-                    </button>
-                  ))}
-                </div>
-              </FilterSection>
-
-              {/* Vehicle Selection */}
-              <FilterSection title="Vehicle" icon={Car} defaultOpen={!!(currentMake || currentModel)} count={(currentMake ? 1 : 0) + (currentModel ? 1 : 0)}>
+              {/* Vehicle Selection - SECOND PRIORITY */}
+              <FilterSection title="Vehicle" icon={Car} defaultOpen={true} count={(currentMake ? 1 : 0) + (currentModel ? 1 : 0)}>
                 <div className="space-y-3">
                   {/* Make */}
                   <div>
@@ -340,6 +319,27 @@ export default function ProductsContent() {
                       </div>
                     </div>
                   )}
+                </div>
+              </FilterSection>
+
+              {/* Part Type (Stock Type) - THIRD, collapsed by default */}
+              <FilterSection title="Part Type" icon={Tag} defaultOpen={!!currentStockType} count={currentStockType ? 1 : 0}>
+                <div className="space-y-1">
+                  <button
+                    onClick={() => setFilter('stockType', '')}
+                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentStockType ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                  >
+                    All Types
+                  </button>
+                  {stockTypes.map((type) => (
+                    <button
+                      key={type}
+                      onClick={() => setFilter('stockType', type)}
+                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                    >
+                      {type}
+                    </button>
+                  ))}
                 </div>
               </FilterSection>
 

@@ -57,22 +57,9 @@ function CatalogueCard({ catalogue, onImageError }) {
 
       {/* Info */}
       <div className="p-4">
-        <h3 className="text-introcar-charcoal font-medium line-clamp-2 group-hover:text-introcar-blue transition-colors">
+        <h3 className="text-introcar-charcoal font-medium text-sm group-hover:text-introcar-blue transition-colors" title={catalogue.title}>
           {catalogue.title}
         </h3>
-        {/* Metadata */}
-        <div className="mt-2 flex flex-wrap gap-1">
-          {catalogue.makes?.map(make => (
-            <span key={make} className="text-xs px-2 py-0.5 bg-introcar-light rounded text-gray-600">
-              {make}
-            </span>
-          ))}
-          {catalogue.category && (
-            <span className="text-xs px-2 py-0.5 bg-introcar-blue/10 rounded text-introcar-blue">
-              {catalogue.category}
-            </span>
-          )}
-        </div>
       </div>
     </Link>
   );

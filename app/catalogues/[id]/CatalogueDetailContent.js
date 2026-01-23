@@ -95,9 +95,9 @@ export default function CatalogueDetailContent() {
                 className={`relative bg-introcar-light rounded-xl overflow-hidden transition-all cursor-pointer ${imageZoom ? 'aspect-auto' : 'aspect-[4/3]'}`}
                 onClick={() => setImageZoom(!imageZoom)}
               >
-                {catalogue.imageUrl ? (
+                {(catalogue.image || catalogue.imageUrl) ? (
                   <Image
-                    src={catalogue.imageUrl}
+                    src={catalogue.image || catalogue.imageUrl}
                     alt={catalogue.title}
                     fill={!imageZoom}
                     width={imageZoom ? 1200 : undefined}

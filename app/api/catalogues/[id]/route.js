@@ -5,7 +5,8 @@ export const dynamic = 'force-dynamic';
 
 export async function GET(request, { params }) {
   try {
-    const catalogueId = params.id;
+    // Decode the URL-encoded catalogue ID
+    const catalogueId = decodeURIComponent(params.id);
 
     if (!catalogueId) {
       return NextResponse.json({ error: 'Catalogue ID required' }, { status: 400 });

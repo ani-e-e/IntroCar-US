@@ -280,9 +280,15 @@ export default function ProductPage({ params }) {
                 </div>
               )}
               {product.categories && (
-                <div className="flex justify-between py-2 border-b border-gray-200">
-                  <span className="text-gray-500">Category</span>
-                  <span className="text-introcar-charcoal">{product.categories}</span>
+                <div className="col-span-1 md:col-span-2 py-2 border-b border-gray-200">
+                  <span className="text-gray-500 block mb-2">Categories</span>
+                  <div className="flex flex-wrap gap-2">
+                    {product.categories.split('|').map((cat, i) => (
+                      <span key={i} className="text-xs px-2 py-1 bg-white rounded border border-gray-200 text-introcar-charcoal">
+                        {cat.trim()}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               )}
               {product.weight && (
