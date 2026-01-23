@@ -54,7 +54,7 @@ export default function HeroSlider() {
             </Link>
             <Link
               href="/products?make=Bentley"
-              className="inline-flex items-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-medium rounded-full hover:bg-white/20 transition-colors uppercase tracking-wider border border-white/30"
+              className="inline-flex items-center px-8 py-4 bg-introcar-blue text-white font-medium rounded-full hover:bg-introcar-blue/90 transition-colors uppercase tracking-wider"
             >
               Shop Bentley
               <ArrowRight className="w-5 h-5 ml-2" />

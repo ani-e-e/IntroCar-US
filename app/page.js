@@ -32,7 +32,7 @@ const partOptions = [
   {
     title: 'Prestige Parts® Branded',
     description: 'Our exclusive aftermarket range that meets or exceeds OEM specifications. 3-year warranty.',
-    href: '/products?stockType=Prestige+Parts',
+    href: '/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated',
     badge: 'PP',
     featured: true,
     image: '/images/part-options/prestige-parts.webp',

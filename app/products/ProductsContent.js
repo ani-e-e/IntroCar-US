@@ -230,12 +230,6 @@ export default function ProductsContent() {
               {/* Category - TOP PRIORITY */}
               <FilterSection title="Category" icon={Package} defaultOpen={true} count={currentCategory ? 1 : 0}>
                 <div className="space-y-1 max-h-64 overflow-y-auto">
-                  <button
-                    onClick={() => setCategoryFilter('')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                  >
-                    All Categories
-                  </button>
                   {categories.map((cat) => (
                     <div key={cat.name}>
                       <button
@@ -278,12 +272,6 @@ export default function ProductsContent() {
                   <div>
                     <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Make</label>
                     <div className="space-y-1">
-                      <button
-                        onClick={() => setFilter('make', '')}
-                        className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentMake ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                      >
-                        All Makes
-                      </button>
                       {makes.map((make) => (
                         <button
                           key={make}
@@ -301,12 +289,6 @@ export default function ProductsContent() {
                     <div>
                       <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Model</label>
                       <div className="space-y-1 max-h-48 overflow-y-auto">
-                        <button
-                          onClick={() => setFilter('model', '')}
-                          className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentModel ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                        >
-                          All {currentMake} Models
-                        </button>
                         {models.map((model) => (
                           <button
                             key={model}
@@ -325,12 +307,6 @@ export default function ProductsContent() {
               {/* Part Type (Stock Type) - THIRD, collapsed by default */}
               <FilterSection title="Part Type" icon={Tag} defaultOpen={!!currentStockType} count={currentStockType ? 1 : 0}>
                 <div className="space-y-1">
-                  <button
-                    onClick={() => setFilter('stockType', '')}
-                    className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${!currentStockType ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                  >
-                    All Types
-                  </button>
                   {stockTypes.map((type) => (
                     <button
                       key={type}
@@ -437,7 +413,7 @@ export default function ProductsContent() {
                 )}
                 {currentStockType && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
-                    {currentStockType}
+                    {currentStockType.includes(',') ? 'Prestige Parts® Range' : currentStockType}
                     <button onClick={() => setFilter('stockType', '')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
@@ -513,9 +489,6 @@ export default function ProductsContent() {
                   <h3 className="text-introcar-charcoal font-medium">Category</h3>
                 </div>
                 <div className="space-y-1 max-h-56 overflow-y-auto">
-                  <button onClick={() => { setCategoryFilter(''); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${!currentCategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
-                    All Categories
-                  </button>
                   {categories.map((cat) => (
                     <button key={cat.name} onClick={() => { setCategoryFilter(cat.name); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat.name ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
                       {cat.name}
@@ -531,9 +504,9 @@ export default function ProductsContent() {
                   <h3 className="text-introcar-charcoal font-medium">Part Type</h3>
                 </div>
                 <div className="space-y-1">
-                  {['', ...stockTypes].map((type) => (
+                  {stockTypes.map((type) => (
                     <button key={type} onClick={() => { setFilter('stockType', type); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
-                      {type || 'All Types'}
+                      {type}
                     </button>
                   ))}
                 </div>
@@ -546,9 +519,9 @@ export default function ProductsContent() {
                   <h3 className="text-introcar-charcoal font-medium">Vehicle</h3>
                 </div>
                 <div className="space-y-1">
-                  {['', ...makes].map((make) => (
-                    <button key={make} onClick={() => { setFilter('make', make); if (!make) setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
-                      {make || 'All Makes'}
+                  {makes.map((make) => (
+                    <button key={make} onClick={() => { setFilter('make', make); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentMake === make ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                      {make}
                     </button>
                   ))}
                 </div>

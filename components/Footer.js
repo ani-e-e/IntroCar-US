@@ -72,7 +72,7 @@ export default function Footer() {
                 <li><Link href="/about" className="footer-link">About Us</Link></li>
                 <li><Link href="/testimonials" className="footer-link">Testimonials</Link></li>
                 <li><Link href="/blog" className="footer-link">Blog</Link></li>
-                <li><Link href="/prestige-parts" className="footer-link">Prestige Parts® Range</Link></li>
+                <li><Link href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated" className="footer-link">Prestige Parts® Range</Link></li>
               </ul>
             </div>
 
