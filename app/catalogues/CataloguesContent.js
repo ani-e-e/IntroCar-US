@@ -8,10 +8,16 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
 
-// Catalogue card component - shows placeholder if image fails
-function CatalogueCard({ catalogue }) {
+// Catalogue card component - HIDES card if image fails (no image = no catalogue)
+function CatalogueCard({ catalogue, onImageError }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+
+  // If no imageUrl or image failed to load, don't render anything
+  // The image IS the catalogue - without it there's nothing to show
+  if (!catalogue.imageUrl || imageError) {
+    return null;
+  }
 
   return (
     <Link
@@ -20,20 +26,23 @@ function CatalogueCard({ catalogue }) {
     >
       {/* Image */}
       <div className="relative aspect-[4/3] bg-introcar-light">
-        {catalogue.imageUrl && !imageError ? (
-          <Image
-            src={catalogue.imageUrl}
-            alt={catalogue.title}
-            fill
-            className={`object-contain p-2 group-hover:scale-105 transition-transform duration-300 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-            unoptimized
-            onError={() => setImageError(true)}
-            onLoad={() => setImageLoaded(true)}
-          />
-        ) : (
+        <Image
+          src={catalogue.imageUrl}
+          alt={catalogue.title}
+          fill
+          className={`object-contain p-2 group-hover:scale-105 transition-transform duration-300 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          unoptimized
+          onError={() => {
+            setImageError(true);
+            if (onImageError) onImageError(catalogue.id);
+          }}
+          onLoad={() => setImageLoaded(true)}
+        />
+        {/* Loading placeholder */}
+        {!imageLoaded && !imageError && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <BookOpen className="w-16 h-16 text-gray-300" />
+            <div className="w-8 h-8 border-2 border-introcar-blue border-t-transparent rounded-full animate-spin" />
           </div>
         )}
         {/* Parts count badge */}
