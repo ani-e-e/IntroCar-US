@@ -72,24 +72,31 @@ export default function PrestigePartsPage() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/products?stockType=Prestige+Parts"
+                href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated"
                 className="inline-flex items-center px-6 py-3 bg-white text-introcar-blue font-medium rounded-full hover:bg-introcar-light transition-colors"
               >
-                Shop Prestige Parts®
+                Shop All Prestige Parts®
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+              <Link
+                href="/products?stockType=Prestige+Parts"
+                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+              >
+                Prestige Parts®
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts+(OE)"
                 className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
-                Shop Prestige Parts® (OE)
+                Prestige Parts® (OE)
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link
                 href="/products?stockType=Uprated"
                 className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
-                Shop Uprated
+                Uprated
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
             </div>

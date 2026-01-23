@@ -153,6 +153,40 @@ export default function ProductsContent() {
     router.push(`/products?${params.toString()}`);
   }
 
+  // Toggle stock type for multi-select
+  function toggleStockType(type) {
+    const params = new URLSearchParams(searchParams);
+    const currentTypes = currentStockType ? currentStockType.split(',') : [];
+
+    if (currentTypes.includes(type)) {
+      // Remove the type
+      const newTypes = currentTypes.filter(t => t !== type);
+      if (newTypes.length > 0) {
+        params.set('stockType', newTypes.join(','));
+      } else {
+        params.delete('stockType');
+      }
+    } else {
+      // Add the type
+      currentTypes.push(type);
+      params.set('stockType', currentTypes.join(','));
+    }
+    params.set('page', '1');
+    router.push(`/products?${params.toString()}`);
+  }
+
+  // Check if a stock type is currently selected
+  function isStockTypeSelected(type) {
+    if (!currentStockType) return false;
+    return currentStockType.split(',').includes(type);
+  }
+
+  // Get count of selected stock types
+  function getSelectedStockTypesCount() {
+    if (!currentStockType) return 0;
+    return currentStockType.split(',').length;
+  }
+
   function clearFilters() {
     router.push('/products');
     setLocalSearch('');
@@ -305,16 +339,21 @@ export default function ProductsContent() {
               </FilterSection>
 
               {/* Part Type (Stock Type) - THIRD, collapsed by default */}
-              <FilterSection title="Part Type" icon={Tag} defaultOpen={!!currentStockType} count={currentStockType ? 1 : 0}>
+              <FilterSection title="Part Type" icon={Tag} defaultOpen={!!currentStockType} count={getSelectedStockTypesCount()}>
                 <div className="space-y-1">
                   {stockTypes.map((type) => (
-                    <button
+                    <label
                       key={type}
-                      onClick={() => setFilter('stockType', type)}
-                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isStockTypeSelected(type) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
                     >
-                      {type}
-                    </button>
+                      <input
+                        type="checkbox"
+                        checked={isStockTypeSelected(type)}
+                        onChange={() => toggleStockType(type)}
+                        className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
+                      />
+                      <span>{type}</span>
+                    </label>
                   ))}
                 </div>
               </FilterSection>
@@ -411,12 +450,12 @@ export default function ProductsContent() {
                     <button onClick={() => setCategoryFilter('')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
-                {currentStockType && (
-                  <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
-                    {currentStockType.includes(',') ? 'Prestige Parts® Range' : currentStockType}
-                    <button onClick={() => setFilter('stockType', '')}><X className="w-3 h-3" /></button>
+                {currentStockType && currentStockType.split(',').map((type) => (
+                  <span key={type} className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
+                    {type}
+                    <button onClick={() => toggleStockType(type)}><X className="w-3 h-3" /></button>
                   </span>
-                )}
+                ))}
               </div>
             )}
 
@@ -502,12 +541,26 @@ export default function ProductsContent() {
                 <div className="flex items-center gap-2 mb-3">
                   <Tag className="w-4 h-4 text-introcar-blue" />
                   <h3 className="text-introcar-charcoal font-medium">Part Type</h3>
+                  {getSelectedStockTypesCount() > 0 && (
+                    <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
+                      {getSelectedStockTypesCount()}
+                    </span>
+                  )}
                 </div>
                 <div className="space-y-1">
                   {stockTypes.map((type) => (
-                    <button key={type} onClick={() => { setFilter('stockType', type); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentStockType === type ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
-                      {type}
-                    </button>
+                    <label
+                      key={type}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isStockTypeSelected(type) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:bg-introcar-light'}`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isStockTypeSelected(type)}
+                        onChange={() => toggleStockType(type)}
+                        className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
+                      />
+                      <span>{type}</span>
+                    </label>
                   ))}
                 </div>
               </div>
