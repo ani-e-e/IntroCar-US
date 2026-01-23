@@ -4,6 +4,37 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingCart, Eye, CheckCircle, Info } from 'lucide-react';
 
+// Format NLA date to "Sep 2014" format (from "1st September 2014" or "16th August 2017")
+const formatNLADate = (dateStr) => {
+  if (!dateStr) return null;
+  try {
+    const monthsLong = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    const monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // Try to parse format like "1st September 2014" or "16th August 2017"
+    const lowerStr = dateStr.toLowerCase();
+    for (let i = 0; i < monthsLong.length; i++) {
+      if (lowerStr.includes(monthsLong[i])) {
+        // Extract the year (4 digit number)
+        const yearMatch = dateStr.match(/\d{4}/);
+        if (yearMatch) {
+          return `${monthsShort[i]} ${yearMatch[0]}`;
+        }
+      }
+    }
+
+    // Fallback: try parsing as standard date
+    const date = new Date(dateStr);
+    if (!isNaN(date.getTime())) {
+      return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+    }
+
+    return dateStr; // Return as-is if can't parse
+  } catch {
+    return dateStr;
+  }
+};
+
 export default function ProductCard({ product, viewMode = 'grid' }) {
   const {
     sku,
@@ -123,7 +154,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
                   </p>
                 )}
                 {nlaDate && (
-                  <p className="text-sm text-introcar-blue">OE Discontinued: {nlaDate}</p>
+                  <p className="text-sm text-introcar-blue">OE Discontinued: {formatNLADate(nlaDate)}</p>
                 )}
               </div>
             </div>
@@ -237,7 +268,7 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
 
         {/* NLA Date - OE Discontinued indicator */}
         {nlaDate && (
-          <p className="text-xs text-introcar-blue mt-1">OE Discontinued: {nlaDate}</p>
+          <p className="text-xs text-introcar-blue mt-1">OE Discontinued: {formatNLADate(nlaDate)}</p>
         )}
 
         {/* Price & Stock */}

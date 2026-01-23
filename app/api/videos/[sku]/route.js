@@ -82,26 +82,21 @@ export async function GET(request, { params }) {
       });
     }
 
-    // Fallback: construct Cloudinary URL from folder structure
-    const cloudinaryBase = 'https://res.cloudinary.com/durzkoyfb/video/upload';
-
-    // Check source type - processed videos use different path
-    let videoUrl;
+    // For videos without cloudinaryUrl, check if they're processed
     if (videoData.source === 'processed') {
-      videoUrl = `${cloudinaryBase}/q_auto/introcar-us/videos/${videoData.folder}.mp4`;
-    } else {
-      // Original Turntable folder structure
-      const videoPath = `Turntable/${videoData.folder}/${videoData.file.replace('.mp4', '')}`;
-      videoUrl = `${cloudinaryBase}/q_auto/${videoPath}.mp4`;
+      const cloudinaryBase = 'https://res.cloudinary.com/durzkoyfb/video/upload';
+      const videoUrl = `${cloudinaryBase}/q_auto/introcar-us/videos/${videoData.folder}.mp4`;
+      return NextResponse.json({
+        hasVideo: true,
+        folder: videoData.folder,
+        file: videoData.file,
+        videoUrl: videoUrl
+      });
     }
 
-    return NextResponse.json({
-      hasVideo: true,
-      folder: videoData.folder,
-      file: videoData.file,
-      allFiles: videoData.allFiles,
-      videoUrl: videoUrl
-    });
+    // Videos without cloudinaryUrl and not processed are not available yet
+    // Return hasVideo: false to avoid showing broken video players
+    return NextResponse.json({ hasVideo: false, reason: 'video_not_uploaded' });
   }
 
   return NextResponse.json({ hasVideo: false });

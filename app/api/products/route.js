@@ -22,18 +22,28 @@ export async function GET(request) {
 
     const sort = searchParams.get('sort') || 'relevance';
     const result = filterProducts({ ...filters, sort });
-    const categories = getCategories(); // Returns array with subcategories
+    const categories = getCategories(); // Returns array with subcategories (all categories)
     const categoryNames = getCategoryNames(); // Flat list for simple dropdown
     const stockTypes = getStockTypes();
     const vehicleData = getVehicleData();
 
+    // Filter vehicle data to only include models that have products
+    const filteredVehicleData = { ...vehicleData };
+    if (filters.make && result.availableFilters?.models) {
+      // Only show models that have products for current filters
+      filteredVehicleData[filters.make] = {
+        models: result.availableFilters.models
+      };
+    }
+
     return NextResponse.json({
       products: result.products,
       pagination: result.pagination,
-      categories,
-      categoryNames,
-      stockTypes,
-      vehicleData,
+      // Use available filters (based on current vehicle selection) if present, otherwise fall back to all
+      categories: result.availableFilters?.categories || categories,
+      categoryNames: result.availableFilters?.categories?.map(c => c.name) || categoryNames,
+      stockTypes: result.availableFilters?.stockTypes || stockTypes,
+      vehicleData: filteredVehicleData,
       supersessionMatch: result.supersessionMatch || null,
       searchType: result.searchType || null,
     });

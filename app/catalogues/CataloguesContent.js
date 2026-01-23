@@ -13,9 +13,12 @@ function CatalogueCard({ catalogue, onImageError }) {
   const [imageError, setImageError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  // If no imageUrl or image failed to load, don't render anything
+  // Use Cloudinary 'image' field first, fall back to legacy 'imageUrl'
+  const imageSource = catalogue.image || catalogue.imageUrl;
+
+  // If no image or image failed to load, don't render anything
   // The image IS the catalogue - without it there's nothing to show
-  if (!catalogue.imageUrl || imageError) {
+  if (!imageSource || imageError) {
     return null;
   }
 
@@ -27,7 +30,7 @@ function CatalogueCard({ catalogue, onImageError }) {
       {/* Image */}
       <div className="relative aspect-[4/3] bg-introcar-light">
         <Image
-          src={catalogue.imageUrl}
+          src={imageSource}
           alt={catalogue.title}
           fill
           className={`object-contain p-2 group-hover:scale-105 transition-transform duration-300 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
