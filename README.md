@@ -358,4 +358,39 @@ If you encounter any issues:
 
 ---
 
+## 🔄 Session Handoff Guide
+
+### Starting a New Cowork Session
+
+When beginning a new session, use this prompt:
+
+```
+I'm continuing work on the IntroCar US e-commerce site (Rolls-Royce & Bentley parts).
+
+Please read the README.md in my folder to get context on the project.
+
+Today I want to work on: [SPECIFIC TASK]
+```
+
+### Key Files to Reference
+- `README.md` - Project overview, features, and action plan
+- `app/` - Next.js pages and routes
+- `components/` - Reusable UI components
+- `lib/data-server.js` - Server-side data layer
+- `data/json/` - Product and catalogue data
+
+### Environment & Credentials
+For features requiring API keys (Stripe, etc.):
+1. Create `.env.local` file (not committed to git)
+2. Add keys in format: `STRIPE_SECRET_KEY=sk_test_...`
+3. Access in code via `process.env.STRIPE_SECRET_KEY`
+
+### Before Ending a Session
+1. Update README.md with session notes
+2. Commit all changes with descriptive message
+3. Push to GitHub: `git push origin main`
+4. Vercel auto-deploys from main branch
+
+---
+
 Built with ❤️ for IntroCar
