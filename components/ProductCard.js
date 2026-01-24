@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ShoppingCart, Eye, CheckCircle, Info } from 'lucide-react';
+import { ShoppingCart, Eye, CheckCircle, Info, Check } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
 
 // Format NLA date to "Sep 2014" format (from "1st September 2014" or "16th August 2017")
 const formatNLADate = (dateStr) => {
@@ -36,6 +38,9 @@ const formatNLADate = (dateStr) => {
 };
 
 export default function ProductCard({ product, viewMode = 'grid' }) {
+  const { addItem } = useCart();
+  const [addedToCart, setAddedToCart] = useState(false);
+
   const {
     sku,
     description,
@@ -50,6 +55,21 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
     numberRequired,
     supersessions
   } = product;
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({
+      sku,
+      description,
+      price,
+      stockType,
+      image: imageUrl,
+      weight: product.weight || 0.5,
+    }, 1);
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+  };
 
   // Determine stock status - only in stock if availableNow or available1to3Days > 0
   const getStockStatus = () => {
@@ -173,14 +193,24 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
               </div>
               {stockStatus.available && formattedPrice && (
                 <button
-                  className="mt-3 px-4 py-2 border border-introcar-blue text-introcar-blue hover:bg-introcar-blue hover:text-white rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 uppercase tracking-wider"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    alert(`Added ${sku} to cart`);
-                  }}
+                  className={`mt-3 px-4 py-2 border rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 uppercase tracking-wider ${
+                    addedToCart
+                      ? 'border-green-600 bg-green-600 text-white'
+                      : 'border-introcar-blue text-introcar-blue hover:bg-introcar-blue hover:text-white'
+                  }`}
+                  onClick={handleAddToCart}
                 >
-                  <ShoppingCart className="w-4 h-4" />
-                  Add
+                  {addedToCart ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Added
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-4 h-4" />
+                      Add
+                    </>
+                  )}
                 </button>
               )}
             </div>
@@ -292,15 +322,24 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
           {/* Add to Cart Button */}
           {stockStatus.available && formattedPrice && (
             <button
-              className="mt-3 w-full py-2 border border-introcar-blue text-introcar-blue hover:bg-introcar-blue hover:text-white rounded-full text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider"
-              onClick={(e) => {
-                e.preventDefault();
-                // Add to cart logic here
-                alert(`Added ${sku} to cart`);
-              }}
+              className={`mt-3 w-full py-2 border rounded-full text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider ${
+                addedToCart
+                  ? 'border-green-600 bg-green-600 text-white'
+                  : 'border-introcar-blue text-introcar-blue hover:bg-introcar-blue hover:text-white'
+              }`}
+              onClick={handleAddToCart}
             >
-              <ShoppingCart className="w-4 h-4" />
-              Add to Bag
+              {addedToCart ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Added!
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-4 h-4" />
+                  Add to Bag
+                </>
+              )}
             </button>
           )}
 
