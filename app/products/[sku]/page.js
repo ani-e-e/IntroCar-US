@@ -8,13 +8,17 @@ import Footer from '@/components/Footer';
 import RelatedParts from '@/components/RelatedParts';
 import CatalogueLink from '@/components/CatalogueLink';
 import ProductVideo from '@/components/ProductVideo';
-import { ChevronRight, Package, Truck, Shield, CheckCircle, Info, Video } from 'lucide-react';
+import { useCart } from '@/context/CartContext';
+import { ChevronRight, Package, Truck, Shield, CheckCircle, Info, Video, ShoppingCart, Check } from 'lucide-react';
 
 export default function ProductPage({ params }) {
   const { sku } = params;
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('details');
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+  const { addItem, isInCart } = useCart();
 
   useEffect(() => {
     async function fetchProduct() {
@@ -233,9 +237,66 @@ export default function ProductPage({ params }) {
               </div>
             </div>
 
-            <button className="w-full py-4 bg-introcar-blue text-white font-bold rounded-xl hover:bg-introcar-blue/90 transition-colors mb-4">
-              Add to Cart
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-4 mb-4">
+              <span className="text-gray-600">Quantity:</span>
+              <div className="flex items-center border border-gray-300 rounded-lg">
+                <button
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
+                >
+                  -
+                </button>
+                <span className="px-4 py-2 font-medium">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(q => q + 1)}
+                  className="px-3 py-2 text-gray-600 hover:bg-gray-100 transition-colors"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => {
+                addItem({
+                  sku: product.sku,
+                  description: product.description,
+                  price: product.price,
+                  stockType: product.stockType,
+                  image: product.imageUrl,
+                  weight: product.weight || 0.5,
+                }, quantity);
+                setAddedToCart(true);
+                setTimeout(() => setAddedToCart(false), 2000);
+              }}
+              className={`w-full py-4 font-bold rounded-xl transition-colors mb-4 flex items-center justify-center gap-2 ${
+                addedToCart
+                  ? 'bg-green-600 text-white'
+                  : 'bg-introcar-blue text-white hover:bg-introcar-blue/90'
+              }`}
+            >
+              {addedToCart ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  Added to Cart!
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-5 h-5" />
+                  Add to Cart
+                </>
+              )}
             </button>
+
+            {isInCart(product.sku) && !addedToCart && (
+              <Link
+                href="/cart"
+                className="block w-full py-3 text-center text-introcar-blue border border-introcar-blue rounded-xl hover:bg-introcar-blue/5 transition-colors mb-4"
+              >
+                View Cart
+              </Link>
+            )}
 
             {product.catalogueUrl && (
               <CatalogueLink url={product.catalogueUrl} className="w-full justify-center" />
