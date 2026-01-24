@@ -151,7 +151,22 @@ IntroCar - US Website Prototype/
 - Quantity adjustment
 - Shipping calculator (USA DHL rates)
 - Free shipping over $500
-- Proceed to checkout
+- Proceed to checkout (Stripe)
+
+### Admin Panel (`/admin`)
+- **Login** (`/admin/login`) - Password protected access
+- **Dashboard** (`/admin`) - Product stats, quick actions, system status
+- **Products** (`/admin/products`) - Browse, search, filter 16,000+ products
+- **Edit Product** (`/admin/products/[sku]`) - Edit individual product details (price, weight, description, categories, stock)
+- **CSV Upload** (`/admin/upload`) - Bulk update prices, stock levels, weights with preview
+- **Sync** (`/admin/sync`) - Push updates to Magento staging
+
+**Admin Features:**
+- Signed token authentication (works with serverless)
+- CSV upload supports flexible column names (sku, price, weight, qty, etc.)
+- Preview changes before applying
+- Tracks pending sync status per product
+- One-click sync to Magento
 
 ---
 
@@ -259,16 +274,27 @@ npm start
 17. ✅ Homepage category links with proper filtering
 18. ✅ Dynamic filters (only show options with products)
 19. ✅ Prestige Parts page UI polish (logo size, button layout, map styling)
+20. ✅ Stripe Checkout integration (cart → payment → success page)
+21. ✅ Stripe webhook for Magento order integration
+22. ✅ Admin panel with password authentication (`/admin`)
+23. ✅ Product management (browse, search, filter, edit individual products)
+24. ✅ CSV bulk upload with preview for price/stock updates
+25. ✅ Magento sync functionality (ready, awaiting token)
+26. ✅ Security headers (HSTS, X-Frame-Options, CSP, etc.)
+27. ✅ Rate limiting on checkout API
+28. ✅ SEO sitemap.xml and robots.txt
 
 ### 🔄 In Progress
-20. ⬜ Stripe payments checkout
-21. ⬜ Customer accounts/authentication
-22. ⬜ Address lookup integration
+29. ⬜ Magento integration - awaiting Access Token from web team
+30. ⬜ Domain setup (introcar.us → Vercel)
 
 ### 📋 Backlog
-23. ⬜ Khaos Control integration
-24. ⬜ Customer vehicle matching (save my car)
-25. ⬜ Discount pricing tiers
+31. ⬜ Customer accounts/authentication
+32. ⬜ Database architecture (replace Google Sheets as source of truth)
+33. ⬜ UK site migration planning
+34. ⬜ Khaos Control integration
+35. ⬜ Customer vehicle matching (save my car)
+36. ⬜ Discount pricing tiers
 
 ---
 
@@ -350,7 +376,12 @@ If you encounter any issues:
 
 ### Live Site
 - Production: https://intro-car-us.vercel.app
+- Admin Panel: https://intro-car-us.vercel.app/admin
 - GitHub: https://github.com/ani-e-e/IntroCar-US
+
+### Magento Staging
+- URL: https://mcstaging.introcar.com
+- Integration: "IntroCar US Website" (System > Integrations)
 
 ### UK Site Reference
 - Main site: https://www.introcar.com
@@ -384,6 +415,21 @@ For features requiring API keys (Stripe, etc.):
 1. Create `.env.local` file (not committed to git)
 2. Add keys in format: `STRIPE_SECRET_KEY=sk_test_...`
 3. Access in code via `process.env.STRIPE_SECRET_KEY`
+
+**Required Environment Variables (Vercel):**
+```
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+ADMIN_PASSWORD_HASH=<generated hash>
+MAGENTO_BASE_URL=https://mcstaging.introcar.com
+MAGENTO_ACCESS_TOKEN=<from web team>
+```
+
+**Generate admin password hash:**
+```bash
+node scripts/generate-admin-hash.js "yourpassword"
+```
 
 ### Before Ending a Session
 1. Update README.md with session notes
