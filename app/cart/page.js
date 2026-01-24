@@ -8,7 +8,8 @@ import Footer from '@/components/Footer';
 import ShippingCalculator from '@/components/ShippingCalculator';
 import { useCart } from '@/context/CartContext';
 import { formatShippingPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
-import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Package, Truck } from 'lucide-react';
+import { getStripe } from '@/lib/stripe';
+import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Package, Truck, Loader2, Lock } from 'lucide-react';
 
 export default function CartPage() {
   const {
@@ -23,6 +24,53 @@ export default function CartPage() {
   } = useCart();
 
   const [selectedShipping, setSelectedShipping] = useState(null);
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState(null);
+
+  // Handle Stripe checkout
+  const handleCheckout = async () => {
+    setIsCheckingOut(true);
+    setCheckoutError(null);
+
+    try {
+      // Call our API to create a Stripe checkout session
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items,
+          shipping: selectedShipping,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create checkout session');
+      }
+
+      // Redirect to Stripe Checkout
+      const stripe = await getStripe();
+      if (!stripe) {
+        throw new Error('Stripe not initialized. Please check your configuration.');
+      }
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.sessionId,
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      setCheckoutError(error.message);
+    } finally {
+      setIsCheckingOut(false);
+    }
+  };
 
   // Calculate totals
   const shippingCost = selectedShipping?.freeShipping ? 0 : (selectedShipping?.price || 0);
@@ -275,13 +323,30 @@ export default function CartPage() {
                 </p>
               </div>
               <div className="px-4 pb-4">
-                <Link
-                  href="/checkout"
-                  className="block w-full py-3 bg-introcar-blue text-white text-center font-medium rounded-lg hover:bg-introcar-charcoal transition-colors"
+                {checkoutError && (
+                  <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                    {checkoutError}
+                  </div>
+                )}
+                <button
+                  onClick={handleCheckout}
+                  disabled={isCheckingOut || items.length === 0}
+                  className="flex items-center justify-center gap-2 w-full py-3 bg-introcar-blue text-white font-medium rounded-lg hover:bg-introcar-charcoal transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Proceed to Checkout
-                </Link>
-                <p className="text-xs text-center text-gray-500 mt-3">
+                  {isCheckingOut ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Processing...
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="w-4 h-4" />
+                      Proceed to Checkout
+                    </>
+                  )}
+                </button>
+                <p className="text-xs text-center text-gray-500 mt-3 flex items-center justify-center gap-1">
+                  <Lock className="w-3 h-3" />
                   Secure checkout powered by Stripe
                 </p>
               </div>
