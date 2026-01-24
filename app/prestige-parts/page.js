@@ -55,7 +55,7 @@ export default function PrestigePartsPage() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-introcar-blue to-introcar-charcoal text-white py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="max-w-3xl">
+          <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6">
               <Star className="w-4 h-4 text-white" />
               <span className="text-sm font-medium">Our Exclusive Range</span>
@@ -70,34 +70,34 @@ export default function PrestigePartsPage() {
               to quality, we fill vital gaps in the market with innovative products that meet or
               exceed OEM specifications.
             </p>
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated"
-                className="inline-flex items-center px-6 py-3 bg-white text-introcar-blue font-medium rounded-full hover:bg-introcar-light transition-colors"
+                className="inline-flex items-center px-5 py-2.5 bg-white text-introcar-blue font-medium rounded-full hover:bg-introcar-light transition-colors text-sm"
               >
-                Shop All Prestige Parts®
-                <ArrowRight className="w-5 h-5 ml-2" />
+                Shop All
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts"
-                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-4 py-2 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20 text-sm"
               >
                 Prestige Parts®
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts+(OE)"
-                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-4 py-2 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20 text-sm"
               >
                 Prestige Parts® (OE)
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
               <Link
                 href="/products?stockType=Uprated"
-                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-4 py-2 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20 text-sm"
               >
                 Uprated
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-1.5" />
               </Link>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default function PrestigePartsPage() {
             </div>
             <div className="bg-white rounded-2xl p-8 border border-gray-200">
               <div className="text-center">
-                <div className="relative w-64 h-32 mx-auto mb-6">
+                <div className="relative w-80 h-40 mx-auto mb-6">
                   <Image
                     src="/images/logos/prestige-parts-logo.png"
                     alt="Prestige Parts®"
@@ -318,14 +318,18 @@ export default function PrestigePartsPage() {
           </div>
 
           {/* Map */}
-          <div className="mb-8">
-            <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden border border-gray-200">
-              <Image
-                src="/images/prestige-parts/reseller-map.webp"
-                alt="International Stockists Map"
-                fill
-                className="object-cover"
-              />
+          <div className="mb-8 -mx-4 sm:-mx-6 lg:-mx-8">
+            <div className="bg-white py-8 px-4">
+              <div className="max-w-5xl mx-auto">
+                <div className="relative w-full aspect-[2.5/1]">
+                  <Image
+                    src="/images/prestige-parts/reseller-map.webp"
+                    alt="International Stockists Map"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
             </div>
           </div>
 
