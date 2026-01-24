@@ -18,10 +18,11 @@ export async function GET(request) {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items', 'customer', 'shipping_details'],
+      expand: ['line_items'],
     });
 
     // Return only the data we need for the success page
+    // Note: shipping_details and customer_details are included by default, not expandable
     return NextResponse.json({
       id: session.id,
       status: session.status,
