@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/Header';
@@ -8,7 +8,24 @@ import Footer from '@/components/Footer';
 import { useCart } from '@/context/CartContext';
 import { CheckCircle2, Package, Truck, Mail, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
 
-export default function CheckoutSuccessPage() {
+// Loading component
+function LoadingState() {
+  return (
+    <div className="min-h-screen bg-white">
+      <Header cartCount={0} />
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <div className="flex flex-col items-center justify-center gap-4">
+          <Loader2 className="w-8 h-8 animate-spin text-introcar-blue" />
+          <p className="text-gray-500">Loading order details...</p>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+// Main success content component
+function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const { clearCart } = useCart();
@@ -70,18 +87,7 @@ export default function CheckoutSuccessPage() {
   };
 
   if (loading) {
-    return (
-      <div className="min-h-screen bg-white">
-        <Header cartCount={0} />
-        <div className="max-w-3xl mx-auto px-4 py-16">
-          <div className="flex flex-col items-center justify-center gap-4">
-            <Loader2 className="w-8 h-8 animate-spin text-introcar-blue" />
-            <p className="text-gray-500">Loading order details...</p>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
+    return <LoadingState />;
   }
 
   if (error) {
@@ -259,5 +265,14 @@ export default function CheckoutSuccessPage() {
 
       <Footer />
     </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function CheckoutSuccessPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <SuccessContent />
+    </Suspense>
   );
 }
