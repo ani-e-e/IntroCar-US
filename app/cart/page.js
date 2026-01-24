@@ -8,7 +8,6 @@ import Footer from '@/components/Footer';
 import ShippingCalculator from '@/components/ShippingCalculator';
 import { useCart } from '@/context/CartContext';
 import { formatShippingPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
-import { getStripe } from '@/lib/stripe';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Package, Truck, Loader2, Lock } from 'lucide-react';
 
 export default function CartPage() {
@@ -51,23 +50,15 @@ export default function CartPage() {
         throw new Error(data.error || 'Failed to create checkout session');
       }
 
-      // Redirect to Stripe Checkout
-      const stripe = await getStripe();
-      if (!stripe) {
-        throw new Error('Stripe not initialized. Please check your configuration.');
-      }
-
-      const { error } = await stripe.redirectToCheckout({
-        sessionId: data.sessionId,
-      });
-
-      if (error) {
-        throw new Error(error.message);
+      // Redirect directly to Stripe Checkout URL
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error('No checkout URL returned');
       }
     } catch (error) {
       console.error('Checkout error:', error);
       setCheckoutError(error.message);
-    } finally {
       setIsCheckingOut(false);
     }
   };
