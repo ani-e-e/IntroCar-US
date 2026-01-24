@@ -70,7 +70,7 @@ export default function PrestigePartsPage() {
               to quality, we fill vital gaps in the market with innovative products that meet or
               exceed OEM specifications.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <Link
                 href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated"
                 className="inline-flex items-center px-6 py-3 bg-white text-introcar-blue font-medium rounded-full hover:bg-introcar-light transition-colors"
@@ -80,24 +80,24 @@ export default function PrestigePartsPage() {
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts"
-                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
                 Prestige Parts®
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <Link
                 href="/products?stockType=Prestige+Parts+(OE)"
-                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
                 Prestige Parts® (OE)
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <Link
                 href="/products?stockType=Uprated"
-                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
+                className="inline-flex items-center px-5 py-2.5 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors border border-white/20"
               >
                 Uprated
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </div>
           </div>
@@ -160,7 +160,7 @@ export default function PrestigePartsPage() {
             </div>
             <div className="bg-white rounded-2xl p-8 border border-gray-200">
               <div className="text-center">
-                <div className="relative w-48 h-24 mx-auto mb-6">
+                <div className="relative w-64 h-32 mx-auto mb-6">
                   <Image
                     src="/images/logos/prestige-parts-logo.png"
                     alt="Prestige Parts®"
@@ -171,13 +171,13 @@ export default function PrestigePartsPage() {
                 <p className="text-gray-500 text-sm mb-6">
                   The trusted choice for quality-conscious owners
                 </p>
-                <div className="flex items-center justify-center gap-6 text-sm">
+                <div className="flex items-center justify-center gap-8 text-sm">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-introcar-blue">3</div>
+                    <div className="text-3xl font-bold text-introcar-blue">3</div>
                     <div className="text-gray-500">Year Warranty</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-introcar-blue">1000+</div>
+                    <div className="text-3xl font-bold text-introcar-blue">1000+</div>
                     <div className="text-gray-500">Parts Available</div>
                   </div>
                 </div>
@@ -213,34 +213,131 @@ export default function PrestigePartsPage() {
       {/* International Stockists */}
       <section className="py-16 bg-introcar-light">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-display font-light text-introcar-charcoal mb-4">
-              International Reseller Network
+              Our International Stockists
             </h2>
-            <p className="text-gray-600 mb-8">
-              Our growing international reseller network is here to serve those who share our
-              passion for keeping the world's most beautiful cars on the road.
+            <p className="text-gray-600">
+              We are proud to partner with international Rolls-Royce & Bentley Specialists who each
+              carry the full range of Prestige Parts® products in order to provide an unparalleled
+              depth and breadth to their Rolls-Royce & Bentley parts and spares inventory.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
+          </div>
+
+          {/* Stockists Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {/* Albers Motorcars */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">Albers Motorcars</h3>
+              <p className="text-gray-500 text-sm mb-1">Indianapolis, USA</p>
+              <p className="text-gray-500 text-sm mb-3">T: +1 317 873 2360</p>
               <a
-                href="https://prestigeparts.org/"
+                href="https://www.albersrb.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-introcar-blue text-white font-medium rounded-full hover:bg-introcar-charcoal transition-colors"
+                className="text-introcar-blue hover:underline text-sm"
               >
-                Find International Stockists
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </a>
-              <a
-                href="https://prestigeparts.org/the-prestige-parts-range"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-gray-100 transition-colors border border-gray-200"
-              >
-                View Full Range
-                <ArrowRight className="w-5 h-5 ml-2" />
+                www.albersrb.com
               </a>
             </div>
+
+            {/* Spur Parts */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">Spur Parts</h3>
+              <p className="text-gray-500 text-sm mb-1">Sydney, Australia</p>
+              <p className="text-gray-500 text-sm mb-3">T: +61 452 558112</p>
+              <a
+                href="https://www.spurparts.com.au"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-introcar-blue hover:underline text-sm"
+              >
+                www.spurparts.com.au
+              </a>
+            </div>
+
+            {/* Bruce McIlroy Ltd */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">Bruce McIlroy Ltd</h3>
+              <p className="text-gray-500 text-sm mb-1">Ashburton, New Zealand</p>
+              <p className="text-gray-500 text-sm mb-3">T: +64 3 308 7282</p>
+              <a
+                href="https://www.bentleyservice.co.nz"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-introcar-blue hover:underline text-sm"
+              >
+                www.bentleyservice.co.nz
+              </a>
+            </div>
+
+            {/* Rohdins Classic Car AB */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">Rohdins Classic Car AB</h3>
+              <p className="text-gray-500 text-sm mb-1">Trollhättan, Sweden</p>
+              <p className="text-gray-500 text-sm mb-3">T: +46 520 188 00</p>
+              <a
+                href="https://www.rohdinsclassiccar.se"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-introcar-blue hover:underline text-sm"
+              >
+                www.rohdinsclassiccar.se
+              </a>
+            </div>
+
+            {/* IntroCar */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">IntroCar</h3>
+              <p className="text-gray-500 text-sm mb-1">London, UK</p>
+              <p className="text-gray-500 text-sm mb-3">T: +44 (0)20 8546 2027</p>
+              <a
+                href="https://www.introcar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-introcar-blue hover:underline text-sm"
+              >
+                www.introcar.com
+              </a>
+            </div>
+
+            {/* Beroparts */}
+            <div className="bg-white rounded-xl p-6 border border-gray-200 text-center">
+              <h3 className="text-xl font-medium text-introcar-charcoal mb-2">Beroparts</h3>
+              <p className="text-gray-500 text-sm mb-1">Oostkamp, Belgium</p>
+              <p className="text-gray-500 text-sm mb-3">T: +32 479 89 15 67</p>
+              <a
+                href="https://www.beroparts.be"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-introcar-blue hover:underline text-sm"
+              >
+                www.beroparts.be
+              </a>
+            </div>
+          </div>
+
+          {/* Map */}
+          <div className="mb-8">
+            <div className="relative w-full aspect-[2/1] rounded-xl overflow-hidden border border-gray-200">
+              <Image
+                src="/images/prestige-parts/reseller-map.webp"
+                alt="International Stockists Map"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* View Full Range Button */}
+          <div className="text-center">
+            <Link
+              href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated"
+              className="inline-flex items-center px-6 py-3 bg-introcar-blue text-white font-medium rounded-full hover:bg-introcar-charcoal transition-colors"
+            >
+              View Full Range
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
           </div>
         </div>
       </section>

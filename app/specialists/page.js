@@ -274,15 +274,12 @@ export default function SpecialistsPage() {
                   Our growing network of international resellers stock Prestige Parts® products.
                   Find a stockist near you for local availability and support.
                 </p>
-                <a
-                  href="https://prestigeparts.org/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Link
+                  href="/prestige-parts"
                   className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-introcar-light transition-colors"
                 >
                   Find a Stockist
-                  <ExternalLink className="w-4 h-4 ml-2" />
-                </a>
+                </Link>
               </div>
             </div>
           </div>

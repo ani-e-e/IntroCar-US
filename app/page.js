@@ -6,17 +6,17 @@ import Image from 'next/image';
 import { ArrowRight, Shield, Truck, Award, Clock, Wrench, Settings, Zap, Car, CircuitBoard, Gauge, Flame, Droplets, Filter, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import HeroSlider from '@/components/HeroSlider';
 
-// Category data
+// Category data - names must match exactly what's in products.json
 const categories = [
   { name: 'Body', icon: Car, href: '/products?category=Body', image: '/images/categories/cat-01-body.webp' },
-  { name: 'Brakes & Hydraulics', icon: Gauge, href: '/products?category=Brakes', image: '/images/categories/cat-02-brakes.webp' },
-  { name: 'Cooling System', icon: Droplets, href: '/products?category=Cooling', image: '/images/categories/cat-03-cooling.webp' },
+  { name: 'Brakes & Hydraulics', icon: Gauge, href: '/products?category=Brakes+%26+Hydraulics', image: '/images/categories/cat-02-brakes.webp' },
+  { name: 'Cooling System', icon: Droplets, href: '/products?category=Cooling+System', image: '/images/categories/cat-03-cooling.webp' },
   { name: 'Differential', icon: Settings, href: '/products?category=Differential', image: '/images/categories/cat-04-differential.webp' },
-  { name: 'Electrical & Ignition', icon: Zap, href: '/products?category=Electrical', image: '/images/categories/cat-05-electrical.webp' },
+  { name: 'Electrical & Ignition', icon: Zap, href: '/products?category=Electrical+%26+Ignition', image: '/images/categories/cat-05-electrical.webp' },
   { name: 'Engine', icon: Settings, href: '/products?category=Engine', image: '/images/categories/cat-06-engine.webp' },
   { name: 'Exhaust', icon: Flame, href: '/products?category=Exhaust', image: '/images/categories/cat-07-exhaust.webp' },
-  { name: 'Fuel System', icon: Filter, href: '/products?category=Fuel', image: '/images/categories/cat-08-fuel.webp' },
-  { name: 'Service & Maintenance', icon: Wrench, href: '/products?category=Service', image: '/images/categories/cat-09-service.webp' },
+  { name: 'Fuel System', icon: Filter, href: '/products?category=Fuel+System', image: '/images/categories/cat-08-fuel.webp' },
+  { name: 'Service & Maintenance', icon: Wrench, href: '/products?category=Service+%26+Maintenance', image: '/images/categories/cat-09-service.webp' },
   { name: 'Steering', icon: Gauge, href: '/products?category=Steering', image: '/images/categories/cat-10-steering.webp' },
 ];
 

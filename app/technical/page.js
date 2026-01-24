@@ -432,88 +432,24 @@ export default function TechnicalPage() {
             <p className="text-xl text-white/80 leading-relaxed mb-6">
               Subscribe to our RR technical videos on any of our social channels. We release new technical videos regularly covering maintenance, repairs, and parts for Rolls-Royce and Bentley vehicles.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="https://www.youtube.com/channel/UCXXKCVAUeBYx6TpLREJ_5rQ/videos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-red-600 text-white font-medium rounded-full hover:bg-red-700 transition-colors"
-              >
-                <Youtube className="w-5 h-5 mr-2" />
-                Technical Video Library
-              </a>
-              <a
-                href="https://www.facebook.com/introcar"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center px-6 py-3 bg-white/10 text-white font-medium rounded-full hover:bg-white/20 transition-colors"
-              >
-                Facebook Business Profile
-              </a>
-              <a
-                href="mailto:info@introcar.com?subject=Technical Video Request"
-                className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-introcar-light transition-colors"
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Request a Technical Video
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* RR Technical - Featured Resource */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-introcar-charcoal rounded-2xl p-8 text-white">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 rounded-full mb-4">
-                  <Book className="w-4 h-4" />
-                  <span className="text-sm font-medium">Recommended Resource</span>
-                </div>
-                <h2 className="text-3xl font-display font-light text-white mb-4">
-                  RR Technical Info
-                </h2>
-                <p className="text-gray-300 mb-6 leading-relaxed">
-                  The most comprehensive online resource for Rolls-Royce and Bentley technical information.
-                  Covers all models from 1904 to present day with detailed specifications, wiring diagrams,
-                  workshop procedures, and troubleshooting guides.
-                </p>
-                <ul className="space-y-2 mb-8 text-gray-300">
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-introcar-blue rounded-full"></span>
-                    Complete workshop manuals for all models
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-introcar-blue rounded-full"></span>
-                    Detailed wiring diagrams and schematics
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-introcar-blue rounded-full"></span>
-                    Technical service bulletins
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 bg-introcar-blue rounded-full"></span>
-                    Model specifications and data
-                  </li>
-                </ul>
+            <div className="flex flex-wrap gap-3 mb-8">
+              {categories.map((cat) => (
                 <a
-                  href="https://www.rrtechnical.info/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-introcar-light transition-colors"
+                  key={cat}
+                  href={`#${cat.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="inline-flex items-center px-4 py-2 bg-white/10 text-white text-sm font-medium rounded-full hover:bg-white/20 transition-colors"
                 >
-                  Visit RR Technical
-                  <ExternalLink className="w-4 h-4 ml-2" />
+                  {cat}
                 </a>
-              </div>
-              <div className="hidden md:flex items-center justify-center">
-                <div className="w-48 h-48 bg-white/10 rounded-full flex items-center justify-center">
-                  <Book className="w-24 h-24 text-white/50" />
-                </div>
-              </div>
+              ))}
             </div>
+            <a
+              href="mailto:info@introcar.com?subject=Technical Video Request"
+              className="inline-flex items-center px-6 py-3 bg-white text-introcar-charcoal font-medium rounded-full hover:bg-introcar-light transition-colors"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Request a Technical Video
+            </a>
           </div>
         </div>
       </section>
@@ -533,27 +469,27 @@ export default function TechnicalPage() {
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {categoryVideos.map((video) => (
-                  <a
+                  <div
                     key={video.title}
-                    href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg hover:border-introcar-blue transition-all group"
+                    className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all"
                   >
-                    <div className="aspect-video bg-gray-900 relative flex items-center justify-center">
-                      <div className="absolute inset-0 bg-gradient-to-br from-introcar-charcoal to-gray-900 flex items-center justify-center group-hover:opacity-80 transition-opacity">
-                        <div className="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                          <Play className="w-8 h-8 text-white ml-1" fill="white" />
-                        </div>
-                      </div>
+                    <div className="aspect-video bg-gray-900 relative">
+                      <iframe
+                        src={`https://www.youtube.com/embed/${video.youtubeId}?rel=0`}
+                        title={video.title}
+                        className="absolute inset-0 w-full h-full"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
                     </div>
                     <div className="p-5">
-                      <h3 className="text-base font-medium text-introcar-charcoal mb-2 group-hover:text-introcar-blue transition-colors line-clamp-2">
+                      <h3 className="text-base font-medium text-introcar-charcoal mb-2 line-clamp-2">
                         {video.title}
                       </h3>
                       <p className="text-gray-500 text-sm line-clamp-2">{video.description}</p>
                     </div>
-                  </a>
+                  </div>
                 ))}
               </div>
             </div>
