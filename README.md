@@ -117,11 +117,12 @@ IntroCar - US Website Prototype/
 - Images hosted on Cloudinary CDN for fast delivery
 
 ### Technical Page (`/technical`)
-- 60+ embedded YouTube technical videos
-- Organized by category (Continental GT, Brakes, Suspension, Engine, etc.)
-- Videos play directly in frame
-- Category navigation buttons for quick jumping
-- Request a Technical Video contact link
+- 50+ embedded YouTube technical videos with real IntroCar video IDs
+- Organized by category (Continental GT, Brakes, Suspension, Engine, Service, Hydraulics, Diagnostics)
+- Videos play directly in embedded iframes
+- Category navigation buttons for quick jumping between sections
+- Request a Technical Video email contact link
+- Subscribe to YouTube channel CTA
 
 ### Prestige Parts Page (`/prestige-parts`)
 - Dedicated landing page for Prestige Parts range
@@ -252,20 +253,22 @@ npm start
 11. ✅ Individual filter badges for each selected stock type
 12. ✅ Prestige Parts dedicated landing page
 13. ✅ International Stockists section with map
-14. ✅ Technical page with 60+ embedded YouTube videos
+14. ✅ Technical page with 50+ real IntroCar YouTube videos
 15. ✅ Category navigation on technical page
-16. ✅ Homepage category links with proper filtering
-17. ✅ Dynamic filters (only show options with products)
+16. ✅ Real YouTube video IDs from IntroCar channel
+17. ✅ Homepage category links with proper filtering
+18. ✅ Dynamic filters (only show options with products)
+19. ✅ Prestige Parts page UI polish (logo size, button layout, map styling)
 
 ### 🔄 In Progress
-18. ⬜ Stripe payments checkout
-19. ⬜ Customer accounts/authentication
-20. ⬜ Address lookup integration
+20. ⬜ Stripe payments checkout
+21. ⬜ Customer accounts/authentication
+22. ⬜ Address lookup integration
 
 ### 📋 Backlog
-21. ⬜ Khaos Control integration
-22. ⬜ Customer vehicle matching (save my car)
-23. ⬜ Discount pricing tiers
+23. ⬜ Khaos Control integration
+24. ⬜ Customer vehicle matching (save my car)
+25. ⬜ Discount pricing tiers
 
 ---
 
@@ -281,29 +284,77 @@ If you encounter any issues:
 
 ## 📅 Recent Updates (January 2025)
 
-### Multi-Select Part Type Filter
+### Latest Session (Jan 23, 2025)
+
+#### UI Fixes
+- **Prestige Parts buttons on one line** - Removed max-w-3xl constraint and reduced button padding so all 4 buttons (Shop All, Prestige Parts®, Prestige Parts® (OE), Uprated) fit on a single row
+- **Prestige Parts logo enlarged** - Increased from w-64/h-32 to w-80/h-40 in "The Prestige Parts® Difference" section
+- **Map with full-width white background** - Updated map section to have full-page-width white background with object-contain for proper fitting
+
+#### Technical Page - Real YouTube Videos
+- Replaced all placeholder video IDs with real IntroCar YouTube video IDs
+- Videos sourced from IntroCar Technical Videos playlist (82 videos)
+- Categories: Continental GT, Brakes, Suspension, Engine, Service, Hydraulics, Diagnostics
+- All videos now play correctly in embedded iframes
+
+**Key Video IDs (for reference):**
+- Bentley GT 6 Common Issues: `KTXFOh_fFTg`
+- 5 Common Issues Classic RR/Bentley: `FF-6KuYezBs`
+- Brake Accumulator Disassembly: `em3vc2iNzDA`
+- Brake Pump Test: `jFA4DWbtxlc`
+- Brake Pump Reassembly: `__AFOuJvusY`
+- Height Control Valve Part 1: `Wkwxnhe6Vsg`
+- Height Control Valve Part 2: `0zaLqDI8BQc`
+
+### Previous Session Updates
+
+#### Multi-Select Part Type Filter
 - Converted Part Type filter from single-select buttons to multi-select checkboxes
 - Each selected stock type now shows its own filter badge
 - Filter badges can be individually removed by clicking X
 - Filter count badge shows number of selected types
 
-### Prestige Parts Page Enhancements
+#### Prestige Parts Page Enhancements
 - Added "Shop All Prestige Parts®" button loading all 3 stock types
-- Added International Stockists grid with 6 global partners
+- Added International Stockists grid with 6 global partners:
+  - Albers Motorcars (Indianapolis, USA) - albersclassics.com
+  - Spur Parts (Sydney, Australia) - spurparts.com.au
+  - Bruce McIlroy Ltd (New Zealand) - brucemcilroy.co.nz
+  - Rohdins Classic Car AB (Sweden) - rohdins.com
+  - IntroCar (London, UK) - introcar.com
+  - Beroparts (Belgium) - beroparts.be
 - Added reseller map image
-- Increased Prestige Parts logo size for better balance
-- Spaced out buttons on one line
 
-### Technical Page Improvements
+#### Technical Page Improvements
 - Embedded YouTube videos directly in iframes (play in frame)
 - Added category navigation buttons at top
-- Removed external links (Facebook, RR Technical Info)
-- 60+ videos organized by category
+- Removed external links (Facebook, RR Technical Info box)
+- Videos organized by category with counts
 
-### Homepage & Navigation
-- Fixed category links to use exact category names for proper filtering
+#### Homepage & Navigation
+- Fixed category links to use exact URL-encoded category names:
+  - `Brakes+%26+Hydraulics`
+  - `Cooling+System`
+  - `Electrical+%26+Ignition`
+  - etc.
 - Header/Footer Prestige Parts links load all 3 stock types with badges
 - Find a Stockist link now goes to /prestige-parts page
+
+---
+
+## 🔗 Key URLs & Resources
+
+### IntroCar YouTube Channel
+- Channel: https://www.youtube.com/channel/UCXXKCVAUeBYx6TpLREJ_5rQ
+- Technical Videos Playlist: https://www.youtube.com/playlist?list=PL_6ns-Vky0H1lUotzzxP4VcIQmqqTvzmM
+
+### Live Site
+- Production: https://intro-car-us.vercel.app
+- GitHub: https://github.com/ani-e-e/IntroCar-US
+
+### UK Site Reference
+- Main site: https://www.introcar.com
+- Technical page: https://www.introcar.com/technical
 
 ---
 
