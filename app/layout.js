@@ -1,5 +1,6 @@
 import './globals.css';
 import { CartProvider } from '@/context/CartContext';
+import { CurrencyProvider } from '@/context/CurrencyContext';
 
 export const metadata = {
   metadataBase: new URL('https://intro-car-us.vercel.app'),
@@ -114,9 +115,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="bg-white text-introcar-charcoal antialiased">
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            {children}
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

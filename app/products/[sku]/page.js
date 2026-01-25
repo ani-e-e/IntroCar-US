@@ -9,6 +9,7 @@ import RelatedParts from '@/components/RelatedParts';
 import CatalogueLink from '@/components/CatalogueLink';
 import ProductVideo from '@/components/ProductVideo';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 import { ChevronRight, Package, Truck, Shield, CheckCircle, Info, Video, ShoppingCart, Check } from 'lucide-react';
 
 export default function ProductPage({ params }) {
@@ -19,6 +20,7 @@ export default function ProductPage({ params }) {
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
   const { addItem, isInCart } = useCart();
+  const { formatGbpAsUsd, convertToUsd } = useCurrency();
 
   useEffect(() => {
     async function fetchProduct() {
@@ -188,7 +190,7 @@ export default function ProductPage({ params }) {
 
             {product.price && (
               <div className="text-3xl font-bold text-introcar-charcoal mb-6">
-                ${product.price.toFixed(2)}
+                {formatGbpAsUsd(product.price)}
               </div>
             )}
 
@@ -262,7 +264,8 @@ export default function ProductPage({ params }) {
                 addItem({
                   sku: product.sku,
                   description: product.description,
-                  price: product.price,
+                  price: convertToUsd(product.price), // USD price for Stripe
+                  priceGbp: product.price, // Original GBP price for Magento
                   stockType: product.stockType,
                   image: product.imageUrl,
                   weight: product.weight || 0.5,

@@ -56,12 +56,14 @@ export function CartProvider({ children }) {
       }
 
       // Add new item
+      // price = USD (for Stripe), priceGbp = GBP (for Magento)
       return [
         ...currentItems,
         {
           sku: product.sku,
           description: product.description || product.name,
-          price: parseFloat(product.price) || 0,
+          price: parseFloat(product.price) || 0, // USD price for display & Stripe
+          priceGbp: parseFloat(product.priceGbp) || parseFloat(product.price) || 0, // GBP price for Magento
           stockType: product.stockType || product.stock_type,
           image: product.image || product.imageUrl,
           weight: product.weight || 0.5, // Default weight in kg

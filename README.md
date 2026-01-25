@@ -210,6 +210,37 @@ This helps customers find rare parts that are no longer available from the manuf
 
 ---
 
+## 💱 Currency Conversion
+
+The site handles automatic currency conversion between GBP (database) and USD (display/payment).
+
+### Flow
+```
+GBP (database) → USD (display) → USD (Stripe charge) → GBP (Magento order)
+```
+
+### How It Works
+1. **Database**: All prices stored in GBP (from IntroCar's UK systems)
+2. **Display**: Prices converted to USD using daily fixer.io exchange rate
+3. **Cart**: Stores both USD (for display/Stripe) and GBP (for Magento)
+4. **Stripe**: Charges customer in USD, settles to IntroCar in GBP
+5. **Magento**: Orders created with original GBP prices
+
+### Key Files
+- `lib/currency.js` - Exchange rate fetching and conversion functions
+- `context/CurrencyContext.js` - React context for currency in components
+- `app/api/exchange-rate/route.js` - API endpoint for client-side rate fetching
+- `app/api/checkout/route.js` - Stores GBP prices in Stripe metadata
+- `app/api/webhooks/stripe/route.js` - Extracts GBP prices for Magento orders
+
+### Exchange Rate Caching
+- Rate fetched from fixer.io once per day
+- Cached in memory for 24 hours
+- Fallback rate (1.27) used if API fails
+- Add `FIXER_API_KEY` to environment variables
+
+---
+
 ## 🛠️ Development Commands
 
 ```bash
@@ -283,18 +314,19 @@ npm start
 26. ✅ Security headers (HSTS, X-Frame-Options, CSP, etc.)
 27. ✅ Rate limiting on checkout API
 28. ✅ SEO sitemap.xml and robots.txt
+29. ✅ Currency conversion (GBP database → USD display → USD Stripe → GBP Magento)
 
 ### 🔄 In Progress
-29. ⬜ Magento integration - awaiting Access Token from web team
-30. ⬜ Domain setup (introcar.us → Vercel)
+30. ⬜ Magento integration - awaiting Access Token from web team
+31. ⬜ Domain setup (introcar.us → Vercel)
 
 ### 📋 Backlog
-31. ⬜ Customer accounts/authentication
-32. ⬜ Database architecture (replace Google Sheets as source of truth)
-33. ⬜ UK site migration planning
-34. ⬜ Khaos Control integration
-35. ⬜ Customer vehicle matching (save my car)
-36. ⬜ Discount pricing tiers
+32. ⬜ Customer accounts/authentication
+33. ⬜ Database architecture (replace Google Sheets as source of truth)
+34. ⬜ UK site migration planning
+35. ⬜ Khaos Control integration
+36. ⬜ Customer vehicle matching (save my car)
+37. ⬜ Discount pricing tiers
 
 ---
 

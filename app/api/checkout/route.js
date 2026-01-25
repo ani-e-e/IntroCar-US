@@ -36,6 +36,7 @@ export async function POST(request) {
     }
 
     // Create line items for Stripe
+    // Note: item.price is USD (for Stripe), item.priceGbp is GBP (for Magento)
     const lineItems = items.map((item) => ({
       price_data: {
         currency: 'usd',
@@ -46,9 +47,10 @@ export async function POST(request) {
           metadata: {
             sku: item.sku,
             stockType: item.stockType || '',
+            priceGbp: (item.priceGbp || item.price).toString(), // GBP price for Magento
           },
         },
-        // Stripe expects amounts in cents
+        // Stripe expects amounts in cents (USD)
         unit_amount: Math.round(item.price * 100),
       },
       quantity: item.quantity,
@@ -87,10 +89,17 @@ export async function POST(request) {
       success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/cart`,
       // Store metadata for order processing
+      // GBP prices stored for Magento order creation
       metadata: {
         source: 'introcar_us_website',
         itemCount: items.length.toString(),
         itemSkus: items.map(i => i.sku).join(','),
+        // Store GBP prices and quantities for Magento (JSON format)
+        itemsGbp: JSON.stringify(items.map(i => ({
+          sku: i.sku,
+          priceGbp: i.priceGbp || i.price,
+          quantity: i.quantity,
+        }))),
       },
       // Custom text
       custom_text: {

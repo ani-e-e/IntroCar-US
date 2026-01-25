@@ -140,7 +140,7 @@ export default function EditProductPage({ params }) {
             {/* Price */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price (USD)
+                Price (GBP)
               </label>
               <input
                 type="number"

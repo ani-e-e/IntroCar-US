@@ -53,10 +53,11 @@ export default function ProductsPage() {
     loadProducts(1);
   };
 
+  // Admin shows GBP prices (database currency)
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-GB', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'GBP',
     }).format(price);
   };
 

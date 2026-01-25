@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ShoppingCart, Eye, CheckCircle, Info, Check } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useCurrency } from '@/context/CurrencyContext';
 
 // Format NLA date to "Sep 2014" format (from "1st September 2014" or "16th August 2017")
 const formatNLADate = (dateStr) => {
@@ -39,6 +40,7 @@ const formatNLADate = (dateStr) => {
 
 export default function ProductCard({ product, viewMode = 'grid' }) {
   const { addItem } = useCart();
+  const { formatGbpAsUsd, convertToUsd } = useCurrency();
   const [addedToCart, setAddedToCart] = useState(false);
 
   const {
@@ -56,13 +58,17 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
     supersessions
   } = product;
 
+  // Convert GBP price to USD for cart (Stripe charges in USD)
+  const usdPrice = convertToUsd(price);
+
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
     addItem({
       sku,
       description,
-      price,
+      price: usdPrice, // USD price for Stripe
+      priceGbp: price, // Original GBP price for Magento
       stockType,
       image: imageUrl,
       weight: product.weight || 0.5,
@@ -108,10 +114,8 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
   const stockStatus = getStockStatus();
   const stockTypeBadge = getStockTypeBadge();
 
-  // Format price
-  const formattedPrice = price
-    ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price)
-    : null;
+  // Format price - convert GBP (database) to USD (display)
+  const formattedPrice = price ? formatGbpAsUsd(price) : null;
 
   // Default placeholder image - use IC logo icon
   const displayImage = imageUrl || '/images/logos/introcar-icon.png';

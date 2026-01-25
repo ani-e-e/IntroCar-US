@@ -82,8 +82,47 @@ export async function POST(request) {
 
 /**
  * Extract order data from Stripe session for Magento
+ *
+ * IMPORTANT: Magento orders should be in GBP (the database currency)
+ * The GBP prices are stored in session.metadata.itemsGbp during checkout
  */
 async function extractOrderData(session) {
+  // Parse GBP items from metadata (stored during checkout)
+  let gbpItemsMap = {};
+  try {
+    if (session.metadata?.itemsGbp) {
+      const gbpItems = JSON.parse(session.metadata.itemsGbp);
+      gbpItemsMap = gbpItems.reduce((acc, item) => {
+        acc[item.sku] = item.priceGbp;
+        return acc;
+      }, {});
+    }
+  } catch (e) {
+    console.warn('⚠️ Could not parse GBP items from metadata:', e);
+  }
+
+  // Extract order items with GBP prices for Magento
+  const items = session.line_items?.data.map(item => {
+    const sku = item.price?.product?.metadata?.sku || extractSkuFromDescription(item.description);
+    // Use GBP price from metadata, falling back to product metadata, then USD price
+    const priceGbp = gbpItemsMap[sku] ||
+                     parseFloat(item.price?.product?.metadata?.priceGbp) ||
+                     (item.amount_total / 100 / item.quantity); // Fallback to USD if GBP not available
+
+    return {
+      name: item.description,
+      sku: sku,
+      qty: item.quantity,
+      price: priceGbp, // GBP price for Magento
+      priceUsd: item.amount_total / 100 / item.quantity, // USD price (what customer paid)
+      rowTotal: priceGbp * item.quantity, // GBP row total
+      rowTotalUsd: item.amount_total / 100, // USD row total
+    };
+  }) || [];
+
+  // Calculate GBP totals for Magento
+  const gbpSubtotal = items.reduce((sum, item) => sum + item.rowTotal, 0);
+
   const orderData = {
     // Order identification
     stripeSessionId: session.id,
@@ -122,29 +161,33 @@ async function extractOrderData(session) {
       lastname: session.shipping_details.name?.split(' ').slice(1).join(' ') || '',
     } : null,
 
-    // Order items
-    items: session.line_items?.data.map(item => ({
-      name: item.description,
-      sku: item.price?.product?.metadata?.sku || extractSkuFromDescription(item.description),
-      qty: item.quantity,
-      price: item.amount_total / 100 / item.quantity, // Unit price
-      rowTotal: item.amount_total / 100,
-    })) || [],
+    // Order items (with GBP prices for Magento)
+    items: items,
 
-    // Order totals
+    // Order totals - GBP for Magento
     totals: {
+      subtotal: gbpSubtotal, // GBP subtotal for Magento
+      shipping: 0, // Shipping will be calculated separately or added manually
+      tax: 0, // Tax handled separately
+      grandTotal: gbpSubtotal, // GBP grand total for Magento
+      currency: 'GBP', // Magento order currency
+    },
+
+    // USD totals (what customer actually paid)
+    totalsUsd: {
       subtotal: session.amount_subtotal / 100,
       shipping: session.shipping_cost?.amount_total ? session.shipping_cost.amount_total / 100 : 0,
       tax: session.total_details?.amount_tax ? session.total_details.amount_tax / 100 : 0,
       grandTotal: session.amount_total / 100,
-      currency: session.currency?.toUpperCase() || 'USD',
+      currency: 'USD',
     },
 
     // Payment info
     payment: {
       method: 'stripe',
       status: session.payment_status,
-      amountPaid: session.amount_total / 100,
+      amountPaidUsd: session.amount_total / 100, // USD amount charged
+      currency: 'USD', // Payment was in USD
     },
 
     // Metadata (includes SKUs we stored during checkout)
@@ -154,7 +197,7 @@ async function extractOrderData(session) {
     createdAt: new Date(session.created * 1000).toISOString(),
   };
 
-  console.log('📦 Extracted order data:', JSON.stringify(orderData, null, 2));
+  console.log('📦 Extracted order data (GBP for Magento):', JSON.stringify(orderData, null, 2));
   return orderData;
 }
 
