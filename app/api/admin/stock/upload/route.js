@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createClient } from '@supabase/supabase-js';
+import { validateSession } from '@/lib/admin-auth';
 
 // Initialize Supabase client lazily (not at build time)
 function getSupabase() {
@@ -42,10 +43,10 @@ function parseCSV(content) {
 }
 
 export async function POST(request) {
-  // Check auth
+  // Check auth using signed session token
   const cookieStore = await cookies();
-  const authCookie = cookieStore.get('admin_authenticated');
-  if (!authCookie || authCookie.value !== 'true') {
+  const sessionCookie = cookieStore.get('admin_session');
+  if (!sessionCookie || !validateSession(sessionCookie.value)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
