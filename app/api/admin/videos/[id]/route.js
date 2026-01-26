@@ -3,25 +3,44 @@ import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/admin-auth';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { getFileFromGitHub, updateFileOnGitHub, isGitHubStorageEnabled } from '@/lib/github-storage';
 
 const VIDEOS_FILE = path.join(process.cwd(), 'data', 'json', 'technical-videos.json');
+const VIDEOS_PATH = 'data/json/technical-videos.json'; // Path for GitHub API
 const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
 const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'json', 'products.json');
 
-// Helper to read videos data
+// Helper to read videos data (tries GitHub first if configured, then local file)
 async function getVideosData() {
+  if (isGitHubStorageEnabled()) {
+    try {
+      const { content } = await getFileFromGitHub(VIDEOS_PATH);
+      return JSON.parse(content);
+    } catch (error) {
+      console.error('GitHub fetch failed, falling back to local:', error);
+    }
+  }
+
   const data = await fs.readFile(VIDEOS_FILE, 'utf-8');
   return JSON.parse(data);
 }
 
-// Helper to write videos data
-async function saveVideosData(data) {
+// Helper to write videos data (uses GitHub if configured, otherwise local file)
+async function saveVideosData(data, commitMessage = 'Update technical videos') {
+  const content = JSON.stringify(data, null, 2);
+
+  if (isGitHubStorageEnabled()) {
+    await updateFileOnGitHub(VIDEOS_PATH, content, commitMessage);
+    return true;
+  }
+
+  // Fall back to local file (works in development)
   try {
-    await fs.writeFile(VIDEOS_FILE, JSON.stringify(data, null, 2));
+    await fs.writeFile(VIDEOS_FILE, content);
     return true;
   } catch (error) {
     console.error('Error writing videos file:', error);
-    throw new Error('Cannot save changes. The filesystem may be read-only.');
+    throw new Error('Cannot save changes. Configure GITHUB_TOKEN for production use, or run locally.');
   }
 }
 
@@ -190,7 +209,9 @@ export async function PUT(request, { params }) {
     video.updatedAt = new Date().toISOString();
     data.videos[videoIndex] = video;
 
-    await saveVideosData(data);
+    // Build commit message
+    const commitMessage = `Update video: ${video.title.substring(0, 50)}`;
+    await saveVideosData(data, commitMessage);
 
     return NextResponse.json({ video, message: 'Video updated successfully' });
   } catch (error) {
@@ -222,7 +243,8 @@ export async function DELETE(request, { params }) {
     const deletedVideo = data.videos[videoIndex];
     data.videos.splice(videoIndex, 1);
 
-    await saveVideosData(data);
+    const commitMessage = `Delete video: ${deletedVideo.title.substring(0, 50)}`;
+    await saveVideosData(data, commitMessage);
 
     return NextResponse.json({
       message: 'Video deleted successfully',
