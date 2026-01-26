@@ -44,16 +44,23 @@
       "description": "Matt takes us through 5 common issues on Rolls-Royce Silver Dawn (49-55), Silver Wraith & Bentley Mk VI, R Type.",
       "youtubeId": "wN6iwpaCDSM",
       "category": "Diagnostics",
-      "verified": false,
+      "verified": true,
       "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:29:28.156Z",
+      "updatedAt": "2026-01-26T19:30:15.289Z",
       "makes": [
         "Bentley",
         "Rolls-Royce"
       ],
-      "models": [],
+      "models": [
+        "Mk VI",
+        "R Type",
+        "Silver Dawn (1949-1955)",
+        "Silver Wraith"
+      ],
       "productCategories": [
-        "Service & Maintenance"
+        "Service & Maintenance",
+        "Brakes & Hydraulics",
+        "Clutch"
       ]
     },
     {
