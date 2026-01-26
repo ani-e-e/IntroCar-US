@@ -2,11 +2,13 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createClient } from '@supabase/supabase-js';
 
-// Initialize Supabase client
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+// Initialize Supabase client lazily (not at build time)
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+}
 
 // Simple CSV parser
 function parseCSV(content) {
@@ -57,6 +59,7 @@ export async function POST(request) {
     }
 
     const isSupplierStock = source === 'supplier';
+    const supabase = getSupabase();
 
     // Read file content
     const content = await file.text();
