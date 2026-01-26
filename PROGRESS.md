@@ -27,7 +27,7 @@ This file tracks ongoing development progress to ensure continuity across sessio
 ### 🔴 High Priority - Bugs/Fixes
 | Task | Notes |
 |------|-------|
-| Fix Technical page videos | Wrong YouTube links showing - need correct video IDs |
+| ~~Fix Technical page videos~~ | ✅ DONE - Videos now managed via admin panel |
 | Fix scrolling issue | Can't scroll in certain places unless cursor in specific area |
 | ~~Add Year filter to results~~ | ✅ DONE - Year filter shows after Model selection |
 | ~~Add Subcategory to catalogue filter~~ | ✅ DONE - e.g. Brakes & Hydraulics → Discs (rotors) |
@@ -37,7 +37,7 @@ This file tracks ongoing development progress to ensure continuity across sessio
 | Task | Notes |
 |------|-------|
 | "Notify Me" back-in-stock alerts | Email capture + notification when item restocks. Question: Use T1 data or Magento for stock? (Currently CSV import from Khaos Control daily) |
-| Admin: Manage Technical videos | Add/edit YouTube links from backend admin panel |
+| ~~Admin: Manage Technical videos~~ | ✅ DONE - Full admin panel at /admin/videos |
 | Customer accounts/authentication | Login, register, order history |
 | Database architecture | Replace Google Sheets with proper DB |
 | Khaos Control integration | Sync with ERP system |
@@ -77,7 +77,7 @@ This file tracks ongoing development progress to ensure continuity across sessio
 ### Content
 - [x] Homepage with hero, categories, trust badges
 - [x] Catalogue browser (6,856 diagrams, Cloudinary CDN)
-- [x] Technical videos page (50+ YouTube videos)
+- [x] Technical videos page (48 YouTube videos, JSON-driven)
 - [x] Prestige Parts landing page
 - [x] CMS pages (About, Contact, Terms, Privacy, etc.)
 
@@ -86,6 +86,7 @@ This file tracks ongoing development progress to ensure continuity across sessio
 - [x] Product management
 - [x] CSV bulk upload
 - [x] Magento sync (ready)
+- [x] Technical videos management (add, edit, verify, delete)
 
 ### Security & SEO
 - [x] Security headers
@@ -97,9 +98,11 @@ This file tracks ongoing development progress to ensure continuity across sessio
 ## 📝 SESSION HISTORY
 
 ### Session: January 26, 2026
-**Focus:** Enhanced Filtering Features
+**Focus:** Enhanced Filtering Features & Technical Videos Admin
 
 **What was done:**
+
+#### Part 1: Enhanced Filtering
 1. **Year Filter in Products** - Added year selection after Model in vehicle filter
    - Year filter appears only when Make and Model are both selected
    - Shows years from chassis-years.json data (newest first)
@@ -116,12 +119,45 @@ This file tracks ongoing development progress to ensure continuity across sessio
    - Same UX pattern as Products page categories
    - Mobile filters also support subcategory selection
 
+4. **Removed Part Type Filter** - Simplified product filtering by removing redundant filter
+
+#### Part 2: Technical Videos Admin System
+5. **Video Data Migration** - Moved 48 videos from hardcoded array to JSON
+   - Created `data/json/technical-videos.json`
+   - Each video has: id, title, description, youtubeId, category, verified flag, timestamps
+   - Categories: Continental GT, Brakes, Suspension, Engine, Service, Hydraulics, Diagnostics
+
+6. **Admin API Endpoints** - Full CRUD at `/api/admin/videos`
+   - GET: List videos with filtering (category, verified status, search)
+   - POST: Add new video with YouTube URL parsing
+   - PUT: Update video details or verification status
+   - DELETE: Remove video
+
+7. **Admin Interface** - New page at `/admin/videos`
+   - Grid view with video thumbnails from YouTube
+   - Filter by category, verification status, or search text
+   - Stats showing total/verified/unverified counts
+   - Add new videos with YouTube URL (auto-extracts video ID)
+   - Edit video title, description, category
+   - Quick verify/unverify toggle for video content verification
+   - Delete with confirmation
+
+8. **Technical Page Update** - Now loads videos from JSON data
+   - Added `getTechnicalVideos()` function to data-server.js
+   - Page fetches from JSON instead of hardcoded array
+
 **Key Files Changed:**
-- `lib/data-server.js` - Added searchPartType filter, years in availableFilters, catalogue subcategory support
-- `app/api/products/route.js` - Added searchPartType param, returns years and searchPartTypes
+- `lib/data-server.js` - Added searchPartType filter, years, catalogue subcategory, getTechnicalVideos()
+- `app/api/products/route.js` - Added searchPartType param
 - `app/api/catalogues/route.js` - Added subcategory param
-- `app/products/ProductsContent.js` - Year filter UI, Search Part Type filter section
+- `app/products/ProductsContent.js` - Year filter UI, removed Part Type filter
 - `app/catalogues/CataloguesContent.js` - Expandable categories with subcategories
+- `data/json/technical-videos.json` - NEW: Video data storage
+- `app/api/admin/videos/route.js` - NEW: Videos API (GET/POST)
+- `app/api/admin/videos/[id]/route.js` - NEW: Single video API (GET/PUT/DELETE)
+- `app/admin/videos/page.js` - NEW: Admin videos interface
+- `app/technical/page.js` - Updated to use JSON data
+- `components/admin/AdminNav.js` - Added Videos link
 
 ---
 
@@ -820,4 +856,4 @@ const patterns = [
 ---
 
 *This document is updated after each development session to maintain continuity.*
-*Last updated: January 26, 2025*
+*Last updated: January 26, 2026*

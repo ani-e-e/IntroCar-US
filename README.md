@@ -117,12 +117,13 @@ IntroCar - US Website Prototype/
 - Images hosted on Cloudinary CDN for fast delivery
 
 ### Technical Page (`/technical`)
-- 50+ embedded YouTube technical videos with real IntroCar video IDs
+- 48 embedded YouTube technical videos loaded from JSON data
 - Organized by category (Continental GT, Brakes, Suspension, Engine, Service, Hydraulics, Diagnostics)
 - Videos play directly in embedded iframes
 - Category navigation buttons for quick jumping between sections
 - Request a Technical Video email contact link
 - Subscribe to YouTube channel CTA
+- Videos managed via admin panel
 
 ### Prestige Parts Page (`/prestige-parts`)
 - Dedicated landing page for Prestige Parts range
@@ -158,6 +159,7 @@ IntroCar - US Website Prototype/
 - **Dashboard** (`/admin`) - Product stats, quick actions, system status
 - **Products** (`/admin/products`) - Browse, search, filter 16,000+ products
 - **Edit Product** (`/admin/products/[sku]`) - Edit individual product details (price, weight, description, categories, stock)
+- **Videos** (`/admin/videos`) - Manage technical videos (add, edit, verify, delete)
 - **CSV Upload** (`/admin/upload`) - Bulk update prices, stock levels, weights with preview
 - **Sync** (`/admin/sync`) - Push updates to Magento staging
 
@@ -167,6 +169,7 @@ IntroCar - US Website Prototype/
 - Preview changes before applying
 - Tracks pending sync status per product
 - One-click sync to Magento
+- Technical video management with verification workflow
 
 ---
 
@@ -299,9 +302,9 @@ npm start
 11. ✅ Individual filter badges for each selected stock type
 12. ✅ Prestige Parts dedicated landing page
 13. ✅ International Stockists section with map
-14. ✅ Technical page with 50+ real IntroCar YouTube videos
+14. ✅ Technical page with 48 YouTube videos (JSON-driven)
 15. ✅ Category navigation on technical page
-16. ✅ Real YouTube video IDs from IntroCar channel
+16. ✅ Admin panel for managing technical videos
 17. ✅ Homepage category links with proper filtering
 18. ✅ Dynamic filters (only show options with products)
 19. ✅ Prestige Parts page UI polish (logo size, button layout, map styling)
@@ -342,27 +345,31 @@ If you encounter any issues:
 
 ## 📅 Recent Updates (January 2025)
 
-### Latest Session (Jan 23, 2025)
+### Latest Session (Jan 26, 2026)
+
+#### Technical Videos Admin System
+- **Video data moved to JSON** - Created `data/json/technical-videos.json` with 48 videos
+- **Admin interface** (`/admin/videos`) - Full CRUD for managing technical videos:
+  - List all videos with thumbnails and category filters
+  - Add new videos with YouTube URL parsing
+  - Edit video title, description, category
+  - Verify/unverify videos (to confirm descriptions match content)
+  - Delete videos with confirmation
+- **API endpoints** - RESTful API at `/api/admin/videos` for video management
+- **Technical page updated** - Now loads videos from JSON instead of hardcoded array
+
+#### Enhanced Filtering (Earlier Jan 26)
+- **Year Filter** - Shows after Make/Model selection, filters by chassis year ranges
+- **Search Part Type Filter** - "Parts", "Nuts, Bolts & Washers", "Bundles & Kits"
+- **Catalogue Subcategories** - Expandable categories with subcategory selection
+- **Removed Part Type filter** - Simplified product filtering
+
+### Previous Session (Jan 23, 2025)
 
 #### UI Fixes
-- **Prestige Parts buttons on one line** - Removed max-w-3xl constraint and reduced button padding so all 4 buttons (Shop All, Prestige Parts®, Prestige Parts® (OE), Uprated) fit on a single row
-- **Prestige Parts logo enlarged** - Increased from w-64/h-32 to w-80/h-40 in "The Prestige Parts® Difference" section
-- **Map with full-width white background** - Updated map section to have full-page-width white background with object-contain for proper fitting
-
-#### Technical Page - Real YouTube Videos
-- Replaced all placeholder video IDs with real IntroCar YouTube video IDs
-- Videos sourced from IntroCar Technical Videos playlist (82 videos)
-- Categories: Continental GT, Brakes, Suspension, Engine, Service, Hydraulics, Diagnostics
-- All videos now play correctly in embedded iframes
-
-**Key Video IDs (for reference):**
-- Bentley GT 6 Common Issues: `KTXFOh_fFTg`
-- 5 Common Issues Classic RR/Bentley: `FF-6KuYezBs`
-- Brake Accumulator Disassembly: `em3vc2iNzDA`
-- Brake Pump Test: `jFA4DWbtxlc`
-- Brake Pump Reassembly: `__AFOuJvusY`
-- Height Control Valve Part 1: `Wkwxnhe6Vsg`
-- Height Control Valve Part 2: `0zaLqDI8BQc`
+- **Prestige Parts buttons on one line** - All 4 buttons fit on single row
+- **Prestige Parts logo enlarged** - Increased size in difference section
+- **Map with full-width white background** - Proper fitting with object-contain
 
 ### Previous Session Updates
 
