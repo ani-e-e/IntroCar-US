@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { filterProducts, getCategories, getCategoryNames, getStockTypes, getVehicleData } from '@/lib/data-server';
+import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData } from '@/lib/data-server';
 
 export async function GET(request) {
   try {
@@ -10,6 +10,7 @@ export async function GET(request) {
       category: searchParams.get('category') || '',
       subcategory: searchParams.get('subcategory') || '',
       stockType: searchParams.get('stockType') || '',
+      searchPartType: searchParams.get('searchPartType') || '',
       make: searchParams.get('make') || '',
       model: searchParams.get('model') || '',
       year: searchParams.get('year') || '',
@@ -25,6 +26,7 @@ export async function GET(request) {
     const categories = getCategories(); // Returns array with subcategories (all categories)
     const categoryNames = getCategoryNames(); // Flat list for simple dropdown
     const stockTypes = getStockTypes();
+    const searchPartTypes = getSearchPartTypes();
     const vehicleData = getVehicleData();
 
     // Filter vehicle data to only include models that have products
@@ -43,6 +45,8 @@ export async function GET(request) {
       categories: result.availableFilters?.categories || categories,
       categoryNames: result.availableFilters?.categories?.map(c => c.name) || categoryNames,
       stockTypes: result.availableFilters?.stockTypes || stockTypes,
+      searchPartTypes: result.availableFilters?.searchPartTypes || searchPartTypes,
+      years: result.availableFilters?.years || [],
       vehicleData: filteredVehicleData,
       supersessionMatch: result.supersessionMatch || null,
       searchType: result.searchType || null,

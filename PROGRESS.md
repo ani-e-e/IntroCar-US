@@ -1,10 +1,229 @@
 # IntroCar US - Development Progress Log
 
+**Project:** IntroCar US E-commerce Website
+**Stack:** Next.js 14, Tailwind CSS, Stripe, Vercel
+**Live Site:** https://intro-car-us.vercel.app
+**Repository:** https://github.com/ani-e-e/IntroCar-US
+
 This file tracks ongoing development progress to ensure continuity across sessions.
 
 ---
 
-## Session: January 22, 2026 (Current)
+## 🎯 Quick Status
+
+| Area | Status |
+|------|--------|
+| **Core Site** | ✅ Live and functional |
+| **Payments** | ✅ Stripe integrated |
+| **Currency** | ✅ GBP→USD conversion live |
+| **Admin Panel** | ✅ Working |
+| **Magento Integration** | 🟡 Ready, awaiting token |
+| **Domain** | 🟡 Pending DNS setup |
+
+---
+
+## 📋 ACTION ITEMS
+
+### 🔴 High Priority - Bugs/Fixes
+| Task | Notes |
+|------|-------|
+| Fix Technical page videos | Wrong YouTube links showing - need correct video IDs |
+| Fix scrolling issue | Can't scroll in certain places unless cursor in specific area |
+| ~~Add Year filter to results~~ | ✅ DONE - Year filter shows after Model selection |
+| ~~Add Subcategory to catalogue filter~~ | ✅ DONE - e.g. Brakes & Hydraulics → Discs (rotors) |
+| ~~Add Search Part Type filter~~ | ✅ DONE - Parts, Nuts Bolts & Washers, Bundles & Kits |
+
+### 🟡 Medium Priority - Features
+| Task | Notes |
+|------|-------|
+| "Notify Me" back-in-stock alerts | Email capture + notification when item restocks. Question: Use T1 data or Magento for stock? (Currently CSV import from Khaos Control daily) |
+| Admin: Manage Technical videos | Add/edit YouTube links from backend admin panel |
+| Customer accounts/authentication | Login, register, order history |
+| Database architecture | Replace Google Sheets with proper DB |
+| Khaos Control integration | Sync with ERP system |
+
+### 🟠 Blocked - Awaiting Info
+| Task | Blocker | Owner |
+|------|---------|-------|
+| Magento integration testing | Awaiting Access Token | Web team |
+| Domain setup (introcar.us) | DNS configuration needed | Annika |
+
+### 🟢 Backlog
+| Task | Notes |
+|------|-------|
+| Customer vehicle matching | "Save my car" feature |
+| Discount pricing tiers | Trade/reseller accounts |
+| Wishlist functionality | Save parts for later |
+| Email notifications | Order confirmation, shipping |
+| Multi-currency | CAD, EUR for other markets |
+
+---
+
+## ✅ COMPLETED FEATURES
+
+### Payments & Currency
+- [x] Stripe Checkout integration
+- [x] GBP→USD currency conversion (fixer.io)
+- [x] Cart stores USD (Stripe) and GBP (Magento) prices
+- [x] Webhook sends GBP prices to Magento
+
+### Core E-commerce
+- [x] Product listing with advanced filtering
+- [x] Multi-select Part Type filter
+- [x] Product detail pages with NLA warnings
+- [x] Shopping cart with shipping calculator
+- [x] Free shipping over $500
+
+### Content
+- [x] Homepage with hero, categories, trust badges
+- [x] Catalogue browser (6,856 diagrams, Cloudinary CDN)
+- [x] Technical videos page (50+ YouTube videos)
+- [x] Prestige Parts landing page
+- [x] CMS pages (About, Contact, Terms, Privacy, etc.)
+
+### Admin
+- [x] Password authentication
+- [x] Product management
+- [x] CSV bulk upload
+- [x] Magento sync (ready)
+
+### Security & SEO
+- [x] Security headers
+- [x] Rate limiting
+- [x] Sitemap & robots.txt
+
+---
+
+## 📝 SESSION HISTORY
+
+### Session: January 26, 2026
+**Focus:** Enhanced Filtering Features
+
+**What was done:**
+1. **Year Filter in Products** - Added year selection after Model in vehicle filter
+   - Year filter appears only when Make and Model are both selected
+   - Shows years from chassis-years.json data (newest first)
+   - Filters products based on chassis ranges for the selected year
+
+2. **Search Part Type Filter** - New "Product Category" filter with user-friendly labels:
+   - "Core Part" → displays as "Parts"
+   - "Ancillaries" → displays as "Nuts, Bolts & Washers"
+   - "Bundles" → displays as "Bundles & Kits"
+   - Multi-select checkboxes, same UX as Part Type filter
+
+3. **Subcategory Filter in Catalogues** - Expandable categories with subcategories
+   - Categories now expand to show subcategories (e.g., Brakes & Hydraulics → Discs, Calipers)
+   - Same UX pattern as Products page categories
+   - Mobile filters also support subcategory selection
+
+**Key Files Changed:**
+- `lib/data-server.js` - Added searchPartType filter, years in availableFilters, catalogue subcategory support
+- `app/api/products/route.js` - Added searchPartType param, returns years and searchPartTypes
+- `app/api/catalogues/route.js` - Added subcategory param
+- `app/products/ProductsContent.js` - Year filter UI, Search Part Type filter section
+- `app/catalogues/CataloguesContent.js` - Expandable categories with subcategories
+
+---
+
+### Session: January 26, 2025
+**Focus:** Currency Conversion Implementation
+
+**What was done:**
+- Created `lib/currency.js` - exchange rate fetching from fixer.io with 24hr cache
+- Created `context/CurrencyContext.js` - React context for components
+- Created `/api/exchange-rate` endpoint
+- Updated ProductCard, Product Detail, Cart to display USD prices
+- Updated CartContext to store both USD (Stripe) and GBP (Magento) prices
+- Updated Stripe checkout to include GBP metadata for Magento
+- Updated Magento webhook to extract GBP prices
+- Updated admin panel to show GBP (database currency)
+- Added FIXER_API_KEY to environment variables
+- Deployed to Vercel ✓
+
+**Key Files Changed:**
+- `lib/currency.js` (new)
+- `context/CurrencyContext.js` (new)
+- `app/api/exchange-rate/route.js` (new)
+- `app/layout.js` - Added CurrencyProvider
+- `components/ProductCard.js` - Uses useCurrency()
+- `app/products/[sku]/page.js` - Uses formatGbpAsUsd()
+- `context/CartContext.js` - Stores priceGbp
+- `app/api/checkout/route.js` - Stores GBP in metadata
+- `app/api/webhooks/stripe/route.js` - Extracts GBP for Magento
+
+---
+
+### Session: January 23, 2026
+**Focus:** Catalogue Images - 100% Coverage
+
+**What was done:**
+- Achieved 100% catalogue image coverage (was 72.8%)
+- Downloaded 1,040 missing images via web scraping
+- Renamed all images to URL-friendly slugs
+- Uploaded all 6,849 images to Cloudinary CDN
+- Updated lookbooks.json with CDN URLs
+
+---
+
+### Session: January 22, 2026
+**Focus:** Hero, CMS Pages, Shipping, Legal Content
+
+**What was done:**
+- Created HeroSlider component
+- Created 10 CMS pages (About, Contact, Terms, Privacy, etc.)
+- Implemented shipping calculator with USA DHL rates
+- Added cart system with CartContext
+- Added Trustpilot integration
+- Updated Terms & Privacy with actual IntroCar legal content
+- Renamed Lookbook to Catalogue throughout
+- Fixed NLA date format
+- Improved search result messaging
+
+---
+
+## 🔑 ENVIRONMENT VARIABLES
+
+```env
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_...
+STRIPE_SECRET_KEY=sk_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Base URL
+NEXT_PUBLIC_BASE_URL=https://intro-car-us.vercel.app
+
+# Admin
+ADMIN_PASSWORD_HASH=<generated>
+
+# Magento (awaiting token)
+MAGENTO_BASE_URL=https://mcstaging.introcar.com
+MAGENTO_ACCESS_TOKEN=<from web team>
+
+# Currency
+FIXER_API_KEY=<your key>
+```
+
+---
+
+## 🚀 STARTING A NEW SESSION
+
+Use this prompt:
+
+```
+I'm continuing work on the IntroCar US e-commerce site (Next.js on Vercel).
+Please read PROGRESS.md in my folder for full context.
+
+Today I want to work on: [SPECIFIC TASK]
+```
+
+---
+
+## 📚 DETAILED SESSION ARCHIVES
+
+<details>
+<summary>Click to expand full session history from January 22, 2026</summary>
+
+## Session: January 22, 2026 (Full Details)
 
 ### Task List (15 items)
 
@@ -595,3 +814,10 @@ const patterns = [
 ```
 
 *Last updated: January 23, 2026*
+
+</details>
+
+---
+
+*This document is updated after each development session to maintain continuity.*
+*Last updated: January 26, 2025*

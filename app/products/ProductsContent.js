@@ -51,6 +51,8 @@ export default function ProductsContent() {
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
   const [categories, setCategories] = useState([]); // Now contains {name, subcategories[]}
   const [stockTypes, setStockTypes] = useState([]);
+  const [searchPartTypes, setSearchPartTypes] = useState([]); // {value, label, count}
+  const [years, setYears] = useState([]); // Available years for selected make/model
   const [vehicleData, setVehicleData] = useState({});
   const [supersessionMatch, setSupersessionMatch] = useState(null);
   const [searchType, setSearchType] = useState(null);
@@ -64,6 +66,7 @@ export default function ProductsContent() {
   const currentCategory = searchParams.get('category') || '';
   const currentSubcategory = searchParams.get('subcategory') || '';
   const currentStockType = searchParams.get('stockType') || '';
+  const currentSearchPartType = searchParams.get('searchPartType') || '';
   const currentYear = searchParams.get('year') || '';
   const currentChassis = searchParams.get('chassis') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
@@ -83,6 +86,7 @@ export default function ProductsContent() {
       if (currentCategory) params.set('category', currentCategory);
       if (currentSubcategory) params.set('subcategory', currentSubcategory);
       if (currentStockType) params.set('stockType', currentStockType);
+      if (currentSearchPartType) params.set('searchPartType', currentSearchPartType);
       if (currentSort) params.set('sort', currentSort);
       params.set('page', currentPage.toString());
       params.set('limit', '24');
@@ -94,6 +98,8 @@ export default function ProductsContent() {
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
         setCategories(data.categories || []); // Now array of {name, subcategories[]}
         setStockTypes(data.stockTypes || []);
+        setSearchPartTypes(data.searchPartTypes || []);
+        setYears(data.years || []);
         setVehicleData(data.vehicleData || {});
         setSupersessionMatch(data.supersessionMatch);
         setSearchType(data.searchType);
@@ -103,7 +109,7 @@ export default function ProductsContent() {
     } finally {
       setLoading(false);
     }
-  }, [currentSearch, currentMake, currentModel, currentYear, currentChassis, currentCategory, currentSubcategory, currentStockType, currentPage, currentSort]);
+  }, [currentSearch, currentMake, currentModel, currentYear, currentChassis, currentCategory, currentSubcategory, currentStockType, currentSearchPartType, currentPage, currentSort]);
 
   useEffect(() => {
     fetchProducts();
@@ -131,6 +137,17 @@ export default function ProductsContent() {
     // Clear subcategory if category changes
     if (key === 'category') {
       params.delete('subcategory');
+    }
+    // Clear model and year if make changes
+    if (key === 'make') {
+      params.delete('model');
+      params.delete('year');
+      params.delete('chassis');
+    }
+    // Clear year if model changes
+    if (key === 'model') {
+      params.delete('year');
+      params.delete('chassis');
     }
     params.set('page', '1');
     router.push(`/products?${params.toString()}`);
@@ -187,6 +204,40 @@ export default function ProductsContent() {
     return currentStockType.split(',').length;
   }
 
+  // Toggle search part type for multi-select
+  function toggleSearchPartType(type) {
+    const params = new URLSearchParams(searchParams);
+    const currentTypes = currentSearchPartType ? currentSearchPartType.split(',') : [];
+
+    if (currentTypes.includes(type)) {
+      // Remove the type
+      const newTypes = currentTypes.filter(t => t !== type);
+      if (newTypes.length > 0) {
+        params.set('searchPartType', newTypes.join(','));
+      } else {
+        params.delete('searchPartType');
+      }
+    } else {
+      // Add the type
+      currentTypes.push(type);
+      params.set('searchPartType', currentTypes.join(','));
+    }
+    params.set('page', '1');
+    router.push(`/products?${params.toString()}`);
+  }
+
+  // Check if a search part type is currently selected
+  function isSearchPartTypeSelected(type) {
+    if (!currentSearchPartType) return false;
+    return currentSearchPartType.split(',').includes(type);
+  }
+
+  // Get count of selected search part types
+  function getSelectedSearchPartTypesCount() {
+    if (!currentSearchPartType) return 0;
+    return currentSearchPartType.split(',').length;
+  }
+
   function clearFilters() {
     router.push('/products');
     setLocalSearch('');
@@ -200,7 +251,7 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentStockType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentStockType || currentSearchPartType;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
 
@@ -300,7 +351,7 @@ export default function ProductsContent() {
               </FilterSection>
 
               {/* Vehicle Selection - SECOND PRIORITY */}
-              <FilterSection title="Vehicle" icon={Car} defaultOpen={true} count={(currentMake ? 1 : 0) + (currentModel ? 1 : 0)}>
+              <FilterSection title="Vehicle" icon={Car} defaultOpen={true} count={(currentMake ? 1 : 0) + (currentModel ? 1 : 0) + (currentYear ? 1 : 0)}>
                 <div className="space-y-3">
                   {/* Make */}
                   <div>
@@ -335,6 +386,24 @@ export default function ProductsContent() {
                       </div>
                     </div>
                   )}
+
+                  {/* Year - Only show if model selected and years available */}
+                  {currentModel && years.length > 0 && (
+                    <div>
+                      <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Year</label>
+                      <div className="space-y-1 max-h-48 overflow-y-auto">
+                        {years.map((year) => (
+                          <button
+                            key={year}
+                            onClick={() => setFilter('year', currentYear === String(year) ? '' : String(year))}
+                            className={`block w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentYear === String(year) ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                          >
+                            {year}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </FilterSection>
 
@@ -357,6 +426,28 @@ export default function ProductsContent() {
                   ))}
                 </div>
               </FilterSection>
+
+              {/* Search Part Type - Filter by product category */}
+              {searchPartTypes.length > 0 && (
+                <FilterSection title="Product Category" icon={Package} defaultOpen={!!currentSearchPartType} count={getSelectedSearchPartTypesCount()}>
+                  <div className="space-y-1">
+                    {searchPartTypes.map((spt) => (
+                      <label
+                        key={spt.value}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSearchPartTypeSelected(spt.value)}
+                          onChange={() => toggleSearchPartType(spt.value)}
+                          className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
+                        />
+                        <span>{spt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </FilterSection>
+              )}
 
               {/* Clear Filters */}
               {hasFilters && (
@@ -456,6 +547,17 @@ export default function ProductsContent() {
                     <button onClick={() => toggleStockType(type)}><X className="w-3 h-3" /></button>
                   </span>
                 ))}
+                {currentSearchPartType && currentSearchPartType.split(',').map((type) => {
+                  // Find the label for this search part type
+                  const spt = searchPartTypes.find(s => s.value === type);
+                  const label = spt ? spt.label : type;
+                  return (
+                    <span key={type} className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
+                      {label}
+                      <button onClick={() => toggleSearchPartType(type)}><X className="w-3 h-3" /></button>
+                    </span>
+                  );
+                })}
               </div>
             )}
 
@@ -583,14 +685,57 @@ export default function ProductsContent() {
                     <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Model</label>
                     <div className="space-y-1 max-h-32 overflow-y-auto">
                       {models.map((model) => (
-                        <button key={model} onClick={() => { setFilter('model', model); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                        <button key={model} onClick={() => { setFilter('model', model); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentModel === model ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
                           {model}
                         </button>
                       ))}
                     </div>
                   </div>
                 )}
+                {currentModel && years.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-gray-100">
+                    <label className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-2 block">Year</label>
+                    <div className="space-y-1 max-h-32 overflow-y-auto">
+                      {years.map((year) => (
+                        <button key={year} onClick={() => { setFilter('year', currentYear === String(year) ? '' : String(year)); setFiltersOpen(false); }} className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentYear === String(year) ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:bg-introcar-light'}`}>
+                          {year}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Product Category (Search Part Type) - FOURTH */}
+              {searchPartTypes.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Package className="w-4 h-4 text-introcar-blue" />
+                    <h3 className="text-introcar-charcoal font-medium">Product Category</h3>
+                    {getSelectedSearchPartTypesCount() > 0 && (
+                      <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
+                        {getSelectedSearchPartTypesCount()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    {searchPartTypes.map((spt) => (
+                      <label
+                        key={spt.value}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:bg-introcar-light'}`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSearchPartTypeSelected(spt.value)}
+                          onChange={() => toggleSearchPartType(spt.value)}
+                          className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
+                        />
+                        <span>{spt.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {hasFilters && (
                 <button onClick={() => { clearFilters(); setFiltersOpen(false); }} className="w-full py-3 text-sm text-red-600 hover:text-red-700 border border-red-200 rounded-lg hover:bg-red-50 flex items-center justify-center gap-2">

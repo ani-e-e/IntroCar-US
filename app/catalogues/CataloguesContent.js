@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Search, ChevronRight, ChevronLeft, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, BookOpen, Package, X, Filter, ImageOff } from 'lucide-react';
 
 // Catalogue card component - HIDES card if image fails (no image = no catalogue)
 function CatalogueCard({ catalogue, onImageError }) {
@@ -72,13 +72,15 @@ export default function CataloguesContent() {
   const [catalogues, setCatalogues] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
-  const [filters, setFilters] = useState({ makes: [], models: [], categories: [] });
+  const [filters, setFilters] = useState({ makes: [], models: [], categories: [], subcategories: [] });
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [expandedCategory, setExpandedCategory] = useState(null);
 
   const currentSearch = searchParams.get('search') || '';
   const currentMake = searchParams.get('make') || '';
   const currentModel = searchParams.get('model') || '';
   const currentCategory = searchParams.get('category') || '';
+  const currentSubcategory = searchParams.get('subcategory') || '';
   const currentChassis = searchParams.get('chassis') || '';
   const currentPage = parseInt(searchParams.get('page') || '1');
 
@@ -93,6 +95,7 @@ export default function CataloguesContent() {
       if (currentMake) params.set('make', currentMake);
       if (currentModel) params.set('model', currentModel);
       if (currentCategory) params.set('category', currentCategory);
+      if (currentSubcategory) params.set('subcategory', currentSubcategory);
       if (currentChassis) params.set('chassis', currentChassis);
       params.set('page', currentPage.toString());
       params.set('limit', '24');
@@ -102,14 +105,14 @@ export default function CataloguesContent() {
         const data = await res.json();
         setCatalogues(data.catalogues || []);
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
-        setFilters(data.filters || { makes: [], models: [], categories: [] });
+        setFilters(data.filters || { makes: [], models: [], categories: [], subcategories: [] });
       }
     } catch (error) {
       console.error('Error fetching catalogues:', error);
     } finally {
       setLoading(false);
     }
-  }, [currentSearch, currentMake, currentModel, currentCategory, currentChassis, currentPage]);
+  }, [currentSearch, currentMake, currentModel, currentCategory, currentSubcategory, currentChassis, currentPage]);
 
   useEffect(() => {
     fetchCatalogues();
@@ -138,6 +141,27 @@ export default function CataloguesContent() {
     if (key === 'make') {
       params.delete('model');
     }
+    // Clear subcategory if category changes
+    if (key === 'category') {
+      params.delete('subcategory');
+    }
+    params.set('page', '1');
+    router.push(`/catalogues?${params.toString()}`);
+  }
+
+  function setCategoryFilter(category, subcategory = '') {
+    const params = new URLSearchParams(searchParams);
+    if (category) {
+      params.set('category', category);
+      if (subcategory) {
+        params.set('subcategory', subcategory);
+      } else {
+        params.delete('subcategory');
+      }
+    } else {
+      params.delete('category');
+      params.delete('subcategory');
+    }
     params.set('page', '1');
     router.push(`/catalogues?${params.toString()}`);
   }
@@ -154,7 +178,7 @@ export default function CataloguesContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentChassis;
+  const hasFilters = currentSearch || currentMake || currentModel || currentCategory || currentSubcategory || currentChassis;
 
   function handleChassisSearch(e) {
     e.preventDefault();
@@ -195,6 +219,12 @@ export default function CataloguesContent() {
               <>
                 <ChevronRight className="w-4 h-4" />
                 <span className="text-introcar-charcoal">{currentCategory}</span>
+              </>
+            )}
+            {currentSubcategory && (
+              <>
+                <ChevronRight className="w-4 h-4" />
+                <span className="text-introcar-charcoal">{currentSubcategory}</span>
               </>
             )}
             {currentChassis && (
@@ -274,18 +304,41 @@ export default function CataloguesContent() {
                 </div>
               )}
 
-              {/* Category Filter */}
+              {/* Category Filter - with expandable subcategories */}
               <div>
                 <h3 className="text-introcar-charcoal font-medium mb-3">Category</h3>
-                <div className="space-y-1 max-h-64 overflow-y-auto">
+                <div className="space-y-1 max-h-80 overflow-y-auto">
                   {filters.categories.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setFilter('category', currentCategory === cat ? '' : cat)}
-                      className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${currentCategory === cat ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                    >
-                      {cat}
-                    </button>
+                    <div key={cat.name}>
+                      <button
+                        onClick={() => {
+                          if (cat.subcategories && cat.subcategories.length > 0) {
+                            setExpandedCategory(expandedCategory === cat.name ? null : cat.name);
+                          }
+                          setCategoryFilter(cat.name);
+                        }}
+                        className={`flex items-center justify-between w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${currentCategory === cat.name && !currentSubcategory ? 'bg-introcar-blue text-white' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                      >
+                        <span className="truncate">{cat.name}</span>
+                        {cat.subcategories && cat.subcategories.length > 0 && (
+                          <ChevronDown className={`w-4 h-4 shrink-0 transition-transform ${expandedCategory === cat.name ? 'rotate-180' : ''}`} />
+                        )}
+                      </button>
+                      {/* Subcategories */}
+                      {expandedCategory === cat.name && cat.subcategories && cat.subcategories.length > 0 && (
+                        <div className="ml-3 mt-1 space-y-1 border-l-2 border-introcar-blue/20 pl-3">
+                          {cat.subcategories.map((sub) => (
+                            <button
+                              key={sub}
+                              onClick={() => setCategoryFilter(cat.name, sub)}
+                              className={`block w-full text-left px-2 py-1.5 rounded text-sm transition-colors ${currentCategory === cat.name && currentSubcategory === sub ? 'bg-introcar-blue text-white' : 'text-gray-500 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                            >
+                              {sub}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -374,14 +427,26 @@ export default function CataloguesContent() {
                 )}
                 <select
                   value={currentCategory}
-                  onChange={(e) => setFilter('category', e.target.value)}
+                  onChange={(e) => setCategoryFilter(e.target.value)}
                   className="input-field w-full"
                 >
                   <option value="">Select Category</option>
                   {filters.categories.map(cat => (
-                    <option key={cat} value={cat}>{cat}</option>
+                    <option key={cat.name} value={cat.name}>{cat.name}</option>
                   ))}
                 </select>
+                {currentCategory && filters.subcategories && filters.subcategories.length > 0 && (
+                  <select
+                    value={currentSubcategory}
+                    onChange={(e) => setCategoryFilter(currentCategory, e.target.value)}
+                    className="input-field w-full"
+                  >
+                    <option value="">Select Subcategory</option>
+                    {filters.subcategories.map(sub => (
+                      <option key={sub} value={sub}>{sub}</option>
+                    ))}
+                  </select>
+                )}
                 {hasFilters && (
                   <button
                     onClick={clearFilters}
@@ -416,8 +481,8 @@ export default function CataloguesContent() {
                 )}
                 {currentCategory && (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
-                    {currentCategory}
-                    <button onClick={() => setFilter('category', '')}><X className="w-3 h-3" /></button>
+                    {currentCategory}{currentSubcategory && ` / ${currentSubcategory}`}
+                    <button onClick={() => setCategoryFilter('')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
                 {currentChassis && (
