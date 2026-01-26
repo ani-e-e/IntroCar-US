@@ -40,16 +40,21 @@
     },
     {
       "id": "v003",
-      "title": "The Engineering Behind Prestige Parts: Remanufacturing Rolls-Royce & Bentley Components",
-      "description": "An in-depth look at how Prestige Parts remanufactures components to OEM specifications.",
+      "title": "Own a Classic Rolls-Royce or Bentley? Don’t Ignore These 5 Common Issues!",
+      "description": "Matt takes us through 5 common issues on Rolls-Royce Silver Dawn (49-55), Silver Wraith & Bentley Mk VI, R Type.",
       "youtubeId": "wN6iwpaCDSM",
-      "category": "Continental GT",
+      "category": "Diagnostics",
       "verified": false,
       "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:28:34.646Z",
-      "makes": [],
+      "updatedAt": "2026-01-26T19:29:28.156Z",
+      "makes": [
+        "Bentley",
+        "Rolls-Royce"
+      ],
       "models": [],
-      "productCategories": []
+      "productCategories": [
+        "Service & Maintenance"
+      ]
     },
     {
       "id": "v004",
