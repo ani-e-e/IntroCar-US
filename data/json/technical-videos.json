@@ -70,10 +70,26 @@
       "title": "Changing your Wiper Blades on Bentley Arnage models: How-to Guide",
       "description": "Step-by-step guide on how to replace wiper blades on Bentley Arnage models.",
       "youtubeId": "SNgtHqsJvXo",
-      "category": "Continental GT",
-      "verified": false,
+      "category": "Service",
+      "verified": true,
       "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "updatedAt": "2026-01-26T19:36:15.250Z",
+      "makes": [
+        "Bentley",
+        "Rolls-Royce"
+      ],
+      "models": [
+        "Arnage 4.4L Birkin",
+        "Arnage Green Label",
+        "Arnage Le Mans",
+        "Arnage Red Label",
+        "Park Ward",
+        "Silver Seraph"
+      ],
+      "productCategories": [
+        "Service & Maintenance",
+        "Body"
+      ]
     },
     {
       "id": "v005",
