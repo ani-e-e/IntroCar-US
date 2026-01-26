@@ -15,9 +15,18 @@
       "description": "Phil explains the most common issues that affect Bentley Continental GT models and how to address them.",
       "youtubeId": "KTXFOh_fFTg",
       "category": "Continental GT",
-      "verified": false,
+      "verified": true,
       "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "updatedAt": "2026-01-26T19:22:46.565Z",
+      "makes": [
+        "Bentley"
+      ],
+      "models": [
+        "Continental GT"
+      ],
+      "productCategories": [
+        "Service & Maintenance"
+      ]
     },
     {
       "id": "v002",
