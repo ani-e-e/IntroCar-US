@@ -17,7 +17,7 @@
       "category": "Continental GT",
       "verified": true,
       "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:22:46.565Z",
+      "updatedAt": "2026-01-26T19:31:39.155Z",
       "makes": [
         "Bentley"
       ],
@@ -25,7 +25,9 @@
         "Continental GT"
       ],
       "productCategories": [
-        "Service & Maintenance"
+        "Service & Maintenance",
+        "Suspension, Subframe & Chassis",
+        "Brakes & Hydraulics"
       ]
     },
     {
