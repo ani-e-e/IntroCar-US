@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Info, SlidersHorizontal, Grid, List, Package, Car, Tag } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Info, SlidersHorizontal, Grid, List, Package, Car } from 'lucide-react';
 
 // Collapsible filter section component
 function FilterSection({ title, icon: Icon, defaultOpen = true, children, count }) {
@@ -251,7 +251,7 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentStockType || currentSearchPartType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentSearchPartType;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
 
@@ -407,26 +407,6 @@ export default function ProductsContent() {
                 </div>
               </FilterSection>
 
-              {/* Part Type (Stock Type) - THIRD, collapsed by default */}
-              <FilterSection title="Part Type" icon={Tag} defaultOpen={!!currentStockType} count={getSelectedStockTypesCount()}>
-                <div className="space-y-1">
-                  {stockTypes.map((type) => (
-                    <label
-                      key={type}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isStockTypeSelected(type) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isStockTypeSelected(type)}
-                        onChange={() => toggleStockType(type)}
-                        className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
-                      />
-                      <span>{type}</span>
-                    </label>
-                  ))}
-                </div>
-              </FilterSection>
-
               {/* Search Part Type - Filter by product category */}
               {searchPartTypes.length > 0 && (
                 <FilterSection title="Product Category" icon={Package} defaultOpen={!!currentSearchPartType} count={getSelectedSearchPartTypesCount()}>
@@ -541,12 +521,6 @@ export default function ProductsContent() {
                     <button onClick={() => setCategoryFilter('')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
-                {currentStockType && currentStockType.split(',').map((type) => (
-                  <span key={type} className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
-                    {type}
-                    <button onClick={() => toggleStockType(type)}><X className="w-3 h-3" /></button>
-                  </span>
-                ))}
                 {currentSearchPartType && currentSearchPartType.split(',').map((type) => {
                   // Find the label for this search part type
                   const spt = searchPartTypes.find(s => s.value === type);
@@ -638,36 +612,7 @@ export default function ProductsContent() {
                 </div>
               </div>
 
-              {/* Part Type - SECOND */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Tag className="w-4 h-4 text-introcar-blue" />
-                  <h3 className="text-introcar-charcoal font-medium">Part Type</h3>
-                  {getSelectedStockTypesCount() > 0 && (
-                    <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
-                      {getSelectedStockTypesCount()}
-                    </span>
-                  )}
-                </div>
-                <div className="space-y-1">
-                  {stockTypes.map((type) => (
-                    <label
-                      key={type}
-                      className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isStockTypeSelected(type) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:bg-introcar-light'}`}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isStockTypeSelected(type)}
-                        onChange={() => toggleStockType(type)}
-                        className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
-                      />
-                      <span>{type}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
-
-              {/* Vehicle - THIRD */}
+              {/* Vehicle - SECOND */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <Car className="w-4 h-4 text-introcar-blue" />
