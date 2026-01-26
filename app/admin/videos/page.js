@@ -8,6 +8,11 @@ export default function VideosPage() {
   const [stats, setStats] = useState({ total: 0, verified: 0, unverified: 0 });
   const [loading, setLoading] = useState(true);
 
+  // Dropdown options from API
+  const [availableMakes, setAvailableMakes] = useState([]);
+  const [modelsByMake, setModelsByMake] = useState({});
+  const [productCategories, setProductCategories] = useState([]);
+
   // Filters
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -20,8 +25,11 @@ export default function VideosPage() {
     title: '',
     description: '',
     youtubeUrl: '',
-    category: '',
+    topicCategory: '',
     verified: false,
+    makes: [],
+    models: [],
+    productCategories: [],
   });
   const [formError, setFormError] = useState('');
   const [saving, setSaving] = useState(false);
@@ -42,6 +50,10 @@ export default function VideosPage() {
         setVideos(data.videos);
         setCategories(data.categories);
         setStats(data.stats);
+        // Set dropdown options
+        setAvailableMakes(data.makes || []);
+        setModelsByMake(data.modelsByMake || {});
+        setProductCategories(data.productCategories || []);
       }
     } catch (error) {
       console.error('Failed to load videos:', error);
@@ -65,8 +77,11 @@ export default function VideosPage() {
       title: '',
       description: '',
       youtubeUrl: '',
-      category: categories[0] || '',
+      topicCategory: categories[0] || '',
       verified: false,
+      makes: [],
+      models: [],
+      productCategories: [],
     });
     setFormError('');
     setShowModal(true);
@@ -78,8 +93,11 @@ export default function VideosPage() {
       title: video.title,
       description: video.description,
       youtubeUrl: `https://www.youtube.com/watch?v=${video.youtubeId}`,
-      category: video.category,
+      topicCategory: video.category,
       verified: video.verified,
+      makes: video.makes || [],
+      models: video.models || [],
+      productCategories: video.productCategories || [],
     });
     setFormError('');
     setShowModal(true);
@@ -127,11 +145,16 @@ export default function VideosPage() {
         body: JSON.stringify({ verified: !video.verified }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         loadVideos();
+      } else {
+        alert(data.error || 'Failed to update verification status');
       }
     } catch (error) {
       console.error('Failed to update verification status:', error);
+      alert('Failed to update verification status');
     }
   };
 
@@ -145,12 +168,41 @@ export default function VideosPage() {
         method: 'DELETE',
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         loadVideos();
+      } else {
+        alert(data.error || 'Failed to delete video');
       }
     } catch (error) {
       console.error('Failed to delete video:', error);
+      alert('Failed to delete video');
     }
+  };
+
+  // Multi-select toggle handler
+  const toggleArrayItem = (field, item) => {
+    const current = formData[field] || [];
+    if (current.includes(item)) {
+      setFormData({ ...formData, [field]: current.filter(i => i !== item) });
+    } else {
+      setFormData({ ...formData, [field]: [...current, item] });
+    }
+  };
+
+  // Get available models based on selected makes
+  const getAvailableModels = () => {
+    const selectedMakes = formData.makes || [];
+    if (selectedMakes.length === 0) return [];
+
+    let models = [];
+    selectedMakes.forEach(make => {
+      if (modelsByMake[make]) {
+        models = [...models, ...modelsByMake[make]];
+      }
+    });
+    return [...new Set(models)].sort();
   };
 
   return (
@@ -264,34 +316,39 @@ export default function VideosPage() {
                   <p className="text-xs text-gray-500 line-clamp-2 mb-3">
                     {video.description}
                   </p>
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap gap-1 mb-3">
                     <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">
                       {video.category}
                     </span>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => handleVerify(video)}
-                        className={`text-xs px-2 py-1 rounded transition-colors ${
-                          video.verified
-                            ? 'text-yellow-600 hover:bg-yellow-50'
-                            : 'text-green-600 hover:bg-green-50'
-                        }`}
-                      >
-                        {video.verified ? 'Unverify' : 'Verify'}
-                      </button>
-                      <button
-                        onClick={() => openEditModal(video)}
-                        className="text-xs text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition-colors"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => handleDelete(video)}
-                        className="text-xs text-red-600 hover:bg-red-50 px-2 py-1 rounded transition-colors"
-                      >
-                        Delete
-                      </button>
-                    </div>
+                    {video.makes?.length > 0 && (
+                      <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                        {video.makes.join(', ')}
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      onClick={() => handleVerify(video)}
+                      className={`text-xs px-2 py-1 rounded transition-colors ${
+                        video.verified
+                          ? 'text-yellow-600 hover:bg-yellow-50'
+                          : 'text-green-600 hover:bg-green-50'
+                      }`}
+                    >
+                      {video.verified ? 'Unverify' : 'Verify'}
+                    </button>
+                    <button
+                      onClick={() => openEditModal(video)}
+                      className="text-xs text-blue-600 hover:bg-blue-50 px-2 py-1 rounded transition-colors"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(video)}
+                      className="text-xs text-red-600 hover:bg-red-50 px-2 py-1 rounded transition-colors"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               </div>
@@ -303,7 +360,7 @@ export default function VideosPage() {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <h2 className="text-xl font-bold text-gray-900 mb-6">
                 {editingVideo ? 'Edit Video' : 'Add New Video'}
@@ -312,7 +369,7 @@ export default function VideosPage() {
               <form onSubmit={handleSave} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    YouTube URL or Video ID
+                    YouTube URL or Video ID *
                   </label>
                   <input
                     type="text"
@@ -326,7 +383,7 @@ export default function VideosPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Title
+                    Title *
                   </label>
                   <input
                     type="text"
@@ -353,22 +410,107 @@ export default function VideosPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Category
+                    Topic Category *
                   </label>
                   <select
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    value={formData.topicCategory}
+                    onChange={(e) => setFormData({ ...formData, topicCategory: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                     required
                   >
-                    <option value="">Select category...</option>
+                    <option value="">Select topic...</option>
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
                     ))}
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2">
+                {/* Makes Multi-Select */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Makes (select all that apply)
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {availableMakes.map((make) => (
+                      <button
+                        key={make}
+                        type="button"
+                        onClick={() => toggleArrayItem('makes', make)}
+                        className={`px-3 py-1.5 text-sm rounded-lg border transition-colors ${
+                          formData.makes?.includes(make)
+                            ? 'bg-blue-600 text-white border-blue-600'
+                            : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
+                        }`}
+                      >
+                        {make}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Models Multi-Select (only show if makes selected) */}
+                {formData.makes?.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Models (select all that apply)
+                    </label>
+                    <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-3">
+                      <div className="flex flex-wrap gap-2">
+                        {getAvailableModels().map((model) => (
+                          <button
+                            key={model}
+                            type="button"
+                            onClick={() => toggleArrayItem('models', model)}
+                            className={`px-2 py-1 text-xs rounded border transition-colors ${
+                              formData.models?.includes(model)
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
+                            }`}
+                          >
+                            {model}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    {formData.models?.length > 0 && (
+                      <p className="text-xs text-gray-500 mt-1">
+                        {formData.models.length} model(s) selected
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Product Categories Multi-Select */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Product Categories (select all that apply)
+                  </label>
+                  <div className="max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-3">
+                    <div className="flex flex-wrap gap-2">
+                      {productCategories.map((cat) => (
+                        <button
+                          key={cat}
+                          type="button"
+                          onClick={() => toggleArrayItem('productCategories', cat)}
+                          className={`px-2 py-1 text-xs rounded border transition-colors ${
+                            formData.productCategories?.includes(cat)
+                              ? 'bg-green-600 text-white border-green-600'
+                              : 'bg-white text-gray-700 border-gray-300 hover:border-green-400'
+                          }`}
+                        >
+                          {cat}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {formData.productCategories?.length > 0 && (
+                    <p className="text-xs text-gray-500 mt-1">
+                      {formData.productCategories.length} category/categories selected
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2 pt-2">
                   <input
                     type="checkbox"
                     id="verified"

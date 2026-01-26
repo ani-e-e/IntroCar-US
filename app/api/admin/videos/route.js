@@ -5,6 +5,8 @@ import { promises as fs } from 'fs';
 import path from 'path';
 
 const VIDEOS_FILE = path.join(process.cwd(), 'data', 'json', 'technical-videos.json');
+const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
+const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'json', 'products.json');
 
 // Helper to read videos data
 async function getVideosData() {
@@ -14,7 +16,13 @@ async function getVideosData() {
 
 // Helper to write videos data
 async function saveVideosData(data) {
-  await fs.writeFile(VIDEOS_FILE, JSON.stringify(data, null, 2));
+  try {
+    await fs.writeFile(VIDEOS_FILE, JSON.stringify(data, null, 2));
+    return true;
+  } catch (error) {
+    console.error('Error writing videos file:', error);
+    throw new Error('Cannot save changes. The filesystem may be read-only.');
+  }
 }
 
 // Helper to extract YouTube video ID from URL
@@ -38,6 +46,43 @@ function extractYouTubeId(url) {
   }
 
   return null;
+}
+
+// Helper to get vehicle and category data for dropdowns
+async function getDropdownData() {
+  try {
+    const [vehiclesRaw, productsRaw] = await Promise.all([
+      fs.readFile(VEHICLES_FILE, 'utf-8'),
+      fs.readFile(PRODUCTS_FILE, 'utf-8')
+    ]);
+
+    const vehicles = JSON.parse(vehiclesRaw);
+    const products = JSON.parse(productsRaw);
+
+    // Extract unique makes
+    const makes = [...new Set(vehicles.map(v => v.make))].sort();
+
+    // Extract models grouped by make
+    const modelsByMake = {};
+    vehicles.forEach(v => {
+      if (!modelsByMake[v.make]) modelsByMake[v.make] = new Set();
+      modelsByMake[v.make].add(v.model);
+    });
+    Object.keys(modelsByMake).forEach(make => {
+      modelsByMake[make] = [...modelsByMake[make]].sort();
+    });
+
+    // Extract main product categories
+    const productCategories = [...new Set(products.map(p => {
+      if (p.categories) return p.categories.split('/')[0].split('|')[0];
+      return null;
+    }).filter(Boolean))].sort();
+
+    return { makes, modelsByMake, productCategories };
+  } catch (error) {
+    console.error('Error loading dropdown data:', error);
+    return { makes: [], modelsByMake: {}, productCategories: [] };
+  }
 }
 
 // GET - List all videos with optional filtering
@@ -85,10 +130,16 @@ export async function GET(request) {
       unverified: allVideos.filter(v => !v.verified).length,
     };
 
+    // Get dropdown data for add/edit forms
+    const { makes, modelsByMake, productCategories } = await getDropdownData();
+
     return NextResponse.json({
       videos,
       categories: data.categories || [],
       stats,
+      makes,
+      modelsByMake,
+      productCategories
     });
   } catch (error) {
     console.error('Error loading videos:', error);
@@ -107,12 +158,21 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-    const { title, description, youtubeUrl, category, verified = false } = body;
+    const {
+      title,
+      description,
+      youtubeUrl,
+      topicCategory,
+      verified = false,
+      makes = [],
+      models = [],
+      productCategories = []
+    } = body;
 
     // Validate required fields
-    if (!title || !youtubeUrl || !category) {
+    if (!title || !youtubeUrl || !topicCategory) {
       return NextResponse.json(
-        { error: 'Title, YouTube URL, and category are required' },
+        { error: 'Title, YouTube URL, and Topic Category are required' },
         { status: 400 }
       );
     }
@@ -136,14 +196,6 @@ export async function POST(request) {
       );
     }
 
-    // Validate category
-    if (!data.categories.includes(category)) {
-      return NextResponse.json(
-        { error: `Invalid category. Must be one of: ${data.categories.join(', ')}` },
-        { status: 400 }
-      );
-    }
-
     // Generate new ID
     const existingIds = data.videos.map(v => parseInt(v.id.replace('v', '')));
     const newIdNum = Math.max(...existingIds, 0) + 1;
@@ -155,8 +207,11 @@ export async function POST(request) {
       title,
       description: description || '',
       youtubeId,
-      category,
+      category: topicCategory,
       verified,
+      makes,
+      models,
+      productCategories,
       createdAt: now,
       updatedAt: now,
     };
@@ -167,6 +222,8 @@ export async function POST(request) {
     return NextResponse.json({ video: newVideo, message: 'Video added successfully' });
   } catch (error) {
     console.error('Error adding video:', error);
-    return NextResponse.json({ error: 'Failed to add video' }, { status: 500 });
+    return NextResponse.json({
+      error: error.message || 'Failed to add video'
+    }, { status: 500 });
   }
 }
