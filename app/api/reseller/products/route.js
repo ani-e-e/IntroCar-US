@@ -40,18 +40,28 @@ export async function GET(request) {
     const sort = searchParams.get('sort') || 'relevance';
     const result = filterProducts({ ...filters, sort });
 
-    // For reseller sites, filter products to only those with reseller flag
-    // This would require the products to have a 'reseller_flags' field
-    // For now, we return all products - actual filtering happens when DB is updated
+    // For reseller sites, filter products based on tenant's SKU filter
     let products = result.products;
+    let filteredTotal = result.pagination?.total || products.length;
 
-    // If tenant has a SKU filter, we would filter here
-    // Once products have reseller_flags field in database:
-    // if (tenant.skuFilter) {
-    //   products = products.filter(p =>
-    //     p.reseller_flags?.includes(tenant.skuFilter)
-    //   );
-    // }
+    // Apply reseller-specific product filtering
+    if (tenant.skuFilter) {
+      // For 'prestige_parts' filter, show only Prestige Parts branded products
+      if (tenant.skuFilter === 'prestige_parts') {
+        products = products.filter(p =>
+          p.stockType === 'Prestige Parts' ||
+          p.stockType === 'Prestige Parts (OE)' ||
+          p.stockType === 'Uprated'
+        );
+        filteredTotal = products.length;
+      }
+      // Future: Check reseller_flags array when database is updated
+      // else {
+      //   products = products.filter(p =>
+      //     p.resellerFlags?.includes(tenant.skuFilter)
+      //   );
+      // }
+    }
 
     const categories = getCategories();
     const categoryNames = getCategoryNames();
@@ -67,9 +77,17 @@ export async function GET(request) {
       };
     }
 
+    // Recalculate pagination if filtered
+    const pagination = tenant.skuFilter ? {
+      page: filters.page,
+      limit: filters.limit,
+      total: filteredTotal,
+      totalPages: Math.ceil(filteredTotal / filters.limit),
+    } : result.pagination;
+
     return NextResponse.json({
-      products: products,
-      pagination: result.pagination,
+      products: products.slice(0, filters.limit), // Apply limit after filtering
+      pagination,
       categories: result.availableFilters?.categories || categories,
       categoryNames: result.availableFilters?.categories?.map(c => c.name) || categoryNames,
       stockTypes: result.availableFilters?.stockTypes || stockTypes,
