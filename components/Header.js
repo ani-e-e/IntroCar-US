@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Search, ShoppingCart, Menu, X, Phone, User, ChevronDown, Check, Truck, Shield, Star } from 'lucide-react';
+import { Search, ShoppingCart, Menu, X, Phone, User, ChevronDown, Check, Truck, Shield, Star, AlertCircle, CheckCircle } from 'lucide-react';
+import ShopByModelMegaMenu from './ShopByModelMegaMenu';
 
 export default function Header({ cartCount = 0 }) {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [vehicleFinderOpen, setVehicleFinderOpen] = useState(false);
+  const [shopByModelOpen, setShopByModelOpen] = useState(false);
 
   // Vehicle finder state
   const [vehicles, setVehicles] = useState([]);
@@ -18,6 +20,12 @@ export default function Header({ cartCount = 0 }) {
   const [selectedModel, setSelectedModel] = useState('');
   const [selectedYear, setSelectedYear] = useState('');
   const [vehiclesLoading, setVehiclesLoading] = useState(true);
+
+  // Chassis lookup state
+  const [chassisLookupMode, setChassisLookupMode] = useState(false);
+  const [chassisInput, setChassisInput] = useState('');
+  const [chassisLookupResult, setChassisLookupResult] = useState(null);
+  const [chassisLookupLoading, setChassisLookupLoading] = useState(false);
 
   // Load vehicle data
   useEffect(() => {
@@ -73,6 +81,77 @@ export default function Header({ cartCount = 0 }) {
     if (selectedYear) params.set('year', selectedYear);
     router.push(`/shop?${params.toString()}`);
     setVehicleFinderOpen(false);
+  };
+
+  // Toggle chassis lookup mode
+  const toggleChassisLookupMode = () => {
+    setChassisLookupMode(!chassisLookupMode);
+    setChassisInput('');
+    setChassisLookupResult(null);
+    if (!chassisLookupMode) {
+      // Entering lookup mode - clear vehicle selection
+      setSelectedMake('');
+      setSelectedModel('');
+      setSelectedYear('');
+    }
+  };
+
+  // Perform chassis lookup
+  const performChassisLookup = async () => {
+    if (!chassisInput || chassisInput.length < 2) return;
+
+    setChassisLookupLoading(true);
+    setChassisLookupResult(null);
+
+    try {
+      const res = await fetch(`/api/chassis-lookup?chassis=${encodeURIComponent(chassisInput)}`);
+      const data = await res.json();
+      setChassisLookupResult(data);
+
+      // If single match found, auto-populate make/model
+      if (data.found && !data.multipleMatches) {
+        setSelectedMake(data.make);
+        setSelectedModel(data.model);
+        if (data.yearStart === data.yearEnd) {
+          setSelectedYear(String(data.yearStart));
+        }
+      }
+    } catch (err) {
+      console.error('Chassis lookup error:', err);
+      setChassisLookupResult({ found: false, error: 'Lookup failed' });
+    } finally {
+      setChassisLookupLoading(false);
+    }
+  };
+
+  // Handle Enter key in chassis input
+  const handleChassisKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      performChassisLookup();
+    }
+  };
+
+  // Apply chassis lookup result to selection
+  const applyChassisMatch = (match) => {
+    setSelectedMake(match.make);
+    setSelectedModel(match.model);
+    if (match.yearStart === match.yearEnd) {
+      setSelectedYear(String(match.yearStart));
+    }
+    setChassisLookupMode(false);
+    setChassisLookupResult(null);
+  };
+
+  // Search with chassis included
+  const handleVehicleSearchWithChassis = () => {
+    const params = new URLSearchParams();
+    if (selectedMake) params.set('make', selectedMake);
+    if (selectedModel) params.set('model', selectedModel);
+    if (selectedYear) params.set('year', selectedYear);
+    if (chassisInput.trim()) params.set('chassis', chassisInput.trim().toUpperCase());
+    router.push(`/products?${params.toString()}`);
+    setVehicleFinderOpen(false);
+    setChassisLookupMode(false);
   };
 
   const handleSearch = (e) => {
@@ -140,7 +219,10 @@ export default function Header({ cartCount = 0 }) {
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-6">
               <button
-                onClick={() => setVehicleFinderOpen(!vehicleFinderOpen)}
+                onClick={() => {
+                  setVehicleFinderOpen(!vehicleFinderOpen);
+                  setShopByModelOpen(false);
+                }}
                 className="nav-link flex items-center gap-1"
               >
                 Vehicle Part Finder
@@ -149,9 +231,16 @@ export default function Header({ cartCount = 0 }) {
               <Link href="/catalogues" className="nav-link">
                 Shop by Catalogue
               </Link>
-              <Link href="/shop" className="nav-link">
+              <button
+                onClick={() => {
+                  setShopByModelOpen(!shopByModelOpen);
+                  setVehicleFinderOpen(false);
+                }}
+                className="nav-link flex items-center gap-1"
+              >
                 Shop by Model
-              </Link>
+                <ChevronDown className={`w-4 h-4 transition-transform ${shopByModelOpen ? 'rotate-180' : ''}`} />
+              </button>
               <Link href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated" className="text-introcar-blue hover:underline transition-colors font-medium">
                 Prestige Parts®
               </Link>
@@ -207,70 +296,203 @@ export default function Header({ cartCount = 0 }) {
       {vehicleFinderOpen && (
         <div className="absolute left-0 right-0 bg-white border-b border-gray-200 shadow-lg animate-slide-down">
           <div className="container-wide py-8">
-            <h3 className="text-lg font-display font-light text-introcar-charcoal mb-6">Find Parts for Your Vehicle</h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">Make</label>
-                <select
-                  className="input-field"
-                  value={selectedMake}
-                  onChange={(e) => {
-                    setSelectedMake(e.target.value);
-                    setSelectedModel('');
-                    setSelectedYear('');
-                  }}
-                  disabled={vehiclesLoading}
-                >
-                  <option value="">Select Make</option>
-                  {makes.map(make => (
-                    <option key={make} value={make}>{make}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">Model</label>
-                <select
-                  className="input-field"
-                  value={selectedModel}
-                  onChange={(e) => {
-                    setSelectedModel(e.target.value);
-                    setSelectedYear('');
-                  }}
-                  disabled={!selectedMake || vehiclesLoading}
-                >
-                  <option value="">Select Model</option>
-                  {models.map(model => (
-                    <option key={model} value={model}>{model}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">Year</label>
-                <select
-                  className="input-field"
-                  value={selectedYear}
-                  onChange={(e) => setSelectedYear(e.target.value)}
-                  disabled={!selectedModel || vehiclesLoading}
-                >
-                  <option value="">Select Year</option>
-                  {years.map(year => (
-                    <option key={year} value={year}>{year}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex items-end">
-                <button
-                  className="btn-primary w-full"
-                  onClick={handleVehicleSearch}
-                  disabled={!selectedMake}
-                >
-                  Find Parts
-                </button>
-              </div>
+            {/* Know Your Chassis Number? - Prominent Button */}
+            <div className="mb-6">
+              <button
+                onClick={toggleChassisLookupMode}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 font-medium text-sm transition-all ${
+                  chassisLookupMode
+                    ? 'bg-introcar-blue text-white border-introcar-blue'
+                    : 'bg-white text-introcar-blue border-introcar-blue hover:bg-introcar-blue hover:text-white'
+                }`}
+              >
+                <Search className="w-4 h-4" />
+                Know Your Chassis Number?
+              </button>
             </div>
+
+            {/* Chassis Lookup Mode */}
+            {chassisLookupMode ? (
+              <div className="bg-introcar-light rounded-lg p-6">
+                <div className="flex flex-col md:flex-row items-start md:items-end gap-4">
+                  <div className="flex-1 w-full md:w-auto">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Enter Chassis Code
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="e.g. ALB36 or 12345"
+                        value={chassisInput}
+                        onChange={(e) => setChassisInput(e.target.value.toUpperCase().replace(/\s/g, ''))}
+                        onKeyDown={handleChassisKeyDown}
+                        className="input-field flex-1 font-mono text-lg tracking-wider"
+                        maxLength={10}
+                        autoFocus
+                      />
+                      <button
+                        onClick={performChassisLookup}
+                        disabled={!chassisInput || chassisInput.length < 2 || chassisLookupLoading}
+                        className="btn-primary px-6 flex items-center gap-2"
+                      >
+                        {chassisLookupLoading ? (
+                          <span className="animate-spin">⏳</span>
+                        ) : (
+                          <Search className="w-4 h-4" />
+                        )}
+                        Lookup
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Enter the chassis code from your vehicle&apos;s VIN plate
+                    </p>
+                  </div>
+                  <button
+                    onClick={toggleChassisLookupMode}
+                    className="text-sm text-gray-500 hover:text-introcar-blue underline"
+                  >
+                    Back to vehicle selection
+                  </button>
+                </div>
+
+                {/* Lookup Results */}
+                {chassisLookupResult && (
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    {chassisLookupResult.found ? (
+                      chassisLookupResult.multipleMatches ? (
+                        <div>
+                          <p className="text-sm font-medium text-amber-700 flex items-center gap-2 mb-3">
+                            <AlertCircle className="w-4 h-4" />
+                            Chassis &quot;{chassisLookupResult.chassis}&quot; found in multiple models:
+                          </p>
+                          <div className="grid gap-2">
+                            {chassisLookupResult.matches.map((match, idx) => (
+                              <button
+                                key={idx}
+                                onClick={() => applyChassisMatch(match)}
+                                className="text-left p-3 bg-white rounded border border-gray-200 hover:border-introcar-blue hover:bg-blue-50 transition-colors"
+                              >
+                                <span className="font-medium">{match.make} {match.model}</span>
+                                <span className="text-gray-500 ml-2">
+                                  ({match.yearStart}{match.yearStart !== match.yearEnd ? ` – ${match.yearEnd}` : ''})
+                                </span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <CheckCircle className="w-5 h-5 text-green-600" />
+                            <div>
+                              <p className="font-medium text-green-700">
+                                Found: {chassisLookupResult.make} {chassisLookupResult.model}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                Year: {chassisLookupResult.yearStart}
+                                {chassisLookupResult.yearStart !== chassisLookupResult.yearEnd && ` – ${chassisLookupResult.yearEnd}`}
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            onClick={handleVehicleSearchWithChassis}
+                            className="btn-primary"
+                          >
+                            Find Parts
+                          </button>
+                        </div>
+                      )
+                    ) : (
+                      <div className="flex items-center gap-3 text-red-600">
+                        <AlertCircle className="w-5 h-5" />
+                        <div>
+                          <p className="font-medium">{chassisLookupResult.message || 'Chassis not found'}</p>
+                          <p className="text-sm text-gray-600">
+                            Please check the code and try again, or select your vehicle manually.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Normal Vehicle Selection Mode */
+              <>
+                <h3 className="text-lg font-display font-light text-introcar-charcoal mb-2">Find Parts for Your Vehicle</h3>
+                <p className="text-sm text-gray-500 mb-6">Select your make, model and year</p>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">Make</label>
+                    <select
+                      className="input-field"
+                      value={selectedMake}
+                      onChange={(e) => {
+                        setSelectedMake(e.target.value);
+                        setSelectedModel('');
+                        setSelectedYear('');
+                      }}
+                      disabled={vehiclesLoading}
+                    >
+                      <option value="">Select Make</option>
+                      {makes.map(make => (
+                        <option key={make} value={make}>{make}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">Model</label>
+                    <select
+                      className="input-field"
+                      value={selectedModel}
+                      onChange={(e) => {
+                        setSelectedModel(e.target.value);
+                        setSelectedYear('');
+                      }}
+                      disabled={!selectedMake || vehiclesLoading}
+                    >
+                      <option value="">Select Model</option>
+                      {models.map(model => (
+                        <option key={model} value={model}>{model}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-500 mb-2">Year</label>
+                    <select
+                      className="input-field"
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.target.value)}
+                      disabled={!selectedModel || vehiclesLoading}
+                    >
+                      <option value="">Select Year</option>
+                      {years.map(year => (
+                        <option key={year} value={year}>{year}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-end">
+                    <button
+                      className="btn-primary w-full"
+                      onClick={handleVehicleSearch}
+                      disabled={!selectedMake}
+                    >
+                      Find Parts
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}
+
+      {/* Shop by Model Mega Menu */}
+      <ShopByModelMegaMenu
+        isOpen={shopByModelOpen}
+        onClose={() => setShopByModelOpen(false)}
+        vehicles={vehicles}
+      />
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
@@ -286,6 +508,19 @@ export default function Header({ cartCount = 0 }) {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </form>
+
+            {/* Mobile Chassis Lookup Button */}
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setVehicleFinderOpen(true);
+                setChassisLookupMode(true);
+              }}
+              className="w-full mb-4 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 border-introcar-blue text-introcar-blue font-medium hover:bg-introcar-blue hover:text-white transition-colors"
+            >
+              <Search className="w-4 h-4" />
+              Know Your Chassis Number?
+            </button>
 
             {/* Mobile Nav Links */}
             <nav className="space-y-1">
