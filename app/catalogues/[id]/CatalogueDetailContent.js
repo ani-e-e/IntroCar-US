@@ -15,7 +15,7 @@ export default function CatalogueDetailContent() {
 
   const [catalogue, setCatalogue] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [imageZoom, setImageZoom] = useState(false);
+  const [imageZoom, setImageZoom] = useState(true); // Default to enlarged
   const [viewMode, setViewMode] = useState('grid');
 
   useEffect(() => {
@@ -111,11 +111,13 @@ export default function CatalogueDetailContent() {
                     <BookOpen className="w-24 h-24 text-gray-300" />
                   </div>
                 )}
-                {/* Zoom indicator */}
-                <div className="absolute bottom-4 right-4 bg-white/90 text-introcar-charcoal px-3 py-1.5 rounded-full text-sm flex items-center gap-2">
-                  {imageZoom ? <ZoomOut className="w-4 h-4" /> : <ZoomIn className="w-4 h-4" />}
-                  {imageZoom ? 'Click to shrink' : 'Click to enlarge'}
-                </div>
+                {/* Zoom indicator - only show when shrunk */}
+                {!imageZoom && (
+                  <div className="absolute bottom-4 right-4 bg-white/90 text-introcar-charcoal px-3 py-1.5 rounded-full text-sm flex items-center gap-2">
+                    <ZoomIn className="w-4 h-4" />
+                    Click to enlarge
+                  </div>
+                )}
               </div>
 
               {/* Catalogue Info */}

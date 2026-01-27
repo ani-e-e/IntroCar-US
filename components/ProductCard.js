@@ -262,12 +262,26 @@ export default function ProductCard({ product, viewMode = 'grid' }) {
           />
         </div>
 
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-introcar-blue/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="btn-primary bg-white text-introcar-blue border-white text-sm flex items-center gap-2">
-            <Eye className="w-4 h-4" />
-            View Details
-          </span>
+        {/* Hover Overlay - Show chassis application data */}
+        <div className="absolute inset-0 bg-introcar-charcoal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
+          {product.chassisApplication && product.chassisApplication.length > 0 ? (
+            <div className="text-center text-white text-xs space-y-1 max-h-full overflow-hidden">
+              <p className="font-medium text-white/70 uppercase tracking-wider mb-2">Fits:</p>
+              {product.chassisApplication.slice(0, 4).map((app, i) => (
+                <p key={i} className="truncate">
+                  {app.model} {app.chassisStart && <span className="font-mono">({app.chassisStart}{app.chassisEnd && app.chassisEnd !== app.chassisStart ? `–${app.chassisEnd}` : ''})</span>}
+                </p>
+              ))}
+              {product.chassisApplication.length > 4 && (
+                <p className="text-white/60">+{product.chassisApplication.length - 4} more...</p>
+              )}
+            </div>
+          ) : (
+            <span className="text-white text-sm flex items-center gap-2">
+              <Eye className="w-4 h-4" />
+              View Details
+            </span>
+          )}
         </div>
       </Link>
 

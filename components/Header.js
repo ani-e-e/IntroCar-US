@@ -69,6 +69,8 @@ export default function Header({ cartCount = 0 }) {
     if (selectedMake) params.set('make', selectedMake);
     if (selectedModel) params.set('model', selectedModel);
     if (selectedYear) params.set('year', selectedYear);
+    // Include chassis if it was entered (from chassis lookup)
+    if (chassisInput.trim()) params.set('chassis', chassisInput.trim().toUpperCase());
     router.push(`/products?${params.toString()}`);
     setVehicleFinderOpen(false);
   };
@@ -367,16 +369,31 @@ export default function Header({ cartCount = 0 }) {
                           </p>
                           <div className="grid gap-2">
                             {chassisLookupResult.matches.map((match, idx) => (
-                              <button
+                              <div
                                 key={idx}
-                                onClick={() => applyChassisMatch(match)}
-                                className="text-left p-3 bg-white rounded border border-gray-200 hover:border-introcar-blue hover:bg-blue-50 transition-colors"
+                                className="flex items-center justify-between p-3 bg-white rounded border border-gray-200"
                               >
-                                <span className="font-medium">{match.make} {match.model}</span>
-                                <span className="text-gray-500 ml-2">
-                                  ({match.yearStart}{match.yearStart !== match.yearEnd ? ` – ${match.yearEnd}` : ''})
-                                </span>
-                              </button>
+                                <div>
+                                  <span className="font-medium">{match.make} {match.model}</span>
+                                  <span className="text-gray-500 ml-2">
+                                    ({match.yearStart}{match.yearStart !== match.yearEnd ? ` – ${match.yearEnd}` : ''})
+                                  </span>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    const params = new URLSearchParams();
+                                    params.set('make', match.make);
+                                    params.set('model', match.model);
+                                    params.set('chassis', chassisInput.trim().toUpperCase());
+                                    router.push(`/products?${params.toString()}`);
+                                    setVehicleFinderOpen(false);
+                                    setChassisLookupMode(false);
+                                  }}
+                                  className="btn-primary text-sm px-4 py-1.5"
+                                >
+                                  Find Parts
+                                </button>
+                              </div>
                             ))}
                           </div>
                         </div>

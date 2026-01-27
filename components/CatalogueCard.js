@@ -169,8 +169,8 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
         </div>
 
         {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-amber-600/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="bg-white text-amber-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 uppercase tracking-wider">
+        <div className="absolute inset-0 bg-introcar-charcoal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <span className="bg-white text-introcar-charcoal px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 uppercase tracking-wider">
             <BookOpen className="w-4 h-4" />
             View Catalogue
           </span>
@@ -211,7 +211,7 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
           {/* View Catalogue Button */}
           <Link
             href={`/catalogues/${encodeURIComponent(id)}`}
-            className="mt-3 w-full py-2 border border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white rounded-full text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider"
+            className="mt-3 w-full py-2 border border-introcar-charcoal text-introcar-charcoal hover:bg-introcar-charcoal hover:text-white rounded-full text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider"
           >
             <BookOpen className="w-4 h-4" />
             View Catalogue

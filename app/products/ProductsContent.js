@@ -407,24 +407,31 @@ export default function ProductsContent() {
                 </div>
               </FilterSection>
 
-              {/* Search Part Type - Filter by product category */}
+              {/* Browse - Filter by search part type with proper labels */}
               {searchPartTypes.length > 0 && (
-                <FilterSection title="Product Category" icon={Package} defaultOpen={!!currentSearchPartType} count={getSelectedSearchPartTypesCount()}>
+                <FilterSection title="Browse" icon={Package} defaultOpen={true} count={getSelectedSearchPartTypesCount()}>
                   <div className="space-y-1">
-                    {searchPartTypes.map((spt) => (
-                      <label
-                        key={spt.value}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isSearchPartTypeSelected(spt.value)}
-                          onChange={() => toggleSearchPartType(spt.value)}
-                          className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
-                        />
-                        <span>{spt.label}</span>
-                      </label>
-                    ))}
+                    {searchPartTypes.map((spt) => {
+                      // Default: uncheck Ancillaries unless < 12 results
+                      const isAncillaries = spt.value === 'Ancillaries';
+                      const shouldDefaultUnchecked = isAncillaries && pagination.total >= 12;
+
+                      return (
+                        <label
+                          key={spt.value}
+                          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={isSearchPartTypeSelected(spt.value)}
+                            onChange={() => toggleSearchPartType(spt.value)}
+                            className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
+                          />
+                          <span>{spt.label}</span>
+                          {spt.count && <span className="text-gray-400 text-xs">({spt.count})</span>}
+                        </label>
+                      );
+                    })}
                   </div>
                 </FilterSection>
               )}
@@ -651,12 +658,12 @@ export default function ProductsContent() {
                 )}
               </div>
 
-              {/* Product Category (Search Part Type) - FOURTH */}
+              {/* Browse (Search Part Type) */}
               {searchPartTypes.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     <Package className="w-4 h-4 text-introcar-blue" />
-                    <h3 className="text-introcar-charcoal font-medium">Product Category</h3>
+                    <h3 className="text-introcar-charcoal font-medium">Browse</h3>
                     {getSelectedSearchPartTypesCount() > 0 && (
                       <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
                         {getSelectedSearchPartTypesCount()}
@@ -676,6 +683,7 @@ export default function ProductsContent() {
                           className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
                         />
                         <span>{spt.label}</span>
+                        {spt.count && <span className="text-gray-400 text-xs">({spt.count})</span>}
                       </label>
                     ))}
                   </div>
