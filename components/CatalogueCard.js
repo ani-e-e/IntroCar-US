@@ -61,7 +61,7 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
           )}
           {/* Catalogue indicator badge */}
           <div className="absolute top-1 left-1">
-            <span className="bg-amber-100 text-amber-800 text-xs flex items-center gap-0.5 px-1.5 py-0.5 rounded-full font-medium">
+            <span className="bg-introcar-charcoal/90 text-white text-xs flex items-center gap-0.5 px-1.5 py-0.5 rounded-full font-medium">
               <BookOpen className="w-3 h-3" />
               Catalogue
             </span>
@@ -132,7 +132,7 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
       <Link href={`/catalogues/${encodeURIComponent(id)}`} className="product-card-image">
         {/* Catalogue Badge */}
         <div className="absolute top-3 left-3 z-10">
-          <span className="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+          <span className="bg-introcar-charcoal/90 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
             <BookOpen className="w-3 h-3" />
             Catalogue
           </span>
@@ -154,7 +154,7 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
             src={imageSource}
             alt={title}
             fill
-            className={`object-contain p-4 transition-transform duration-300 group-hover:scale-105 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
+            className={`object-contain p-1 transition-transform duration-300 group-hover:scale-105 ${!imageLoaded ? 'opacity-0' : 'opacity-100'}`}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
             unoptimized
             onError={() => setImageError(true)}
@@ -168,12 +168,24 @@ export default function CatalogueCard({ catalogue, viewMode = 'grid' }) {
           )}
         </div>
 
-        {/* Hover Overlay */}
-        <div className="absolute inset-0 bg-introcar-charcoal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="bg-white text-introcar-charcoal px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 uppercase tracking-wider">
-            <BookOpen className="w-4 h-4" />
-            View Catalogue
-          </span>
+        {/* Hover Overlay - Show model info */}
+        <div className="absolute inset-0 bg-introcar-charcoal/90 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-3">
+          {models && models.length > 0 ? (
+            <div className="text-center text-white text-xs space-y-1 max-h-full overflow-hidden">
+              <p className="font-medium text-white/70 uppercase tracking-wider mb-2">Models:</p>
+              {models.slice(0, 4).map((model, i) => (
+                <p key={i} className="truncate">{model}</p>
+              ))}
+              {models.length > 4 && (
+                <p className="text-white/60">+{models.length - 4} more...</p>
+              )}
+            </div>
+          ) : (
+            <span className="bg-white text-introcar-charcoal px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2 uppercase tracking-wider">
+              <BookOpen className="w-4 h-4" />
+              View Catalogue
+            </span>
+          )}
         </div>
       </Link>
 
