@@ -1,5 +1,6 @@
 import { getTenant, getAllTenantSlugs, getTenantCSSVariables } from '@/lib/tenants';
 import { TenantProvider } from '@/context/TenantContext';
+import { CartProvider } from '@/context/CartContext';
 
 // Generate static params for all tenants
 export async function generateStaticParams() {
@@ -28,10 +29,12 @@ export default function ResellerLayout({ children, params }) {
   }, {});
 
   return (
-    <TenantProvider tenantSlug={params.tenant}>
-      <div style={styleVars} className="min-h-screen">
-        {children}
-      </div>
-    </TenantProvider>
+    <CartProvider>
+      <TenantProvider tenantSlug={params.tenant}>
+        <div style={styleVars} className="min-h-screen">
+          {children}
+        </div>
+      </TenantProvider>
+    </CartProvider>
   );
 }

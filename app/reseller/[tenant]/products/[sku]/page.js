@@ -3,18 +3,22 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronRight, Package, Truck, Shield, CheckCircle, Mail, Phone, ArrowLeft } from 'lucide-react';
+import { ChevronRight, Package, Truck, Shield, CheckCircle, Mail, Phone, ArrowLeft, ShoppingCart, Check, Minus, Plus } from 'lucide-react';
 import ResellerHeader from '../../components/ResellerHeader';
 import ResellerFooter from '../../components/ResellerFooter';
 import { TenantProvider, useTenant } from '@/context/TenantContext';
+import { useCart } from '@/context/CartContext';
 import { getTenant } from '@/lib/tenants';
 
 function ResellerProductDetail({ params }) {
   const { sku, tenant: tenantSlug } = params;
-  const { colors, showPrices, orderEmail, companyInfo, isLight } = useTenant();
+  const { colors, showPrices, showCart, orderEmail, companyInfo, isLight } = useTenant();
+  const { addItem, isInCart, getItem, updateQuantity } = useCart();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('details');
+  const [quantity, setQuantity] = useState(1);
+  const [justAdded, setJustAdded] = useState(false);
 
   useEffect(() => {
     async function fetchProduct() {
@@ -103,6 +107,23 @@ function ResellerProductDetail({ params }) {
     product.stockType?.toLowerCase().includes('rolls') ? 'Rolls-Royce' : 'Bentley'
   ) : null;
 
+  const inCart = isInCart(product.sku);
+  const cartItem = getItem(product.sku);
+
+  const handleAddToCart = () => {
+    addItem({
+      sku: product.sku,
+      description: product.description,
+      price: product.price || 0,
+      priceGbp: product.priceGbp || product.price || 0,
+      stockType: product.stockType,
+      image: product.imageUrl || '/images/logos/introcar-icon.png',
+      weight: product.weight || 0.5,
+    }, quantity);
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <ResellerHeader tenantSlug={tenantSlug} />
@@ -182,10 +203,130 @@ function ResellerProductDetail({ params }) {
             <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">{product.description}</h1>
             <p className="text-gray-500 mb-6">Part Number: {product.sku} | Ref: {product.parentSku}</p>
 
-            {/* Price or Contact */}
+            {/* Price and Add to Cart */}
             {showPrices && product.price ? (
-              <div className="text-3xl font-bold text-gray-900 mb-6">
-                ${(product.price * 1.25).toFixed(2)} {/* Example USD conversion */}
+              <div className="mb-6">
+                <div className="text-3xl font-bold text-gray-900 mb-4">
+                  ${parseFloat(product.price).toFixed(2)}
+                </div>
+
+                {showCart && (
+                  <div className="space-y-4">
+                    {/* Quantity Selector */}
+                    <div className="flex items-center gap-4">
+                      <span className="text-sm text-gray-600">Quantity:</span>
+                      <div className="flex items-center border border-gray-300 rounded-lg">
+                        <button
+                          onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                          className="p-2 hover:bg-gray-100 transition-colors"
+                        >
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <input
+                          type="number"
+                          min="1"
+                          value={quantity}
+                          onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                          className="w-16 text-center border-x border-gray-300 py-2"
+                        />
+                        <button
+                          onClick={() => setQuantity(q => q + 1)}
+                          className="p-2 hover:bg-gray-100 transition-colors"
+                        >
+                          <Plus className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Add to Cart Button */}
+                    <button
+                      onClick={handleAddToCart}
+                      disabled={justAdded}
+                      className={`w-full sm:w-auto px-8 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-all ${
+                        justAdded ? 'bg-green-500' : ''
+                      }`}
+                      style={!justAdded ? { backgroundColor: colors?.primary } : {}}
+                    >
+                      {justAdded ? (
+                        <>
+                          <Check className="w-5 h-5" />
+                          Added to Cart!
+                        </>
+                      ) : (
+                        <>
+                          <ShoppingCart className="w-5 h-5" />
+                          Add to Cart
+                        </>
+                      )}
+                    </button>
+
+                    {inCart && !justAdded && (
+                      <p className="text-sm text-gray-500">
+                        ✓ {cartItem?.quantity || 0} already in your cart
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : showCart ? (
+              <div className="mb-6 space-y-4">
+                {/* Quantity Selector for no-price cart */}
+                <div className="flex items-center gap-4">
+                  <span className="text-sm text-gray-600">Quantity:</span>
+                  <div className="flex items-center border border-gray-300 rounded-lg">
+                    <button
+                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                      className="p-2 hover:bg-gray-100 transition-colors"
+                    >
+                      <Minus className="w-4 h-4" />
+                    </button>
+                    <input
+                      type="number"
+                      min="1"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-16 text-center border-x border-gray-300 py-2"
+                    />
+                    <button
+                      onClick={() => setQuantity(q => q + 1)}
+                      className="p-2 hover:bg-gray-100 transition-colors"
+                    >
+                      <Plus className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Add to Cart Button */}
+                <button
+                  onClick={handleAddToCart}
+                  disabled={justAdded}
+                  className={`w-full sm:w-auto px-8 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-all ${
+                    justAdded ? 'bg-green-500' : ''
+                  }`}
+                  style={!justAdded ? { backgroundColor: colors?.primary } : {}}
+                >
+                  {justAdded ? (
+                    <>
+                      <Check className="w-5 h-5" />
+                      Added to Cart!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-5 h-5" />
+                      Add to Cart
+                    </>
+                  )}
+                </button>
+
+                <p className="text-sm text-gray-500">
+                  Price will be confirmed when you submit your order.
+                </p>
+
+                {inCart && !justAdded && (
+                  <p className="text-sm text-gray-500">
+                    ✓ {cartItem?.quantity || 0} already in your cart
+                  </p>
+                )}
               </div>
             ) : (
               <div

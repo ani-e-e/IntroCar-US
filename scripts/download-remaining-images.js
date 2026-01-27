@@ -13,57 +13,106 @@ let failed = 0;
 let skipped = 0;
 const failedFiles = [];
 
-function downloadFile(filename) {
+function getVariations(filename) {
+  const variations = [];
+
+  // Pattern 1: Strip Magento suffix (e.g., 1472547778-93351200_vnegbbckontqdse1.jpg -> 1472547778-93351200.jpg)
+  const magentoMatch = filename.match(/^(\d+-\d+)_[^.]+(\.[^.]+)$/);
+  if (magentoMatch) {
+    variations.push(magentoMatch[1] + magentoMatch[2]);
+    return variations;
+  }
+
+  // Pattern 2: Descriptive names - try multiple variations
+  if (filename.includes('_') && !filename.match(/^\d/)) {
+    const ext = path.extname(filename);
+    const base = path.basename(filename, ext);
+    const parts = base.split('_');
+
+    const typeWords = ['unit', 'disc', 'pad', 'pump', 'valve', 'sensor', 'switch', 'motor', 'cylinder', 'hose', 'line', 'cable', 'lever', 'arm', 'bar', 'link', 'bush', 'mount', 'bracket', 'cover', 'housing', 'body', 'assembly', 'kit', 'set', 'actuator', 'modulator', 'accumulator', 'compressor', 'supply', 'flap'];
+
+    let typeEndIndex = 1;
+    for (let i = 0; i < parts.length && i < 4; i++) {
+      if (typeWords.includes(parts[i].toLowerCase())) {
+        typeEndIndex = i + 1;
+        break;
+      }
+    }
+
+    // Title Case version (Air Supply Unit, Mulsanne 2011.jpg)
+    const titleType = parts.slice(0, typeEndIndex).map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()).join(' ');
+    const titleModel = parts.slice(typeEndIndex).map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()).join(' ');
+
+    // Uppercase type version (ABS UNIT, Continental GT 2004.jpg)
+    const upperType = parts.slice(0, typeEndIndex).map(p => p.toUpperCase()).join(' ');
+
+    if (titleModel) {
+      variations.push(titleType + ', ' + titleModel + ext);
+      variations.push(upperType + ', ' + titleModel + ext);
+    } else {
+      variations.push(titleType + ext);
+      variations.push(upperType + ext);
+    }
+  }
+
+  // Fallback: original filename
+  if (variations.length === 0) {
+    variations.push(filename);
+  }
+
+  return variations;
+}
+
+function tryUrl(url, outputPath) {
   return new Promise((resolve) => {
-    const outputPath = path.join(outputDir, filename);
-    
-    if (fs.existsSync(outputPath)) {
-      skipped++;
-      resolve();
-      return;
-    }
-    
-    if (filename.includes('/') || filename.includes('\\') || !filename.trim()) {
-      failed++;
-      failedFiles.push({ filename, reason: 'invalid filename' });
-      resolve();
-      return;
-    }
-    
-    const url = baseUrl + filename;
-    
     const request = https.get(url, { timeout: 15000 }, (response) => {
       if (response.statusCode >= 300 && response.statusCode < 400 && response.headers.location) {
-        https.get(response.headers.location, { timeout: 15000 }, (res2) => {
-          if (res2.statusCode === 200) {
-            const fileStream = fs.createWriteStream(outputPath);
-            res2.pipe(fileStream);
-            fileStream.on('finish', () => { fileStream.close(); downloaded++; resolve(); });
-            fileStream.on('error', () => { failed++; failedFiles.push({ filename, reason: 'write error' }); resolve(); });
-          } else {
-            failed++;
-            failedFiles.push({ filename, reason: 'status ' + res2.statusCode });
-            resolve();
-          }
-        }).on('error', () => { failed++; failedFiles.push({ filename, reason: 'redirect error' }); resolve(); });
+        tryUrl(response.headers.location, outputPath).then(resolve);
         return;
       }
-      
+
       if (response.statusCode === 200) {
         const fileStream = fs.createWriteStream(outputPath);
         response.pipe(fileStream);
-        fileStream.on('finish', () => { fileStream.close(); downloaded++; resolve(); });
-        fileStream.on('error', () => { failed++; failedFiles.push({ filename, reason: 'write error' }); resolve(); });
+        fileStream.on('finish', () => { fileStream.close(); resolve(true); });
+        fileStream.on('error', () => resolve(false));
       } else {
-        failed++;
-        failedFiles.push({ filename, reason: 'status ' + response.statusCode });
-        resolve();
+        resolve(false);
       }
     });
-    
-    request.on('error', () => { failed++; failedFiles.push({ filename, reason: 'network error' }); resolve(); });
-    request.on('timeout', () => { request.destroy(); failed++; failedFiles.push({ filename, reason: 'timeout' }); resolve(); });
+
+    request.on('error', () => resolve(false));
+    request.on('timeout', () => { request.destroy(); resolve(false); });
   });
+}
+
+async function downloadFile(filename) {
+  const outputPath = path.join(outputDir, filename);
+
+  if (fs.existsSync(outputPath)) {
+    skipped++;
+    return;
+  }
+
+  if (filename.includes('/') || filename.includes('\\') || !filename.trim()) {
+    failed++;
+    failedFiles.push({ filename, reason: 'invalid filename' });
+    return;
+  }
+
+  const variations = getVariations(filename);
+
+  for (const variation of variations) {
+    const url = baseUrl + encodeURIComponent(variation).replace(/%2C/g, ',');
+    const success = await tryUrl(url, outputPath);
+    if (success) {
+      downloaded++;
+      return;
+    }
+  }
+
+  failed++;
+  failedFiles.push({ filename, reason: '404', tried: variations });
 }
 
 async function main() {
@@ -71,17 +120,17 @@ async function main() {
   for (let i = 0; i < filenames.length; i += batchSize) {
     const batch = filenames.slice(i, i + batchSize);
     await Promise.all(batch.map(f => downloadFile(f)));
-    
+
     if ((i + batchSize) % 200 === 0 || i + batchSize >= filenames.length) {
-      console.log(\`Progress: \${Math.min(i + batchSize, filenames.length)}/\${filenames.length} - Downloaded: \${downloaded}, Failed: \${failed}\`);
+      console.log(`Progress: ${Math.min(i + batchSize, filenames.length)}/${filenames.length} - Downloaded: ${downloaded}, Failed: ${failed}`);
     }
   }
-  
-  console.log('\\n=== COMPLETE ===');
+
+  console.log('\n=== COMPLETE ===');
   console.log('Downloaded:', downloaded);
   console.log('Failed:', failed);
   console.log('Skipped:', skipped);
-  
+
   if (failedFiles.length > 0) {
     fs.writeFileSync('failed-downloads.json', JSON.stringify(failedFiles, null, 2));
   }

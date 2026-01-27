@@ -4,16 +4,36 @@ import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Grid, List, Package, Car, Mail } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Grid, List, Package, Car, Mail, ShoppingCart, Check } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
 import { useTenant } from '@/context/TenantContext';
+import { useCart } from '@/context/CartContext';
 
-// Simple product card for reseller sites (no prices, no cart for light sites)
-function ResellerProductCard({ product, tenantSlug, showPrices }) {
+// Simple product card for reseller sites
+function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
   const { colors } = useTenant();
+  const { addItem, isInCart } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
 
   const displayImage = product.imageUrl || product.image || '/images/logos/introcar-icon.png';
+  const inCart = isInCart(product.sku);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({
+      sku: product.sku,
+      description: product.description,
+      price: product.price || 0,
+      priceGbp: product.priceGbp || product.price || 0,
+      stockType: product.stockType,
+      image: displayImage,
+      weight: product.weight || 0.5,
+    });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 1500);
+  };
 
   return (
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group">
@@ -48,12 +68,56 @@ function ResellerProductCard({ product, tenantSlug, showPrices }) {
           </h3>
         </Link>
 
-        {/* Price or Contact CTA */}
+        {/* Price and Cart */}
         <div className="mt-4 pt-4 border-t border-gray-100">
           {showPrices && product.price ? (
-            <span className="text-lg font-semibold text-gray-900">
-              ${(product.price * 1.25).toFixed(2)} {/* Example USD conversion */}
-            </span>
+            <div className="flex items-center justify-between">
+              <span className="text-lg font-semibold text-gray-900">
+                ${parseFloat(product.price).toFixed(2)}
+              </span>
+              {showCart && (
+                <button
+                  onClick={handleAddToCart}
+                  disabled={justAdded}
+                  className={`p-2 rounded-lg transition-all ${
+                    justAdded || inCart
+                      ? 'text-white'
+                      : 'text-white hover:opacity-90'
+                  }`}
+                  style={{ backgroundColor: justAdded || inCart ? '#4CAF50' : colors?.primary }}
+                  title={inCart ? 'In cart' : 'Add to cart'}
+                >
+                  {justAdded || inCart ? (
+                    <Check className="w-4 h-4" />
+                  ) : (
+                    <ShoppingCart className="w-4 h-4" />
+                  )}
+                </button>
+              )}
+            </div>
+          ) : showCart ? (
+            <button
+              onClick={handleAddToCart}
+              disabled={justAdded}
+              className={`w-full py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+                justAdded || inCart
+                  ? 'bg-green-500 text-white'
+                  : 'text-white'
+              }`}
+              style={!(justAdded || inCart) ? { backgroundColor: colors?.primary } : {}}
+            >
+              {justAdded || inCart ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  Added
+                </>
+              ) : (
+                <>
+                  <ShoppingCart className="w-4 h-4" />
+                  Add to Cart
+                </>
+              )}
+            </button>
           ) : (
             <a
               href={`mailto:?subject=Inquiry about ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
@@ -110,7 +174,7 @@ function FilterSection({ title, icon: Icon, defaultOpen = true, children, count,
 export default function ResellerProductsContent({ tenant, tenantSlug }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { colors, showPrices, skuFilter, orderEmail, isLight } = useTenant();
+  const { colors, showPrices, showCart, skuFilter, orderEmail, isLight } = useTenant();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -421,6 +485,7 @@ export default function ResellerProductsContent({ tenant, tenantSlug }) {
                     product={product}
                     tenantSlug={tenantSlug}
                     showPrices={showPrices}
+                    showCart={showCart}
                   />
                 ))}
               </div>
