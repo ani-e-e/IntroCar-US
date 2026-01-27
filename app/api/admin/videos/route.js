@@ -1,47 +1,20 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/admin-auth';
+import { createClient } from '@supabase/supabase-js';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { getFileFromGitHub, updateFileOnGitHub, isGitHubStorageEnabled } from '@/lib/github-storage';
 
-const VIDEOS_FILE = path.join(process.cwd(), 'data', 'json', 'technical-videos.json');
-const VIDEOS_PATH = 'data/json/technical-videos.json'; // Path for GitHub API
+// File paths for reading dropdown data and fallback
 const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
 const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'json', 'products.json');
 
-// Helper to read videos data (tries GitHub first if configured, then local file)
-async function getVideosData() {
-  if (isGitHubStorageEnabled()) {
-    try {
-      const { content } = await getFileFromGitHub(VIDEOS_PATH);
-      return JSON.parse(content);
-    } catch (error) {
-      console.error('GitHub fetch failed, falling back to local:', error);
-    }
-  }
-
-  const data = await fs.readFile(VIDEOS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-// Helper to write videos data (uses GitHub if configured, otherwise local file)
-async function saveVideosData(data, commitMessage = 'Update technical videos') {
-  const content = JSON.stringify(data, null, 2);
-
-  if (isGitHubStorageEnabled()) {
-    await updateFileOnGitHub(VIDEOS_PATH, content, commitMessage);
-    return true;
-  }
-
-  // Fall back to local file (works in development)
-  try {
-    await fs.writeFile(VIDEOS_FILE, content);
-    return true;
-  } catch (error) {
-    console.error('Error writing videos file:', error);
-    throw new Error('Cannot save changes. Configure GITHUB_TOKEN for production use, or run locally.');
-  }
+// Initialize Supabase client lazily
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
 }
 
 // Helper to extract YouTube video ID from URL
@@ -104,6 +77,38 @@ async function getDropdownData() {
   }
 }
 
+// Get video categories from Supabase
+async function getVideoCategories(supabase) {
+  const { data, error } = await supabase
+    .from('video_categories')
+    .select('name')
+    .order('display_order', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching video categories:', error);
+    return ['Continental GT', 'Brakes', 'Suspension', 'Engine', 'Service', 'Hydraulics', 'Diagnostics'];
+  }
+
+  return data.map(c => c.name);
+}
+
+// Transform Supabase row to frontend format
+function transformVideoFromDB(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    youtubeId: row.youtube_id,
+    category: row.category,
+    verified: row.verified,
+    makes: row.makes || [],
+    models: row.models || [],
+    productCategories: row.product_categories || [],
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
 // GET - List all videos with optional filtering
 export async function GET(request) {
   const cookieStore = await cookies();
@@ -119,47 +124,61 @@ export async function GET(request) {
     const verified = searchParams.get('verified');
     const search = searchParams.get('search') || '';
 
-    const data = await getVideosData();
-    let videos = data.videos || [];
+    const supabase = getSupabase();
+
+    // Build query
+    let query = supabase
+      .from('technical_videos')
+      .select('*')
+      .order('created_at', { ascending: false });
 
     // Apply filters
     if (category) {
-      videos = videos.filter(v => v.category === category);
+      query = query.eq('category', category);
     }
 
     if (verified === 'true') {
-      videos = videos.filter(v => v.verified === true);
+      query = query.eq('verified', true);
     } else if (verified === 'false') {
-      videos = videos.filter(v => v.verified === false);
+      query = query.eq('verified', false);
     }
 
     if (search) {
-      const searchLower = search.toLowerCase();
-      videos = videos.filter(v =>
-        v.title?.toLowerCase().includes(searchLower) ||
-        v.description?.toLowerCase().includes(searchLower)
-      );
+      query = query.or(`title.ilike.%${search}%,description.ilike.%${search}%`);
+    }
+
+    const { data: videos, error } = await query;
+
+    if (error) {
+      console.error('Error fetching videos:', error);
+      return NextResponse.json({ error: 'Failed to load videos' }, { status: 500 });
     }
 
     // Get stats
-    const allVideos = data.videos || [];
+    const { data: allVideos, error: statsError } = await supabase
+      .from('technical_videos')
+      .select('verified');
+
     const stats = {
-      total: allVideos.length,
-      verified: allVideos.filter(v => v.verified).length,
-      unverified: allVideos.filter(v => !v.verified).length,
+      total: allVideos?.length || 0,
+      verified: allVideos?.filter(v => v.verified).length || 0,
+      unverified: allVideos?.filter(v => !v.verified).length || 0,
     };
 
-    // Get dropdown data for add/edit forms
-    const { makes, modelsByMake, productCategories } = await getDropdownData();
+    // Get categories and dropdown data
+    const [categories, dropdownData] = await Promise.all([
+      getVideoCategories(supabase),
+      getDropdownData()
+    ]);
 
     return NextResponse.json({
-      videos,
-      categories: data.categories || [],
+      videos: videos.map(transformVideoFromDB),
+      categories,
       stats,
-      makes,
-      modelsByMake,
-      productCategories,
-      githubEnabled: isGitHubStorageEnabled()
+      makes: dropdownData.makes,
+      modelsByMake: dropdownData.modelsByMake,
+      productCategories: dropdownData.productCategories,
+      dataSource: 'supabase'
     });
   } catch (error) {
     console.error('Error loading videos:', error);
@@ -206,42 +225,63 @@ export async function POST(request) {
       );
     }
 
-    const data = await getVideosData();
+    const supabase = getSupabase();
 
     // Check for duplicate YouTube ID
-    if (data.videos.some(v => v.youtubeId === youtubeId)) {
+    const { data: existing } = await supabase
+      .from('technical_videos')
+      .select('id')
+      .eq('youtube_id', youtubeId)
+      .single();
+
+    if (existing) {
       return NextResponse.json(
         { error: 'A video with this YouTube ID already exists' },
         { status: 400 }
       );
     }
 
-    // Generate new ID
-    const existingIds = data.videos.map(v => parseInt(v.id.replace('v', '')));
-    const newIdNum = Math.max(...existingIds, 0) + 1;
+    // Generate new ID (v001, v002, etc.)
+    const { data: lastVideo } = await supabase
+      .from('technical_videos')
+      .select('id')
+      .order('id', { ascending: false })
+      .limit(1)
+      .single();
+
+    let newIdNum = 1;
+    if (lastVideo?.id) {
+      const num = parseInt(lastVideo.id.replace('v', ''));
+      if (!isNaN(num)) newIdNum = num + 1;
+    }
     const newId = `v${String(newIdNum).padStart(3, '0')}`;
 
-    const now = new Date().toISOString();
-    const newVideo = {
-      id: newId,
-      title,
-      description: description || '',
-      youtubeId,
-      category: topicCategory,
-      verified,
-      makes,
-      models,
-      productCategories,
-      createdAt: now,
-      updatedAt: now,
-    };
+    // Insert new video
+    const { data: newVideo, error } = await supabase
+      .from('technical_videos')
+      .insert({
+        id: newId,
+        title,
+        description: description || '',
+        youtube_id: youtubeId,
+        category: topicCategory,
+        verified,
+        makes,
+        models,
+        product_categories: productCategories,
+      })
+      .select()
+      .single();
 
-    data.videos.push(newVideo);
+    if (error) {
+      console.error('Error inserting video:', error);
+      return NextResponse.json({ error: 'Failed to add video' }, { status: 500 });
+    }
 
-    const commitMessage = `Add video: ${title.substring(0, 50)}`;
-    await saveVideosData(data, commitMessage);
-
-    return NextResponse.json({ video: newVideo, message: 'Video added successfully' });
+    return NextResponse.json({
+      video: transformVideoFromDB(newVideo),
+      message: 'Video added successfully'
+    });
   } catch (error) {
     console.error('Error adding video:', error);
     return NextResponse.json({

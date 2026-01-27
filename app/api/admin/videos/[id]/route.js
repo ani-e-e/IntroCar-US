@@ -1,47 +1,19 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/admin-auth';
+import { createClient } from '@supabase/supabase-js';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { getFileFromGitHub, updateFileOnGitHub, isGitHubStorageEnabled } from '@/lib/github-storage';
 
-const VIDEOS_FILE = path.join(process.cwd(), 'data', 'json', 'technical-videos.json');
-const VIDEOS_PATH = 'data/json/technical-videos.json'; // Path for GitHub API
 const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
 const PRODUCTS_FILE = path.join(process.cwd(), 'data', 'json', 'products.json');
 
-// Helper to read videos data (tries GitHub first if configured, then local file)
-async function getVideosData() {
-  if (isGitHubStorageEnabled()) {
-    try {
-      const { content } = await getFileFromGitHub(VIDEOS_PATH);
-      return JSON.parse(content);
-    } catch (error) {
-      console.error('GitHub fetch failed, falling back to local:', error);
-    }
-  }
-
-  const data = await fs.readFile(VIDEOS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-// Helper to write videos data (uses GitHub if configured, otherwise local file)
-async function saveVideosData(data, commitMessage = 'Update technical videos') {
-  const content = JSON.stringify(data, null, 2);
-
-  if (isGitHubStorageEnabled()) {
-    await updateFileOnGitHub(VIDEOS_PATH, content, commitMessage);
-    return true;
-  }
-
-  // Fall back to local file (works in development)
-  try {
-    await fs.writeFile(VIDEOS_FILE, content);
-    return true;
-  } catch (error) {
-    console.error('Error writing videos file:', error);
-    throw new Error('Cannot save changes. Configure GITHUB_TOKEN for production use, or run locally.');
-  }
+// Initialize Supabase client lazily
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
 }
 
 // Helper to extract YouTube video ID from URL
@@ -104,6 +76,38 @@ async function getDropdownData() {
   }
 }
 
+// Transform Supabase row to frontend format
+function transformVideoFromDB(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    description: row.description || '',
+    youtubeId: row.youtube_id,
+    category: row.category,
+    verified: row.verified,
+    makes: row.makes || [],
+    models: row.models || [],
+    productCategories: row.product_categories || [],
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
+  };
+}
+
+// Get video categories from Supabase
+async function getVideoCategories(supabase) {
+  const { data, error } = await supabase
+    .from('video_categories')
+    .select('name')
+    .order('display_order', { ascending: true });
+
+  if (error) {
+    console.error('Error fetching video categories:', error);
+    return ['Continental GT', 'Brakes', 'Suspension', 'Engine', 'Service', 'Hydraulics', 'Diagnostics'];
+  }
+
+  return data.map(c => c.name);
+}
+
 // GET - Get single video by ID
 export async function GET(request, { params }) {
   const cookieStore = await cookies();
@@ -115,22 +119,30 @@ export async function GET(request, { params }) {
 
   try {
     const { id } = await params;
-    const data = await getVideosData();
-    const video = data.videos.find(v => v.id === id);
+    const supabase = getSupabase();
 
-    if (!video) {
+    const { data: video, error } = await supabase
+      .from('technical_videos')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error || !video) {
       return NextResponse.json({ error: 'Video not found' }, { status: 404 });
     }
 
     // Get dropdown data for the edit form
-    const { makes, modelsByMake, productCategories } = await getDropdownData();
+    const [categories, dropdownData] = await Promise.all([
+      getVideoCategories(supabase),
+      getDropdownData()
+    ]);
 
     return NextResponse.json({
-      video,
-      topicCategories: data.categories || [],
-      makes,
-      modelsByMake,
-      productCategories
+      video: transformVideoFromDB(video),
+      topicCategories: categories,
+      makes: dropdownData.makes,
+      modelsByMake: dropdownData.modelsByMake,
+      productCategories: dropdownData.productCategories
     });
   } catch (error) {
     console.error('Error loading video:', error);
@@ -161,29 +173,28 @@ export async function PUT(request, { params }) {
       productCategories  // Array of product categories
     } = body;
 
-    const data = await getVideosData();
-    const videoIndex = data.videos.findIndex(v => v.id === id);
+    const supabase = getSupabase();
 
-    if (videoIndex === -1) {
+    // First check if video exists
+    const { data: existing, error: fetchError } = await supabase
+      .from('technical_videos')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !existing) {
       return NextResponse.json({ error: 'Video not found' }, { status: 404 });
     }
 
-    const video = data.videos[videoIndex];
-
-    // Update fields if provided
-    if (title !== undefined) video.title = title;
-    if (description !== undefined) video.description = description;
-    if (verified !== undefined) video.verified = verified;
-
-    // Handle topic category (the original single category)
-    if (topicCategory !== undefined) {
-      video.category = topicCategory;
-    }
-
-    // Handle multi-select fields
-    if (makes !== undefined) video.makes = makes;
-    if (models !== undefined) video.models = models;
-    if (productCategories !== undefined) video.productCategories = productCategories;
+    // Build update object
+    const updateData = {};
+    if (title !== undefined) updateData.title = title;
+    if (description !== undefined) updateData.description = description;
+    if (verified !== undefined) updateData.verified = verified;
+    if (topicCategory !== undefined) updateData.category = topicCategory;
+    if (makes !== undefined) updateData.makes = makes;
+    if (models !== undefined) updateData.models = models;
+    if (productCategories !== undefined) updateData.product_categories = productCategories;
 
     // Handle YouTube URL update
     if (youtubeUrl !== undefined) {
@@ -196,24 +207,40 @@ export async function PUT(request, { params }) {
       }
 
       // Check for duplicate (excluding current video)
-      if (data.videos.some(v => v.id !== id && v.youtubeId === youtubeId)) {
+      const { data: duplicate } = await supabase
+        .from('technical_videos')
+        .select('id')
+        .eq('youtube_id', youtubeId)
+        .neq('id', id)
+        .single();
+
+      if (duplicate) {
         return NextResponse.json(
           { error: 'Another video with this YouTube ID already exists' },
           { status: 400 }
         );
       }
 
-      video.youtubeId = youtubeId;
+      updateData.youtube_id = youtubeId;
     }
 
-    video.updatedAt = new Date().toISOString();
-    data.videos[videoIndex] = video;
+    // Update the video
+    const { data: updatedVideo, error: updateError } = await supabase
+      .from('technical_videos')
+      .update(updateData)
+      .eq('id', id)
+      .select()
+      .single();
 
-    // Build commit message
-    const commitMessage = `Update video: ${video.title.substring(0, 50)}`;
-    await saveVideosData(data, commitMessage);
+    if (updateError) {
+      console.error('Error updating video:', updateError);
+      return NextResponse.json({ error: 'Failed to update video' }, { status: 500 });
+    }
 
-    return NextResponse.json({ video, message: 'Video updated successfully' });
+    return NextResponse.json({
+      video: transformVideoFromDB(updatedVideo),
+      message: 'Video updated successfully'
+    });
   } catch (error) {
     console.error('Error updating video:', error);
     return NextResponse.json({
@@ -233,22 +260,33 @@ export async function DELETE(request, { params }) {
 
   try {
     const { id } = await params;
-    const data = await getVideosData();
-    const videoIndex = data.videos.findIndex(v => v.id === id);
+    const supabase = getSupabase();
 
-    if (videoIndex === -1) {
+    // First get the video to return in response
+    const { data: video, error: fetchError } = await supabase
+      .from('technical_videos')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (fetchError || !video) {
       return NextResponse.json({ error: 'Video not found' }, { status: 404 });
     }
 
-    const deletedVideo = data.videos[videoIndex];
-    data.videos.splice(videoIndex, 1);
+    // Delete the video
+    const { error: deleteError } = await supabase
+      .from('technical_videos')
+      .delete()
+      .eq('id', id);
 
-    const commitMessage = `Delete video: ${deletedVideo.title.substring(0, 50)}`;
-    await saveVideosData(data, commitMessage);
+    if (deleteError) {
+      console.error('Error deleting video:', deleteError);
+      return NextResponse.json({ error: 'Failed to delete video' }, { status: 500 });
+    }
 
     return NextResponse.json({
       message: 'Video deleted successfully',
-      deletedVideo
+      deletedVideo: transformVideoFromDB(video)
     });
   } catch (error) {
     console.error('Error deleting video:', error);
