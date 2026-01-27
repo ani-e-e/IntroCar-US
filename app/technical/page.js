@@ -11,26 +11,26 @@ export const metadata = {
 
 export default function TechnicalPage() {
   // Load videos from JSON data
-  const { videos: technicalVideos, categories } = getTechnicalVideos();
+  const { videos: technicalVideos } = getTechnicalVideos();
 
-  // Extract unique models from videos that have model associations
-  const uniqueModels = [...new Set(
+  // Extract unique product categories from videos
+  const uniqueCategories = [...new Set(
     technicalVideos
-      .filter(v => v.models && v.models.length > 0)
-      .flatMap(v => v.models)
+      .filter(v => v.productCategories && v.productCategories.length > 0)
+      .flatMap(v => v.productCategories)
   )].sort();
 
-  // Group videos by model for display
-  const videosByModel = {};
-  uniqueModels.forEach(model => {
-    videosByModel[model] = technicalVideos.filter(
-      v => v.models && v.models.includes(model)
+  // Group videos by product category for display
+  const videosByCategory = {};
+  uniqueCategories.forEach(category => {
+    videosByCategory[category] = technicalVideos.filter(
+      v => v.productCategories && v.productCategories.includes(category)
     );
   });
 
-  // Also keep unassigned videos (no models set)
+  // Also keep unassigned videos (no product categories set)
   const unassignedVideos = technicalVideos.filter(
-    v => !v.models || v.models.length === 0
+    v => !v.productCategories || v.productCategories.length === 0
   );
 
   return (
@@ -51,15 +51,15 @@ export default function TechnicalPage() {
             <p className="text-xl text-white/80 leading-relaxed mb-6">
               Subscribe to our RR technical videos on any of our social channels. We release new technical videos regularly covering maintenance, repairs, and parts for Rolls-Royce and Bentley vehicles.
             </p>
-            {uniqueModels.length > 0 && (
+            {uniqueCategories.length > 0 && (
               <div className="flex flex-wrap gap-3 mb-8">
-                {uniqueModels.map((model) => (
+                {uniqueCategories.map((category) => (
                   <a
-                    key={model}
-                    href={`#${model.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
+                    key={category}
+                    href={`#${category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
                     className="inline-flex items-center px-4 py-2 bg-white/10 text-white text-sm font-medium rounded-full hover:bg-white/20 transition-colors"
                   >
-                    {model}
+                    {category}
                   </a>
                 ))}
               </div>
@@ -75,25 +75,25 @@ export default function TechnicalPage() {
         </div>
       </section>
 
-      {/* Technical Videos by Model */}
-      {uniqueModels.map((model) => {
-        const modelVideos = videosByModel[model];
-        if (modelVideos.length === 0) return null;
+      {/* Technical Videos by Product Category */}
+      {uniqueCategories.map((category) => {
+        const categoryVideos = videosByCategory[category];
+        if (categoryVideos.length === 0) return null;
 
         return (
-          <section key={model} className="py-12 border-b border-gray-100 last:border-b-0" id={model.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
+          <section key={category} className="py-12 border-b border-gray-100 last:border-b-0" id={category.toLowerCase().replace(/[^a-z0-9]+/g, '-')}>
             <div className="max-w-7xl mx-auto px-4">
               <div className="flex items-center gap-3 mb-8">
                 <Play className="w-6 h-6 text-red-600" />
                 <h2 className="text-2xl font-display font-light text-introcar-charcoal">
-                  {model}
+                  {category}
                 </h2>
-                <span className="text-sm text-gray-400">({modelVideos.length} videos)</span>
+                <span className="text-sm text-gray-400">({categoryVideos.length} videos)</span>
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {modelVideos.map((video) => (
+                {categoryVideos.map((video) => (
                   <div
-                    key={`${model}-${video.id}`}
+                    key={`${category}-${video.id}`}
                     className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-all"
                   >
                     <div className="aspect-video bg-gray-900 relative">
@@ -120,7 +120,7 @@ export default function TechnicalPage() {
         );
       })}
 
-      {/* Unassigned Videos (no model set) */}
+      {/* Unassigned Videos (no product category set) */}
       {unassignedVideos.length > 0 && (
         <section className="py-12 border-b border-gray-100" id="other-videos">
           <div className="max-w-7xl mx-auto px-4">
