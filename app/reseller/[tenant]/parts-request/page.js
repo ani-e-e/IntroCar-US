@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Send, Phone, Mail, CheckCircle } from 'lucide-react';
+import { ChevronRight, Send, Phone, Mail, CheckCircle, Fax } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
 import { TenantProvider, useTenant } from '@/context/TenantContext';
@@ -15,16 +15,24 @@ function PartsRequestContent({ tenantSlug }) {
     email: '',
     company: '',
     phone: '',
+    fax: '',
     street: '',
     city: '',
     state: '',
     zip: '',
-    country: 'United States',
+    country: '',
     make: '',
     model: '',
     year: '',
     vin: '',
-    partDescription: '',
+    coachBuilder: '',
+    bodyType: '',
+    engineType: '',
+    transmission: '',
+    powerSteering: '',
+    factoryAC: '',
+    emissionControl: '',
+    partName: '',
     paymentMethod: 'call',
   });
   const [submitted, setSubmitted] = useState(false);
@@ -42,15 +50,16 @@ function PartsRequestContent({ tenantSlug }) {
     // Create mailto link with form data
     const subject = `Parts Request - ${formData.make} ${formData.model} ${formData.year}`;
     const body = `
-PARTS REQUEST
+ALBERS MOTORCARS PARTS REQUEST
 
 Contact Information:
 - Name: ${formData.name}
 - Email: ${formData.email}
 - Company: ${formData.company || 'N/A'}
 - Phone: ${formData.phone}
+- Fax: ${formData.fax || 'N/A'}
 
-Address:
+Shipping Address:
 ${formData.street}
 ${formData.city}, ${formData.state} ${formData.zip}
 ${formData.country}
@@ -60,15 +69,22 @@ Vehicle Information:
 - Model: ${formData.model}
 - Year: ${formData.year}
 - VIN/Chassis: ${formData.vin}
+- Coach Builder: ${formData.coachBuilder || 'N/A'}
+- Body Type: ${formData.bodyType || 'N/A'}
+- Engine Type: ${formData.engineType || 'N/A'}
+- Transmission: ${formData.transmission || 'N/A'}
+- Power Steering: ${formData.powerSteering || 'N/A'}
+- Factory A/C: ${formData.factoryAC || 'N/A'}
+- Emission Control Air Injection Pump: ${formData.emissionControl || 'N/A'}
 
-Part Description:
-${formData.partDescription}
+Part Request:
+${formData.partName}
 
-Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to finalize' : 'I will call to finalize'}
+Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to finalize this order' : 'I will call to finalize this order'}
     `.trim();
 
     // Open mailto
-    window.location.href = `mailto:${companyInfo?.email || 'parts@albersrb.com'}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:parts@albersrb.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     setTimeout(() => {
       setSubmitted(true);
@@ -90,8 +106,8 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
           <h1 className="text-3xl font-display font-light text-gray-900 mb-4">Request Submitted</h1>
           <p className="text-gray-600 mb-8">
             Your email client should have opened with your parts request. If it didn't, please email us directly at{' '}
-            <a href={`mailto:${companyInfo?.email}`} className="underline" style={{ color: colors?.primary }}>
-              {companyInfo?.email}
+            <a href="mailto:parts@albersrb.com" className="underline" style={{ color: colors?.primary }}>
+              parts@albersrb.com
             </a>
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -133,45 +149,66 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
 
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="text-center mb-10">
-          <h1 className="text-3xl font-display font-light text-gray-900 mb-4">Parts Request</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            {companyInfo?.tagline || 'Specializing in Rolls-Royce & Bentley since 1963'}.
-            Fill out the form below and our knowledgeable staff will assist you with your parts needs.
-          </p>
+          <h1 className="text-3xl font-display font-light text-gray-900 mb-4">Albers Motorcars Parts Request</h1>
+          <div className="text-gray-600 max-w-3xl mx-auto space-y-4">
+            <p>
+              For over 60 years, the Albers family has been involved with Crewe Built Rolls-Royce and Bentley motorcars. We believe our knowledge and commitment to these timeless classics is second to none.
+            </p>
+            <p>
+              Through the years, we have assembled a vast inventory of parts for Crewe Built Rolls-Royce cars ranging from 1945 to 2002 and Bentley cars from 1945 to present. We also have a limited stock of pre-war parts for Rolls Royce cars from 1920-1939 and for Bentley cars from 1931-1939.
+            </p>
+            <p>
+              As one of the largest independent suppliers of parts for these cars in North America, allow our helpful and experienced staff to assist you Monday through Friday 8 a.m. to 4:30 p.m. EST (NY Time).
+            </p>
+          </div>
         </div>
 
         {/* Contact Options */}
-        <div className="grid md:grid-cols-2 gap-4 mb-10">
+        <div className="grid md:grid-cols-3 gap-4 mb-10">
           <a
-            href={`tel:${companyInfo?.phone?.replace(/\D/g, '')}`}
+            href="tel:3178732360"
             className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
           >
             <div
-              className="w-12 h-12 rounded-full flex items-center justify-center"
+              className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: `${colors?.primary}15` }}
             >
               <Phone className="w-5 h-5" style={{ color: colors?.primary }} />
             </div>
             <div>
               <p className="font-medium text-gray-900">Call Us</p>
-              <p className="text-gray-500">{companyInfo?.phone}</p>
+              <p className="text-gray-500">(317) 873-2360</p>
             </div>
           </a>
           <a
-            href={`mailto:${companyInfo?.email}`}
+            href="mailto:parts@albersrb.com"
             className="flex items-center gap-4 p-4 rounded-xl border border-gray-200 hover:border-gray-300 transition-colors"
           >
             <div
-              className="w-12 h-12 rounded-full flex items-center justify-center"
+              className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
               style={{ backgroundColor: `${colors?.primary}15` }}
             >
               <Mail className="w-5 h-5" style={{ color: colors?.primary }} />
             </div>
             <div>
               <p className="font-medium text-gray-900">Email Us</p>
-              <p className="text-gray-500">{companyInfo?.email}</p>
+              <p className="text-gray-500">parts@albersrb.com</p>
             </div>
           </a>
+          <div className="flex items-center gap-4 p-4 rounded-xl border border-gray-200">
+            <div
+              className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+              style={{ backgroundColor: `${colors?.primary}15` }}
+            >
+              <svg className="w-5 h-5" style={{ color: colors?.primary }} fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 2H5a2 2 0 00-2 2v16a2 2 0 002 2h14a2 2 0 002-2V4a2 2 0 00-2-2zm-7 18h-2v-2h2v2zm0-4h-2V8h2v8z"/>
+              </svg>
+            </div>
+            <div>
+              <p className="font-medium text-gray-900">Fax</p>
+              <p className="text-gray-500">(317) 873-6860</p>
+            </div>
+          </div>
         </div>
 
         {/* Form */}
@@ -191,7 +228,6 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                  style={{ '--tw-ring-color': colors?.primary }}
                 />
               </div>
               <div>
@@ -206,7 +242,7 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Company</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
                 <input
                   type="text"
                   name="company"
@@ -226,6 +262,16 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Fax</label>
+                <input
+                  type="tel"
+                  name="fax"
+                  value={formData.fax}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                />
+              </div>
             </div>
           </div>
 
@@ -236,7 +282,7 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Street Address</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Street</label>
                 <input
                   type="text"
                   name="street"
@@ -255,27 +301,35 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">ZIP Code</label>
-                  <input
-                    type="text"
-                    name="zip"
-                    value={formData.zip}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                  />
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+                <input
+                  type="text"
+                  name="state"
+                  value={formData.state}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Zip Code</label>
+                <input
+                  type="text"
+                  name="zip"
+                  value={formData.zip}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+                <input
+                  type="text"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                />
               </div>
             </div>
           </div>
@@ -287,12 +341,11 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
             </h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Make *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Make</label>
                 <select
                   name="make"
                   value={formData.make}
                   onChange={handleChange}
-                  required
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 >
                   <option value="">Select Make</option>
@@ -307,7 +360,6 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   name="model"
                   value={formData.model}
                   onChange={handleChange}
-                  placeholder="e.g., Continental GT, Silver Shadow"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
               </div>
@@ -318,12 +370,11 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   name="year"
                   value={formData.year}
                   onChange={handleChange}
-                  placeholder="e.g., 2005"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">VIN/Chassis Number *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Chassis/VIN Number *</label>
                 <input
                   type="text"
                   name="vin"
@@ -333,35 +384,148 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Coach Builder</label>
+                <select
+                  name="coachBuilder"
+                  value={formData.coachBuilder}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                >
+                  <option value="">Select</option>
+                  <option value="James Young">James Young</option>
+                  <option value="Standard RR/B Coachwork">Standard RR/B Coachwork</option>
+                  <option value="Mulliner">Mulliner</option>
+                  <option value="Parkward">Parkward</option>
+                  <option value="Mulliner-Parkwood">Mulliner-Parkwood</option>
+                  <option value="Hooper">Hooper</option>
+                  <option value="Jankel">Jankel</option>
+                  <option value="Pininfarina">Pininfarina</option>
+                  <option value="Freestone & Webb">Freestone & Webb</option>
+                  <option value="Radford">Radford</option>
+                  <option value="Other">Other, Specify in Notes</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Body Type</label>
+                <select
+                  name="bodyType"
+                  value={formData.bodyType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                >
+                  <option value="">Select</option>
+                  <option value="4 Door Sedan">4 Door Sedan</option>
+                  <option value="2 Door Sedan">2 Door Sedan</option>
+                  <option value="2 Door Coupe">2 Door Coupe</option>
+                  <option value="2 Door Convertible">2 Door Convertible</option>
+                  <option value="4 Door Convertible">4 Door Convertible</option>
+                  <option value="SWB Limousine">SWB Limousine</option>
+                  <option value="LWB Limousine">LWB Limousine</option>
+                  <option value="Touring Limousine">Touring Limousine</option>
+                  <option value="Stretch Limousine">Stretch Limousine</option>
+                  <option value="Other">Other, Specify in Notes</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Engine Type</label>
+                <select
+                  name="engineType"
+                  value={formData.engineType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                >
+                  <option value="">Select</option>
+                  <option value="6 cylinder">6 cylinder</option>
+                  <option value="V-8">V-8</option>
+                  <option value="V-12">V-12</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Vehicle Options */}
+            <div className="grid md:grid-cols-3 gap-4 mt-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Auto/Standard Transmission</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="transmission" value="Auto" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>Auto</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="transmission" value="Standard" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>Standard</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Power Steering</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="powerSteering" value="Yes" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>Yes</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="powerSteering" value="No" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Factory Air Conditioning</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="factoryAC" value="Yes" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>Yes</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="factoryAC" value="No" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Emission Control Air Injection Pump</label>
+                <div className="flex gap-4">
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="emissionControl" value="Yes" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>Yes</span>
+                  </label>
+                  <label className="flex items-center gap-2">
+                    <input type="radio" name="emissionControl" value="No" onChange={handleChange} className="w-4 h-4" style={{ accentColor: colors?.primary }} />
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Part Description */}
+          {/* Part Name */}
           <div>
             <h2 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
-              Part Details
+              Parts Request for Above Vehicle
             </h2>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Part Name/Description/Number *
-              </label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Part Name/Description</label>
               <textarea
-                name="partDescription"
-                value={formData.partDescription}
+                name="partName"
+                value={formData.partName}
                 onChange={handleChange}
-                required
                 rows={4}
-                placeholder="Please describe the part(s) you need, include part numbers if known..."
+                placeholder="Please describe the part(s) you need..."
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
               />
             </div>
           </div>
 
-          {/* Payment Preference */}
+          {/* Payment Information */}
           <div>
             <h2 className="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
-              How Would You Like to Proceed?
+              Payment Information
             </h2>
+            <p className="text-sm text-gray-600 mb-4">
+              We do not take credit cards on this page. Please select one of the choices below to determine how you would like to follow up on this request or make a purchase.
+            </p>
             <div className="space-y-3">
               <label className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
@@ -373,7 +537,19 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   className="w-4 h-4"
                   style={{ accentColor: colors?.primary }}
                 />
-                <span className="text-gray-900">Please call me to finalize this order</span>
+                <span className="text-gray-900">Please call me at this number to finalize this order</span>
+              </label>
+              <label className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  value="email"
+                  checked={formData.paymentMethod === 'email'}
+                  onChange={handleChange}
+                  className="w-4 h-4"
+                  style={{ accentColor: colors?.primary }}
+                />
+                <span className="text-gray-900">Please email me with information about this order</span>
               </label>
               <label className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
@@ -385,7 +561,7 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
                   className="w-4 h-4"
                   style={{ accentColor: colors?.primary }}
                 />
-                <span className="text-gray-900">I will call to finalize this order ({companyInfo?.phone})</span>
+                <span className="text-gray-900">I will call to finalize this order (Call 317-873-2360)</span>
               </label>
             </div>
           </div>
@@ -402,7 +578,7 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
               {submitting ? 'Submitting...' : 'Submit Parts Request'}
             </button>
             <p className="text-center text-sm text-gray-500 mt-4">
-              We typically respond within 24 hours during business days.
+              We typically respond within 24 hours during business days (Mon-Fri 8am-4:30pm EST).
             </p>
           </div>
         </form>
