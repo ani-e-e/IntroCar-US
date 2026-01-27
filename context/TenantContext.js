@@ -5,8 +5,12 @@ import { getDefaultTenant, getTenant, isLightSite, getTenantCSSVariables } from 
 
 const TenantContext = createContext(null);
 
-export function TenantProvider({ children, tenantSlug = null }) {
+export function TenantProvider({ children, tenant: tenantProp = null, tenantSlug = null }) {
+  // Accept either a tenant object directly or a tenantSlug to look up
   const [tenant, setTenant] = useState(() => {
+    if (tenantProp) {
+      return tenantProp;
+    }
     if (tenantSlug) {
       return getTenant(tenantSlug);
     }
@@ -14,10 +18,12 @@ export function TenantProvider({ children, tenantSlug = null }) {
   });
 
   useEffect(() => {
-    if (tenantSlug) {
+    if (tenantProp) {
+      setTenant(tenantProp);
+    } else if (tenantSlug) {
       setTenant(getTenant(tenantSlug));
     }
-  }, [tenantSlug]);
+  }, [tenantProp, tenantSlug]);
 
   // Apply CSS variables for theming
   useEffect(() => {
