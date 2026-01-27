@@ -139,7 +139,9 @@ export default function ResellerProductsContent({ tenant, tenantSlug }) {
       params.set('page', currentPage.toString());
       params.set('limit', '24');
 
-      const res = await fetch(`/api/products?${params.toString()}`);
+      // Use reseller API with tenant param for SKU filtering
+      params.set('tenant', tenantSlug);
+      const res = await fetch(`/api/reseller/products?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
         setProducts(data.products || []);
