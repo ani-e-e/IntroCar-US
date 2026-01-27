@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData } from '@/lib/data-server';
+import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData, getCataloguesForModel } from '@/lib/data-server';
 
 export async function GET(request) {
   try {
@@ -21,6 +21,9 @@ export async function GET(request) {
       limit: parseInt(searchParams.get('limit')) || 24,
     };
 
+    // New: includeCatalogues param for Shop by Model
+    const includeCatalogues = searchParams.get('includeCatalogues') === 'true';
+
     const sort = searchParams.get('sort') || 'relevance';
     const result = filterProducts({ ...filters, sort });
     const categories = getCategories(); // Returns array with subcategories (all categories)
@@ -38,6 +41,19 @@ export async function GET(request) {
       };
     }
 
+    // Optionally include catalogues (for Shop by Model)
+    let cataloguesData = null;
+    if (includeCatalogues && (filters.make || filters.model || filters.search)) {
+      cataloguesData = getCataloguesForModel({
+        make: filters.make,
+        model: filters.model,
+        category: filters.category,
+        subcategory: filters.subcategory,
+        search: filters.search,
+        limit: 100 // Get more catalogues since they'll be mixed with products
+      });
+    }
+
     return NextResponse.json({
       products: result.products,
       pagination: result.pagination,
@@ -50,6 +66,9 @@ export async function GET(request) {
       vehicleData: filteredVehicleData,
       supersessionMatch: result.supersessionMatch || null,
       searchType: result.searchType || null,
+      // New: catalogues data for Shop by Model
+      catalogues: cataloguesData?.catalogues || null,
+      cataloguesTotal: cataloguesData?.total || 0,
     });
   } catch (error) {
     console.error('Products API error:', error);

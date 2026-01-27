@@ -55,13 +55,23 @@ export default function Header({ cartCount = 0 }) {
 
   const years = getYearsForModel();
 
-  // Handle vehicle finder search
+  // Handle vehicle finder search - goes to /products (parts only)
   const handleVehicleSearch = () => {
     const params = new URLSearchParams();
     if (selectedMake) params.set('make', selectedMake);
     if (selectedModel) params.set('model', selectedModel);
     if (selectedYear) params.set('year', selectedYear);
     router.push(`/products?${params.toString()}`);
+    setVehicleFinderOpen(false);
+  };
+
+  // Handle shop by model - goes to /shop (parts + catalogues)
+  const handleShopByModel = () => {
+    const params = new URLSearchParams();
+    if (selectedMake) params.set('make', selectedMake);
+    if (selectedModel) params.set('model', selectedModel);
+    if (selectedYear) params.set('year', selectedYear);
+    router.push(`/shop?${params.toString()}`);
     setVehicleFinderOpen(false);
   };
 
@@ -139,13 +149,9 @@ export default function Header({ cartCount = 0 }) {
               <Link href="/catalogues" className="nav-link">
                 Shop by Catalogue
               </Link>
-              <button
-                onClick={() => setVehicleFinderOpen(!vehicleFinderOpen)}
-                className="nav-link flex items-center gap-1"
-              >
+              <Link href="/shop" className="nav-link">
                 Shop by Model
-                <ChevronDown className={`w-4 h-4 transition-transform ${vehicleFinderOpen ? 'rotate-180' : ''}`} />
-              </button>
+              </Link>
               <Link href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated" className="text-introcar-blue hover:underline transition-colors font-medium">
                 Prestige Parts®
               </Link>
@@ -285,6 +291,12 @@ export default function Header({ cartCount = 0 }) {
             <nav className="space-y-1">
               <Link href="/products" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
                 All Parts
+              </Link>
+              <Link href="/shop" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
+                Shop by Model
+              </Link>
+              <Link href="/catalogues" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
+                Shop by Catalogue
               </Link>
               <Link href="/products?make=Bentley" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
                 Bentley Parts
