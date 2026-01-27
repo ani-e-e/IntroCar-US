@@ -6,9 +6,8 @@ import Image from 'next/image';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Package, Truck, ChevronRight } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
-import { TenantProvider, useTenant } from '@/context/TenantContext';
+import { useTenant } from '@/context/TenantContext';
 import { useCart } from '@/context/CartContext';
-import { getTenant } from '@/lib/tenants';
 import { formatShippingPrice, calculateUSAShipping, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
 
 function CartContent({ tenantSlug }) {
@@ -398,15 +397,5 @@ function CartContent({ tenantSlug }) {
 }
 
 export default function ResellerCartPage({ params }) {
-  const tenant = getTenant(params.tenant);
-
-  if (!tenant) {
-    return <div>Invalid tenant</div>;
-  }
-
-  return (
-    <TenantProvider tenant={tenant}>
-      <CartContent tenantSlug={params.tenant} />
-    </TenantProvider>
-  );
+  return <CartContent tenantSlug={params.tenant} />;
 }

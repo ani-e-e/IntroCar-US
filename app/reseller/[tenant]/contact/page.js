@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { ChevronRight, Phone, Mail, MapPin, Clock, Send, CheckCircle, Car, Wrench } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
-import { TenantProvider, useTenant } from '@/context/TenantContext';
-import { getTenant } from '@/lib/tenants';
+import { useTenant } from '@/context/TenantContext';
 
 function ContactContent({ tenantSlug }) {
   const { colors, companyInfo } = useTenant();
@@ -309,15 +308,5 @@ ${formData.message}
 }
 
 export default function ContactPage({ params }) {
-  const tenant = getTenant(params.tenant);
-
-  if (!tenant) {
-    return <div>Invalid tenant</div>;
-  }
-
-  return (
-    <TenantProvider tenant={tenant}>
-      <ContactContent tenantSlug={params.tenant} />
-    </TenantProvider>
-  );
+  return <ContactContent tenantSlug={params.tenant} />;
 }

@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { ChevronRight, Phone, Mail, MapPin, Clock, Award, Users, Wrench, Package } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
-import { TenantProvider, useTenant } from '@/context/TenantContext';
-import { getTenant } from '@/lib/tenants';
+import { useTenant } from '@/context/TenantContext';
 
 function AboutContent({ tenantSlug }) {
   const { colors, companyInfo, tenant } = useTenant();
@@ -233,15 +232,5 @@ function AboutContent({ tenantSlug }) {
 }
 
 export default function AboutPage({ params }) {
-  const tenant = getTenant(params.tenant);
-
-  if (!tenant) {
-    return <div>Invalid tenant</div>;
-  }
-
-  return (
-    <TenantProvider tenant={tenant}>
-      <AboutContent tenantSlug={params.tenant} />
-    </TenantProvider>
-  );
+  return <AboutContent tenantSlug={params.tenant} />;
 }

@@ -6,9 +6,8 @@ import Image from 'next/image';
 import { ChevronRight, Package, Truck, CheckCircle, Mail, AlertCircle, ArrowLeft, CreditCard } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
-import { TenantProvider, useTenant } from '@/context/TenantContext';
+import { useTenant } from '@/context/TenantContext';
 import { useCart } from '@/context/CartContext';
-import { getTenant } from '@/lib/tenants';
 import { formatShippingPrice, calculateUSAShipping, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
 
 function CheckoutContent({ tenantSlug }) {
@@ -645,15 +644,5 @@ function OrderSummary({ items, itemCount, subtotal, shippingCost, total, showPri
 }
 
 export default function ResellerCheckoutPage({ params }) {
-  const tenant = getTenant(params.tenant);
-
-  if (!tenant) {
-    return <div>Invalid tenant</div>;
-  }
-
-  return (
-    <TenantProvider tenant={tenant}>
-      <CheckoutContent tenantSlug={params.tenant} />
-    </TenantProvider>
-  );
+  return <CheckoutContent tenantSlug={params.tenant} />;
 }

@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { ChevronRight, Send, Phone, Mail, CheckCircle, Fax } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
-import { TenantProvider, useTenant } from '@/context/TenantContext';
-import { getTenant } from '@/lib/tenants';
+import { useTenant } from '@/context/TenantContext';
 
 function PartsRequestContent({ tenantSlug }) {
   const { colors, companyInfo } = useTenant();
@@ -590,15 +589,5 @@ Payment Preference: ${formData.paymentMethod === 'call' ? 'Please call me to fin
 }
 
 export default function PartsRequestPage({ params }) {
-  const tenant = getTenant(params.tenant);
-
-  if (!tenant) {
-    return <div>Invalid tenant</div>;
-  }
-
-  return (
-    <TenantProvider tenant={tenant}>
-      <PartsRequestContent tenantSlug={params.tenant} />
-    </TenantProvider>
-  );
+  return <PartsRequestContent tenantSlug={params.tenant} />;
 }
