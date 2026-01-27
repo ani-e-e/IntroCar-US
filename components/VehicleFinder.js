@@ -224,24 +224,26 @@ export default function VehicleFinder() {
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Mode Toggle */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={toggleChassisLookupMode}
-          className={`text-sm flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors ${
-            chassisLookupMode
-              ? 'bg-introcar-blue text-white'
-              : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-          }`}
-        >
-          <Search className="w-4 h-4" />
-          {chassisLookupMode ? 'Chassis Lookup Mode' : 'Know your chassis?'}
-        </button>
-        {chassisLookupMode && (
-          <span className="text-sm text-gray-500">
-            Enter your chassis code to find your vehicle
-          </span>
-        )}
+      {/* Mode Toggle - Prominent button for chassis lookup */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={toggleChassisLookupMode}
+            className={`text-sm flex items-center gap-2 px-4 py-2 rounded-full border-2 font-medium transition-colors ${
+              chassisLookupMode
+                ? 'bg-introcar-blue text-white border-introcar-blue'
+                : 'bg-white text-introcar-blue border-introcar-blue hover:bg-introcar-blue hover:text-white'
+            }`}
+          >
+            <Search className="w-4 h-4" />
+            {chassisLookupMode ? 'Back to Vehicle Selection' : 'Know Your Chassis Number?'}
+          </button>
+          {chassisLookupMode && (
+            <span className="text-sm text-gray-500">
+              Enter your chassis code to find your vehicle
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Chassis Lookup Mode */}
