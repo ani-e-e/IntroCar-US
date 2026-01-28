@@ -4,54 +4,46 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 // Curated model lists matching introcar.com structure
-// Each model now has its own link (no combined entries)
+// Models array = inline display with "/" separator, each model is a separate link
 const rollsRoyceModels = [
   // Column 1
   [
-    { label: 'Camargue', model: 'Camargue' },
-    { label: 'Corniche (1970–1982)', model: 'Corniche' },
-    { label: 'Silver Cloud', model: 'Silver Cloud' },
-    { label: 'Silver Cloud II', model: 'Silver Cloud II' },
-    { label: 'Silver Cloud III', model: 'Silver Cloud III' },
-    { label: 'Silver Dawn (1949-1955)', model: 'Silver Dawn' },
+    { models: [{ label: 'Camargue', model: 'Camargue' }] },
+    { models: [{ label: 'Corniche (1970–1982)', model: 'Corniche' }] },
+    { models: [{ label: 'Silver Cloud', model: 'Silver Cloud' }] },
+    { models: [{ label: 'Silver Cloud II', model: 'Silver Cloud II' }] },
+    { models: [{ label: 'Silver Cloud III', model: 'Silver Cloud III' }] },
+    { models: [{ label: 'Silver Dawn (1949-1955)', model: 'Silver Dawn' }] },
   ],
   // Column 2
   [
-    { label: 'Silver Seraph', model: 'Silver Seraph' },
-    { label: 'Silver Shadow', model: 'Silver Shadow' },
-    { label: 'Silver Shadow II', model: 'Silver Shadow II' },
-    { label: 'Silver Spirit', model: 'Silver Spirit' },
-    { label: 'Silver Spur', model: 'Silver Spur' },
-    { label: 'Silver Wraith', model: 'Silver Wraith' },
+    { models: [{ label: 'Silver Seraph', model: 'Silver Seraph' }] },
+    { models: [{ label: 'Silver Shadow', model: 'Silver Shadow' }] },
+    { models: [{ label: 'Silver Shadow II', model: 'Silver Shadow II' }] },
+    { models: [{ label: 'Silver Spirit', model: 'Silver Spirit' }] },
+    { models: [{ label: 'Silver Spur', model: 'Silver Spur' }] },
+    { models: [{ label: 'Silver Wraith', model: 'Silver Wraith' }] },
   ],
 ];
 
 const bentleyModels = [
   // Column 1
   [
-    { label: 'Arnage R', model: 'Arnage R' },
-    { label: 'Arnage RL', model: 'Arnage RL' },
-    { label: 'Arnage T', model: 'Arnage T' },
-    { label: 'Azure', model: 'Azure' },
-    { label: 'Bentayga', model: 'Bentayga' },
-    { label: 'Brooklands Saloon', model: 'Brooklands Saloon' },
-    { label: 'Continental', model: 'Continental' },
-    { label: 'Continental GT', model: 'Continental GT' },
-    { label: 'Continental GTC', model: 'Continental GTC' },
+    { models: [{ label: 'Arnage R', model: 'Arnage R' }, { label: 'Arnage RL', model: 'Arnage RL' }, { label: 'Arnage T', model: 'Arnage T' }] },
+    { models: [{ label: 'Azure', model: 'Azure' }] },
+    { models: [{ label: 'Bentayga', model: 'Bentayga' }] },
+    { models: [{ label: 'Brooklands Saloon', model: 'Brooklands Saloon' }] },
+    { models: [{ label: 'Continental', model: 'Continental' }] },
+    { models: [{ label: 'Continental GT', model: 'Continental GT' }, { label: 'Continental GTC', model: 'Continental GTC' }] },
   ],
   // Column 2
   [
-    { label: 'Eight', model: 'Eight' },
-    { label: 'Mk VI', model: 'Mk VI' },
-    { label: 'R Type', model: 'R Type' },
-    { label: 'S1', model: 'S1' },
-    { label: 'S2', model: 'S2' },
-    { label: 'S3', model: 'S3' },
-    { label: 'T1', model: 'T1' },
-    { label: 'T2', model: 'T2' },
-    { label: 'Turbo R', model: 'Turbo R' },
-    { label: 'Turbo RL', model: 'Turbo RL' },
-    { label: 'Turbo RT', model: 'Turbo RT' },
+    { models: [{ label: 'Eight', model: 'Eight' }] },
+    { models: [{ label: 'Mk VI', model: 'Mk VI' }] },
+    { models: [{ label: 'R Type', model: 'R Type' }] },
+    { models: [{ label: 'S1', model: 'S1' }, { label: 'S2', model: 'S2' }, { label: 'S3', model: 'S3' }] },
+    { models: [{ label: 'T1', model: 'T1' }, { label: 'T2', model: 'T2' }] },
+    { models: [{ label: 'Turbo R', model: 'Turbo R' }, { label: 'Turbo RL', model: 'Turbo RL' }, { label: 'Turbo RT', model: 'Turbo RT' }] },
   ],
 ];
 
@@ -106,14 +98,20 @@ export default function ShopByModelMegaMenu({ isOpen, onClose }) {
               {rollsRoyceModels.map((col, colIdx) => (
                 <div key={colIdx} className="flex-1 space-y-2">
                   {col.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      href={buildModelUrl('Rolls-Royce', item.model)}
-                      onClick={onClose}
-                      className="block text-introcar-blue hover:underline text-sm"
-                    >
-                      {item.label}
-                    </Link>
+                    <div key={idx} className="text-sm">
+                      {item.models.map((m, mIdx) => (
+                        <span key={mIdx}>
+                          <Link
+                            href={buildModelUrl('Rolls-Royce', m.model)}
+                            onClick={onClose}
+                            className="text-introcar-blue hover:underline"
+                          >
+                            {m.label}
+                          </Link>
+                          {mIdx < item.models.length - 1 && <span className="text-gray-400"> / </span>}
+                        </span>
+                      ))}
+                    </div>
                   ))}
                 </div>
               ))}
@@ -136,14 +134,20 @@ export default function ShopByModelMegaMenu({ isOpen, onClose }) {
               {bentleyModels.map((col, colIdx) => (
                 <div key={colIdx} className="flex-1 space-y-2">
                   {col.map((item, idx) => (
-                    <Link
-                      key={idx}
-                      href={buildModelUrl('Bentley', item.model)}
-                      onClick={onClose}
-                      className="block text-introcar-blue hover:underline text-sm"
-                    >
-                      {item.label}
-                    </Link>
+                    <div key={idx} className="text-sm">
+                      {item.models.map((m, mIdx) => (
+                        <span key={mIdx}>
+                          <Link
+                            href={buildModelUrl('Bentley', m.model)}
+                            onClick={onClose}
+                            className="text-introcar-blue hover:underline"
+                          >
+                            {m.label}
+                          </Link>
+                          {mIdx < item.models.length - 1 && <span className="text-gray-400"> / </span>}
+                        </span>
+                      ))}
+                    </div>
                   ))}
                 </div>
               ))}
