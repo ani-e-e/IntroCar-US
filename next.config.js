@@ -28,6 +28,29 @@ const nextConfig = {
   // Security headers
   async headers() {
     return [
+      // Allow embed pages to be framed by introcar.com
+      {
+        source: '/embed/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          },
+          {
+            key: 'Content-Security-Policy',
+            value: 'frame-ancestors https://introcar.com https://*.introcar.com https://mcstaging.introcar.com https://localhost:*'
+          },
+        ],
+      },
+      // Default security headers for all other pages
       {
         source: '/:path*',
         headers: [
