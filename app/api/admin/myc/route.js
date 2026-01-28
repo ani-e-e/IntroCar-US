@@ -195,19 +195,40 @@ export async function POST(request) {
     if (action === 'cleanup') {
       const { sku } = body; // Optional: cleanup specific SKU only
 
-      // Get all entries (or just for specific SKU)
-      let query = supabase
-        .from('product_fitment')
-        .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info')
-        .order('id', { ascending: true });
+      // Fetch ALL entries with pagination (Supabase default limit is 1000)
+      const allEntries = [];
+      const pageSize = 10000;
+      let offset = 0;
+      let hasMore = true;
 
-      if (sku) {
-        query = query.eq('parent_sku', sku.toUpperCase());
+      console.log('Cleanup: Starting to fetch all entries...');
+
+      while (hasMore) {
+        let query = supabase
+          .from('product_fitment')
+          .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info')
+          .order('id', { ascending: true })
+          .range(offset, offset + pageSize - 1);
+
+        if (sku) {
+          query = query.eq('parent_sku', sku.toUpperCase());
+        }
+
+        const { data: batch, error: fetchError } = await query;
+
+        if (fetchError) throw fetchError;
+
+        if (batch && batch.length > 0) {
+          allEntries.push(...batch);
+          offset += batch.length;
+          console.log(`Cleanup: Fetched ${allEntries.length} entries so far...`);
+          hasMore = batch.length === pageSize;
+        } else {
+          hasMore = false;
+        }
       }
 
-      const { data: allEntries, error: fetchError } = await query;
-
-      if (fetchError) throw fetchError;
+      console.log(`Cleanup: Total entries fetched: ${allEntries.length}`);
 
       // Find duplicates - keep the first occurrence (lowest ID), delete the rest
       const seen = new Map();
@@ -234,10 +255,10 @@ export async function POST(request) {
       console.log(`Cleanup: Found ${idsToDelete.length} duplicates to delete out of ${allEntries.length} total entries`);
 
       if (idsToDelete.length > 0) {
-        // Delete in batches of 100
+        // Delete in batches of 500
         let deletedCount = 0;
-        for (let i = 0; i < idsToDelete.length; i += 100) {
-          const batch = idsToDelete.slice(i, i + 100);
+        for (let i = 0; i < idsToDelete.length; i += 500) {
+          const batch = idsToDelete.slice(i, i + 500);
           const { error: deleteError } = await supabase
             .from('product_fitment')
             .delete()
@@ -247,6 +268,11 @@ export async function POST(request) {
             console.error('Cleanup delete error:', deleteError);
           } else {
             deletedCount += batch.length;
+          }
+
+          // Log progress every 10000 deletions
+          if (deletedCount % 10000 === 0) {
+            console.log(`Cleanup: Deleted ${deletedCount} of ${idsToDelete.length} duplicates...`);
           }
         }
 
