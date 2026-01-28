@@ -176,14 +176,73 @@ export async function POST(request) {
     const body = await request.json();
     const { entries, action } = body;
 
-    if (!entries || !Array.isArray(entries) || entries.length === 0) {
-      return NextResponse.json({ error: 'No entries provided' }, { status: 400 });
-    }
-
     const [fitmentData, t7Values] = await Promise.all([
       loadFitmentData(),
       loadT7Values()
     ]);
+
+    // Handle 'replace' action first (doesn't require entries array)
+    if (action === 'replace') {
+      const { toDelete, toAdd } = body;
+
+      // Delete specified entries
+      let deletedCount = 0;
+      if (toDelete && Array.isArray(toDelete)) {
+        for (const del of toDelete) {
+          const sku = (del.sku || '').toUpperCase();
+          if (fitmentData[sku]) {
+            const originalLength = fitmentData[sku].length;
+            fitmentData[sku] = fitmentData[sku].filter(f =>
+              !(f.make === del.make && f.model === del.model &&
+                f.chassisStart === del.chassisStart && f.chassisEnd === del.chassisEnd &&
+                f.additionalInfo === del.additionalInfo)
+            );
+            deletedCount += originalLength - fitmentData[sku].length;
+
+            // Remove SKU if empty
+            if (fitmentData[sku].length === 0) {
+              delete fitmentData[sku];
+            }
+          }
+        }
+      }
+
+      // Add new entries
+      const added = [];
+      if (toAdd && Array.isArray(toAdd)) {
+        for (const entry of toAdd) {
+          const sku = (entry.sku || '').toUpperCase();
+          if (!sku || !entry.make || !entry.model) continue;
+
+          if (!fitmentData[sku]) {
+            fitmentData[sku] = [];
+          }
+
+          fitmentData[sku].push({
+            make: entry.make,
+            model: entry.model,
+            chassisStart: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
+            chassisEnd: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
+            additionalInfo: entry.additionalInfo || null
+          });
+          added.push({ sku, make: entry.make, model: entry.model });
+        }
+      }
+
+      await saveFitmentData(fitmentData);
+
+      return NextResponse.json({
+        message: `Deleted ${deletedCount}, added ${added.length} entries`,
+        deleted: deletedCount,
+        added,
+        addedCount: added.length
+      });
+    }
+
+    // For 'check' and default actions, entries array is required
+    if (!entries || !Array.isArray(entries) || entries.length === 0) {
+      return NextResponse.json({ error: 'No entries provided' }, { status: 400 });
+    }
 
     // If action is 'check', check for duplicates and return existing entries for each SKU
     if (action === 'check') {
@@ -274,64 +333,6 @@ export async function POST(request) {
           new: newCount,
           invalidAdditionalInfo: invalidInfoCount
         }
-      });
-    }
-
-    // If action is 'replace', delete specified entries first then add new ones
-    if (action === 'replace') {
-      const { toDelete, toAdd } = body;
-
-      // Delete specified entries
-      let deletedCount = 0;
-      if (toDelete && Array.isArray(toDelete)) {
-        for (const del of toDelete) {
-          const sku = (del.sku || '').toUpperCase();
-          if (fitmentData[sku]) {
-            const originalLength = fitmentData[sku].length;
-            fitmentData[sku] = fitmentData[sku].filter(f =>
-              !(f.make === del.make && f.model === del.model &&
-                f.chassisStart === del.chassisStart && f.chassisEnd === del.chassisEnd &&
-                f.additionalInfo === del.additionalInfo)
-            );
-            deletedCount += originalLength - fitmentData[sku].length;
-
-            // Remove SKU if empty
-            if (fitmentData[sku].length === 0) {
-              delete fitmentData[sku];
-            }
-          }
-        }
-      }
-
-      // Add new entries
-      const added = [];
-      if (toAdd && Array.isArray(toAdd)) {
-        for (const entry of toAdd) {
-          const sku = (entry.sku || '').toUpperCase();
-          if (!sku || !entry.make || !entry.model) continue;
-
-          if (!fitmentData[sku]) {
-            fitmentData[sku] = [];
-          }
-
-          fitmentData[sku].push({
-            make: entry.make,
-            model: entry.model,
-            chassisStart: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
-            chassisEnd: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
-            additionalInfo: entry.additionalInfo || null
-          });
-          added.push({ sku, make: entry.make, model: entry.model });
-        }
-      }
-
-      await saveFitmentData(fitmentData);
-
-      return NextResponse.json({
-        message: `Deleted ${deletedCount}, added ${added.length} entries`,
-        deleted: deletedCount,
-        added,
-        addedCount: added.length
       });
     }
 
