@@ -8,7 +8,7 @@ import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
 import { useTenant } from '@/context/TenantContext';
 import { useCart } from '@/context/CartContext';
-import { formatShippingPrice, calculateUSAShipping, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
+import { formatShippingPrice, calculateUSAShipping } from '@/lib/shipping';
 
 function CheckoutContent({ tenantSlug }) {
   const { colors, companyInfo, showPrices, orderEmail, tenant } = useTenant();
@@ -38,9 +38,9 @@ function CheckoutContent({ tenantSlug }) {
     paymentMethod: 'check', // Only check for now
   });
 
-  // Calculate shipping
+  // Calculate shipping based on weight
   const shippingEstimate = calculateUSAShipping(totalWeight);
-  const shippingCost = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : (shippingEstimate.options?.[0]?.price || 0);
+  const shippingCost = shippingEstimate.needsQuote ? 0 : (shippingEstimate.options?.[0]?.price || 0);
   const total = subtotal + shippingCost;
 
   const handleChange = (e) => {

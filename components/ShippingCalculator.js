@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Plane, Truck, Mail, Building, Calculator, Globe, Package, Check, Info } from 'lucide-react';
-import { formatShippingPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
+import { formatShippingPrice } from '@/lib/shipping';
 
 // Icon mapping for delivery methods
 const methodIcons = {
@@ -105,7 +105,7 @@ export default function ShippingCalculator({
     return null;
   }
 
-  const { options, freeShippingEligible, amountToFreeShipping, totalWeight, countryName } = shippingData;
+  const { options, totalWeight, countryName, needsQuote } = shippingData;
 
   if (compact) {
     // Compact view for cart sidebar
@@ -117,26 +117,17 @@ export default function ShippingCalculator({
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Shipping ({countryName})</span>
           <span className="font-medium">
-            {option.freeShipping ? (
-              <span className="text-green-600">FREE</span>
-            ) : option.price !== null ? (
+            {option.price !== null ? (
               formatShippingPrice(option.price)
             ) : (
-              <span className="text-introcar-blue">Quote</span>
+              <span className="text-amber-600">Quote Required</span>
             )}
           </span>
         </div>
-        {option.estimatedDays && (
+        {option.estimatedDays && option.price !== null && (
           <p className="text-xs text-gray-500">
             Est. delivery: {option.estimatedDays}
           </p>
-        )}
-        {!freeShippingEligible && amountToFreeShipping > 0 && (
-          <div className="bg-introcar-light rounded-lg p-2 text-xs">
-            <p className="text-gray-600">
-              Add <span className="font-medium text-introcar-blue">{formatShippingPrice(amountToFreeShipping)}</span> more for free shipping!
-            </p>
-          </div>
         )}
       </div>
     );
@@ -167,37 +158,6 @@ export default function ShippingCalculator({
           </div>
         )}
 
-        {/* Free shipping progress */}
-        {!freeShippingEligible && amountToFreeShipping > 0 && (
-          <div className="bg-introcar-light rounded-lg p-3">
-            <div className="flex items-center gap-2 mb-2">
-              <Info className="w-4 h-4 text-introcar-blue" />
-              <span className="text-sm font-medium text-introcar-charcoal">Free Shipping Available</span>
-            </div>
-            <p className="text-sm text-gray-600 mb-2">
-              Add <span className="font-semibold text-introcar-blue">{formatShippingPrice(amountToFreeShipping)}</span> more to qualify for free shipping!
-            </p>
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-introcar-blue transition-all"
-                style={{ width: `${Math.min(100, (subtotal / FREE_SHIPPING_THRESHOLD) * 100)}%` }}
-              />
-            </div>
-            <p className="text-xs text-gray-500 mt-1">
-              {formatShippingPrice(subtotal)} / {formatShippingPrice(FREE_SHIPPING_THRESHOLD)}
-            </p>
-          </div>
-        )}
-
-        {freeShippingEligible && (
-          <div className="bg-green-50 border border-green-200 rounded-lg p-3 flex items-center gap-2">
-            <Check className="w-5 h-5 text-green-600" />
-            <span className="text-sm text-green-800 font-medium">
-              Your order qualifies for free shipping!
-            </span>
-          </div>
-        )}
-
         {/* Shipping options */}
         <div className="space-y-2">
           {options?.map((option) => {
@@ -224,26 +184,19 @@ export default function ShippingCalculator({
                     <div className="flex items-center justify-between gap-2">
                       <h4 className="font-medium text-introcar-charcoal">{option.name}</h4>
                       <span className="text-lg font-semibold text-introcar-charcoal shrink-0">
-                        {option.freeShipping ? (
-                          <span className="text-green-600">FREE</span>
-                        ) : option.price !== null ? (
+                        {option.price !== null ? (
                           formatShippingPrice(option.price)
                         ) : (
-                          <span className="text-introcar-blue text-sm">Quote Required</span>
+                          <span className="text-amber-600 text-sm">Quote Required</span>
                         )}
                       </span>
                     </div>
                     {option.description && (
                       <p className="text-sm text-gray-500 mt-0.5">{option.description}</p>
                     )}
-                    {option.estimatedDays && (
+                    {option.estimatedDays && option.price !== null && (
                       <p className="text-sm text-gray-600 mt-1">
                         <span className="font-medium">Est. delivery:</span> {option.estimatedDays}
-                      </p>
-                    )}
-                    {option.freeShipping && option.originalPrice && (
-                      <p className="text-sm text-gray-400 line-through mt-1">
-                        Was {formatShippingPrice(option.originalPrice)}
                       </p>
                     )}
                   </div>

@@ -228,8 +228,8 @@ export default function ProductDetailClient({ sku }) {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                   </svg>
                   <div>
-                    <p className="text-white text-sm font-medium">Free Shipping</p>
-                    <p className="text-gray-500 text-xs">Orders over $500</p>
+                    <p className="text-white text-sm font-medium">Insured Shipping</p>
+                    <p className="text-gray-500 text-xs">Worldwide via DHL</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">

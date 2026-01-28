@@ -16,6 +16,7 @@ export default function AdminNav() {
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/products', label: 'Products', icon: '📦' },
+    { href: '/admin/catalogues', label: 'Catalogues', icon: '📚' },
     { href: '/admin/videos', label: 'Videos', icon: '🎬' },
     { href: '/admin/stock', label: 'Stock Update', icon: '📈' },
     { href: '/admin/upload', label: 'Upload CSV', icon: '📤' },

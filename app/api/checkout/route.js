@@ -57,7 +57,7 @@ export async function POST(request) {
     }));
 
     // Add shipping as a line item if applicable
-    if (shipping && shipping.price > 0 && !shipping.freeShipping) {
+    if (shipping && shipping.price > 0) {
       lineItems.push({
         price_data: {
           currency: 'usd',

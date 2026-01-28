@@ -8,7 +8,7 @@ import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
 import { useTenant } from '@/context/TenantContext';
 import { useCart } from '@/context/CartContext';
-import { formatShippingPrice, calculateUSAShipping, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
+import { formatShippingPrice, calculateUSAShipping } from '@/lib/shipping';
 
 function CartContent({ tenantSlug }) {
   const { colors, companyInfo, showPrices } = useTenant();
@@ -129,21 +129,6 @@ function CartContent({ tenantSlug }) {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Free Shipping Banner */}
-            {showPrices && subtotal < FREE_SHIPPING_THRESHOLD && (
-              <div
-                className="border rounded-xl p-4 flex items-center gap-3"
-                style={{ backgroundColor: `${colors?.primary}08`, borderColor: `${colors?.primary}20` }}
-              >
-                <Truck className="w-6 h-6 shrink-0" style={{ color: colors?.primary }} />
-                <div className="flex-1">
-                  <p className="text-sm text-gray-700">
-                    Add <span className="font-semibold" style={{ color: colors?.primary }}>{formatShippingPrice(FREE_SHIPPING_THRESHOLD - subtotal)}</span> more to qualify for <span className="font-semibold">FREE shipping</span>!
-                  </p>
-                </div>
-              </div>
-            )}
-
             {/* Item List */}
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
               <div className="divide-y divide-gray-100">
@@ -311,8 +296,8 @@ function CartContent({ tenantSlug }) {
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Shipping</span>
                       <span className="font-medium">
-                        {subtotal >= FREE_SHIPPING_THRESHOLD ? (
-                          <span className="text-green-600">FREE</span>
+                        {shippingEstimate.needsQuote ? (
+                          <span className="text-amber-600">Quote Required</span>
                         ) : (
                           formatShippingPrice(shippingCost)
                         )}
@@ -322,7 +307,11 @@ function CartContent({ tenantSlug }) {
                     <div className="flex justify-between text-lg">
                       <span className="font-medium text-gray-900">Total</span>
                       <span className="font-bold text-gray-900">
-                        {formatShippingPrice(subtotal >= FREE_SHIPPING_THRESHOLD ? subtotal : total)}
+                        {shippingEstimate.needsQuote ? (
+                          <span>{formatShippingPrice(subtotal)} + shipping</span>
+                        ) : (
+                          formatShippingPrice(total)
+                        )}
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">

@@ -7,7 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ShippingCalculator from '@/components/ShippingCalculator';
 import { useCart } from '@/context/CartContext';
-import { formatShippingPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/shipping';
+import { formatShippingPrice } from '@/lib/shipping';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, ArrowLeft, Package, Truck, Loader2, Lock } from 'lucide-react';
 
 export default function CartPage() {
@@ -63,8 +63,8 @@ export default function CartPage() {
     }
   };
 
-  // Calculate totals
-  const shippingCost = selectedShipping?.freeShipping ? 0 : (selectedShipping?.price || 0);
+  // Calculate totals - shipping is always based on weight, no free shipping
+  const shippingCost = selectedShipping?.price || 0;
   const total = subtotal + shippingCost;
 
   if (isLoading) {
@@ -135,18 +135,6 @@ export default function CartPage() {
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Free Shipping Banner */}
-            {subtotal < FREE_SHIPPING_THRESHOLD && (
-              <div className="bg-introcar-light border border-gray-200 rounded-xl p-4 flex items-center gap-3">
-                <Truck className="w-6 h-6 text-introcar-blue shrink-0" />
-                <div className="flex-1">
-                  <p className="text-sm text-introcar-charcoal">
-                    Add <span className="font-semibold text-introcar-blue">{formatShippingPrice(FREE_SHIPPING_THRESHOLD - subtotal)}</span> more to qualify for <span className="font-semibold">FREE shipping</span>!
-                  </p>
-                </div>
-              </div>
-            )}
-
             {/* Item List */}
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
               <div className="divide-y divide-gray-100">
@@ -289,12 +277,10 @@ export default function CartPage() {
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Shipping</span>
                   <span className="font-medium">
-                    {selectedShipping?.freeShipping ? (
-                      <span className="text-green-600">FREE</span>
-                    ) : selectedShipping?.price !== null ? (
+                    {selectedShipping?.price !== null && selectedShipping?.price !== undefined ? (
                       formatShippingPrice(shippingCost)
                     ) : (
-                      <span className="text-introcar-blue">Quote Required</span>
+                      <span className="text-amber-600">Quote Required</span>
                     )}
                   </span>
                 </div>

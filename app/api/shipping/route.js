@@ -3,14 +3,12 @@ import {
   calculateUSAShipping,
   getShippingEstimate,
   calculateCartWeight,
-  qualifiesForFreeShipping,
-  FREE_SHIPPING_THRESHOLD,
   COUNTRY_NAMES,
 } from '@/lib/shipping';
 
 /**
  * POST /api/shipping
- * Calculate shipping costs for cart items
+ * Calculate shipping costs for cart items based on weight
  *
  * Request body:
  * {
@@ -24,9 +22,7 @@ import {
  *   success: true,
  *   shipping: {
  *     options: [...],
- *     freeShippingEligible: boolean,
- *     freeShippingThreshold: number,
- *     amountToFreeShipping: number,
+ *     needsQuote: boolean (true if weight exceeds matrix),
  *     totalWeight: number
  *   }
  * }
@@ -39,32 +35,13 @@ export async function POST(request) {
     // Calculate total weight
     const totalWeight = calculateCartWeight(items);
 
-    // Check free shipping eligibility
-    const freeShippingEligible = qualifiesForFreeShipping(subtotal);
-    const amountToFreeShipping = freeShippingEligible
-      ? 0
-      : FREE_SHIPPING_THRESHOLD - subtotal;
-
-    // Get shipping options
+    // Get shipping options based on weight
     const shippingResult = getShippingEstimate(items, countryCode);
-
-    // If free shipping applies, zero out the price
-    if (freeShippingEligible && !shippingResult.needsQuote) {
-      shippingResult.options = shippingResult.options.map(option => ({
-        ...option,
-        originalPrice: option.price,
-        price: 0,
-        freeShipping: true,
-      }));
-    }
 
     return NextResponse.json({
       success: true,
       shipping: {
         ...shippingResult,
-        freeShippingEligible,
-        freeShippingThreshold: FREE_SHIPPING_THRESHOLD,
-        amountToFreeShipping: Math.max(0, amountToFreeShipping),
         totalWeight,
         countryName: COUNTRY_NAMES[countryCode] || countryCode,
       },
