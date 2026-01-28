@@ -1,0 +1,481 @@
+/* Embed Vehicle Finder Styles */
+
+.embed-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  padding: 16px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.embed-container.light {
+  background: #f8f9fa;
+  color: #1a1a2e;
+}
+
+.embed-container.dark {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+.embed-finder {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Mode Toggle */
+.mode-toggle {
+  margin-bottom: 16px;
+}
+
+.toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid #0047ab;
+  background: white;
+  color: #0047ab;
+}
+
+.toggle-btn:hover,
+.toggle-btn.active {
+  background: #0047ab;
+  color: white;
+}
+
+.dark .toggle-btn {
+  border-color: #4a90d9;
+  color: #4a90d9;
+}
+
+.dark .toggle-btn:hover,
+.dark .toggle-btn.active {
+  background: #4a90d9;
+  color: #1a1a2e;
+}
+
+/* Chassis Lookup Panel */
+.chassis-lookup-panel {
+  background: #f0f4f8;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.dark .chassis-lookup-panel {
+  background: #2a2a4e;
+}
+
+.chassis-input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chassis-input-wrapper {
+  flex: 1;
+}
+
+.chassis-input-wrapper label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #4a5568;
+}
+
+.dark .chassis-input-wrapper label {
+  color: #a0aec0;
+}
+
+.input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.chassis-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 18px;
+  font-family: monospace;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.dark .chassis-input {
+  background: #1a1a2e;
+  border-color: #4a5568;
+  color: white;
+}
+
+.chassis-input:focus {
+  outline: none;
+  border-color: #0047ab;
+  box-shadow: 0 0 0 3px rgba(0, 71, 171, 0.1);
+}
+
+.lookup-btn {
+  padding: 12px 24px;
+  background: #0047ab;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.lookup-btn:hover:not(:disabled) {
+  background: #003380;
+}
+
+.lookup-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 12px;
+  color: #718096;
+  margin-top: 8px;
+}
+
+.dark .hint {
+  color: #a0aec0;
+}
+
+/* Lookup Results */
+.lookup-results {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.dark .lookup-results {
+  border-color: #4a5568;
+}
+
+.multiple-matches .match-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #d69e2e;
+  margin-bottom: 12px;
+}
+
+.match-list {
+  display: grid;
+  gap: 8px;
+}
+
+.match-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.dark .match-option {
+  background: #1a1a2e;
+  border-color: #4a5568;
+}
+
+.match-option:hover {
+  border-color: #0047ab;
+  background: #f0f7ff;
+}
+
+.dark .match-option:hover {
+  background: #2a2a4e;
+}
+
+.match-name {
+  font-weight: 600;
+}
+
+.match-years {
+  color: #718096;
+  font-size: 14px;
+}
+
+.single-match {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.match-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.match-info .text-green {
+  color: #38a169;
+}
+
+.match-title {
+  font-weight: 600;
+  color: #38a169;
+}
+
+.match-year {
+  font-size: 14px;
+  color: #718096;
+}
+
+.no-match {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: #e53e3e;
+}
+
+.no-match-title {
+  font-weight: 600;
+}
+
+.no-match-hint {
+  font-size: 14px;
+  color: #718096;
+}
+
+/* Vehicle Selection */
+.vehicle-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.selection-header h2 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+.selection-header p {
+  font-size: 14px;
+  color: #718096;
+  margin: 0;
+}
+
+.selection-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .selection-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .selection-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.select-field {
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  cursor: pointer;
+}
+
+.dark .select-field {
+  background: #2a2a4e;
+  border-color: #4a5568;
+  color: white;
+}
+
+.select-field:focus {
+  outline: none;
+  border-color: #0047ab;
+}
+
+.select-field:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.find-parts-btn {
+  padding: 12px 24px;
+  background: #0047ab;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.find-parts-btn:hover:not(:disabled) {
+  background: #003380;
+}
+
+.find-parts-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Chassis Info */
+.chassis-info {
+  font-size: 14px;
+}
+
+.loading-text {
+  color: #a0aec0;
+  font-style: italic;
+}
+
+.chassis-display {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.chassis-range {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.dark .chassis-range {
+  color: #e2e8f0;
+}
+
+.chassis-count {
+  color: #a0aec0;
+}
+
+.chassis-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #0047ab;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.chassis-toggle:hover {
+  text-decoration: underline;
+}
+
+.dark .chassis-toggle {
+  color: #4a90d9;
+}
+
+.no-chassis {
+  color: #a0aec0;
+}
+
+/* Chassis Input Panel */
+.chassis-input-panel {
+  background: #f0f4f8;
+  padding: 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dark .chassis-input-panel {
+  background: #2a2a4e;
+}
+
+.chassis-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.dark .chassis-hint {
+  color: #a0aec0;
+}
+
+.chassis-hint svg {
+  color: #0047ab;
+  flex-shrink: 0;
+}
+
+.chassis-entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chassis-field {
+  width: 120px;
+  padding: 8px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-family: monospace;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.dark .chassis-field {
+  background: #1a1a2e;
+  border-color: #4a5568;
+  color: white;
+}
+
+.validation-result {
+  font-size: 12px;
+}
+
+.validation-result .valid {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #38a169;
+}
+
+.validation-result .invalid {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #d69e2e;
+}
+
+/* Powered By */
+.powered-by {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 12px;
+}
+
+.powered-by a {
+  color: #a0aec0;
+  text-decoration: none;
+}
+
+.powered-by a:hover {
+  text-decoration: underline;
+}
