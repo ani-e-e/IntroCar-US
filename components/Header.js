@@ -243,9 +243,6 @@ export default function Header({ cartCount = 0 }) {
                 Shop by Model
                 <ChevronDown className={`w-4 h-4 transition-transform ${shopByModelOpen ? 'rotate-180' : ''}`} />
               </button>
-              <Link href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated" className="text-introcar-blue hover:underline transition-colors font-medium">
-                Prestige Parts®
-              </Link>
             </nav>
 
             {/* Search Bar */}
@@ -555,9 +552,6 @@ export default function Header({ cartCount = 0 }) {
               </Link>
               <Link href="/products?make=Rolls-Royce" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
                 Rolls-Royce Parts
-              </Link>
-              <Link href="/products?stockType=Prestige+Parts,Prestige+Parts+(OE),Uprated" className="block py-3 px-4 text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors font-medium">
-                Prestige Parts®
               </Link>
               <hr className="border-gray-200 my-2" />
               <Link href="/account" className="block py-3 px-4 text-introcar-charcoal hover:text-introcar-blue hover:bg-introcar-light rounded-lg transition-colors">
