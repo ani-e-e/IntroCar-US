@@ -35,8 +35,11 @@ export default function MYCAdminPage() {
 
   // Staging area for bulk review
   const [stagedEntries, setStagedEntries] = useState([]);
+  const [existingBySku, setExistingBySku] = useState({});
   const [showStaging, setShowStaging] = useState(false);
   const [checkingDuplicates, setCheckingDuplicates] = useState(false);
+  const [entriesToDelete, setEntriesToDelete] = useState(new Set());
+  const [expandedSkus, setExpandedSkus] = useState(new Set());
 
   // Success message
   const [successMessage, setSuccessMessage] = useState('');
@@ -218,6 +221,7 @@ export default function MYCAdminPage() {
         id: Date.now() + i,
         // These will be set after checking
         isDuplicate: null,
+        isNearDuplicate: false,
         isValidAdditionalInfo: true,
         status: 'checking'
       };
@@ -239,17 +243,28 @@ export default function MYCAdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action: 'check',
-          entries: entries.map(({ id, isDuplicate, isValidAdditionalInfo, status, ...entry }) => entry)
+          entries: entries.map(({ id, isDuplicate, isNearDuplicate, isValidAdditionalInfo, status, nearMatches, ...entry }) => entry)
         }),
       });
 
       const data = await response.json();
 
       if (response.ok && data.entries) {
+        // Store existing entries by SKU
+        setExistingBySku(data.existingBySku || {});
+
+        // Auto-expand SKUs that have existing data
+        const skusWithExisting = Object.keys(data.existingBySku || {}).filter(
+          sku => (data.existingBySku[sku] || []).length > 0
+        );
+        setExpandedSkus(new Set(skusWithExisting));
+
         // Merge check results back into entries
         return entries.map((entry, idx) => ({
           ...entry,
           isDuplicate: data.entries[idx]?.isDuplicate || false,
+          isNearDuplicate: data.entries[idx]?.isNearDuplicate || false,
+          nearMatches: data.entries[idx]?.nearMatches || [],
           isValidAdditionalInfo: data.entries[idx]?.isValidAdditionalInfo ?? true,
           status: data.entries[idx]?.status || 'new'
         }));
@@ -288,16 +303,17 @@ export default function MYCAdminPage() {
     const checkedEntries = await checkEntries(parsed);
 
     setStagedEntries(checkedEntries);
+    setEntriesToDelete(new Set());
     setShowModal(false);
     setShowStaging(true);
   };
 
   const handleBulkSubmit = async () => {
-    // Filter to only submit new (non-duplicate) entries
-    const newEntries = stagedEntries.filter(e => !e.isDuplicate);
+    // Filter to only submit non-exact-duplicate entries
+    const entriesToAdd = stagedEntries.filter(e => e.status !== 'exact_duplicate');
 
-    if (newEntries.length === 0) {
-      setFormError('No new entries to add - all entries are duplicates');
+    if (entriesToAdd.length === 0 && entriesToDelete.size === 0) {
+      setFormError('No changes to make');
       return;
     }
 
@@ -305,24 +321,40 @@ export default function MYCAdminPage() {
     setFormError('');
 
     try {
+      // Convert entriesToDelete set to array of entry objects
+      const deleteArray = [];
+      entriesToDelete.forEach(key => {
+        const [sku, ...rest] = key.split('|');
+        const existing = existingBySku[sku]?.find(e =>
+          `${e.sku}|${e.make}|${e.model}|${e.chassisStart}|${e.chassisEnd}|${e.additionalInfo}` === key
+        );
+        if (existing) {
+          deleteArray.push(existing);
+        }
+      });
+
       const response = await fetch('/api/admin/myc', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          entries: newEntries.map(({ id, isDuplicate, isValidAdditionalInfo, status, ...entry }) => entry)
+          action: 'replace',
+          toDelete: deleteArray,
+          toAdd: entriesToAdd.map(({ id, isDuplicate, isNearDuplicate, isValidAdditionalInfo, status, nearMatches, ...entry }) => entry)
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setFormError(data.error || 'Failed to add entries');
+        setFormError(data.error || 'Failed to update entries');
         return;
       }
 
       setShowStaging(false);
       setStagedEntries([]);
-      setSuccessMessage(`Added ${data.added.length} entries. ${data.skipped > 0 ? `${data.skipped} duplicate(s) skipped.` : ''}`);
+      setEntriesToDelete(new Set());
+      setExistingBySku({});
+      setSuccessMessage(`${data.deleted > 0 ? `Deleted ${data.deleted}, ` : ''}Added ${data.addedCount} entries`);
       setTimeout(() => setSuccessMessage(''), 4000);
       loadEntries();
     } catch (error) {
@@ -365,15 +397,45 @@ export default function MYCAdminPage() {
     setStagedEntries(prev => prev.filter(e => e.id !== id));
   };
 
+  const toggleDeleteExisting = (entry) => {
+    const key = `${entry.sku}|${entry.make}|${entry.model}|${entry.chassisStart}|${entry.chassisEnd}|${entry.additionalInfo}`;
+    setEntriesToDelete(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(key)) {
+        newSet.delete(key);
+      } else {
+        newSet.add(key);
+      }
+      return newSet;
+    });
+  };
+
+  const toggleExpandSku = (sku) => {
+    setExpandedSkus(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(sku)) {
+        newSet.delete(sku);
+      } else {
+        newSet.add(sku);
+      }
+      return newSet;
+    });
+  };
+
   const availableModels = filterMake ? (modelsByMake[filterMake] || []) : [];
   const formModels = formData.make ? (modelsByMake[formData.make] || []) : [];
+
+  // Get unique SKUs from staged entries
+  const uniqueSkus = [...new Set(stagedEntries.map(e => e.sku))];
 
   // Stats for staged entries
   const stagedStats = {
     total: stagedEntries.length,
-    new: stagedEntries.filter(e => !e.isDuplicate).length,
-    duplicates: stagedEntries.filter(e => e.isDuplicate).length,
-    invalidInfo: stagedEntries.filter(e => !e.isValidAdditionalInfo).length
+    new: stagedEntries.filter(e => e.status === 'new').length,
+    nearDuplicates: stagedEntries.filter(e => e.status === 'near_duplicate').length,
+    exactDuplicates: stagedEntries.filter(e => e.status === 'exact_duplicate').length,
+    invalidInfo: stagedEntries.filter(e => !e.isValidAdditionalInfo).length,
+    toDelete: entriesToDelete.size
   };
 
   return (
@@ -434,46 +496,48 @@ export default function MYCAdminPage() {
 
       {/* Staging Area */}
       {showStaging && stagedEntries.length > 0 && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+        <div className="bg-slate-50 border border-slate-300 rounded-xl p-4 mb-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="font-semibold text-amber-800">Staging Area - Review Before Pushing</h2>
-              <div className="flex gap-4 mt-1">
-                <span className="text-sm">
-                  <span className="inline-flex items-center gap-1">
-                    <span className="w-3 h-3 rounded-full bg-green-500"></span>
-                    <span className="text-green-700">{stagedStats.new} new</span>
-                  </span>
+              <h2 className="font-semibold text-slate-800 text-lg">Review & Compare</h2>
+              <div className="flex flex-wrap gap-3 mt-2">
+                <span className="inline-flex items-center gap-1 text-sm">
+                  <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                  <span className="text-green-700">{stagedStats.new} new</span>
                 </span>
-                <span className="text-sm">
-                  <span className="inline-flex items-center gap-1">
+                {stagedStats.nearDuplicates > 0 && (
+                  <span className="inline-flex items-center gap-1 text-sm">
+                    <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+                    <span className="text-orange-700">{stagedStats.nearDuplicates} near match</span>
+                  </span>
+                )}
+                {stagedStats.exactDuplicates > 0 && (
+                  <span className="inline-flex items-center gap-1 text-sm">
                     <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                    <span className="text-yellow-700">{stagedStats.duplicates} existing</span>
+                    <span className="text-yellow-700">{stagedStats.exactDuplicates} exact duplicate</span>
                   </span>
-                </span>
-                {stagedStats.invalidInfo > 0 && (
-                  <span className="text-sm">
-                    <span className="inline-flex items-center gap-1">
-                      <span className="w-3 h-3 rounded-full bg-red-500"></span>
-                      <span className="text-red-700">{stagedStats.invalidInfo} invalid info</span>
-                    </span>
+                )}
+                {stagedStats.toDelete > 0 && (
+                  <span className="inline-flex items-center gap-1 text-sm">
+                    <span className="w-3 h-3 rounded-full bg-red-500"></span>
+                    <span className="text-red-700">{stagedStats.toDelete} to delete</span>
                   </span>
                 )}
               </div>
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => { setShowStaging(false); setStagedEntries([]); }}
-                className="px-4 py-2 text-amber-700 hover:bg-amber-100 rounded-lg transition-colors"
+                onClick={() => { setShowStaging(false); setStagedEntries([]); setEntriesToDelete(new Set()); setExistingBySku({}); }}
+                className="px-4 py-2 text-slate-700 hover:bg-slate-200 rounded-lg transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleBulkSubmit}
-                disabled={saving || stagedStats.new === 0}
+                disabled={saving || (stagedStats.new === 0 && stagedStats.nearDuplicates === 0 && stagedStats.toDelete === 0)}
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
               >
-                {saving ? 'Pushing...' : `Push ${stagedStats.new} New Entries`}
+                {saving ? 'Saving...' : `Apply Changes`}
               </button>
             </div>
           </div>
@@ -482,83 +546,179 @@ export default function MYCAdminPage() {
             <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{formError}</div>
           )}
 
-          <div className="bg-white rounded-lg border border-amber-200 max-h-96 overflow-y-auto">
-            <table className="w-full text-sm">
-              <thead className="bg-amber-100 sticky top-0">
-                <tr>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800 w-10">Status</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">SKU</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">Make</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">Model</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">Chassis Range</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">Additional Info</th>
-                  <th className="px-3 py-2 text-left text-xs font-semibold text-amber-800">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-amber-100">
-                {stagedEntries.map((entry) => (
-                  <tr
-                    key={entry.id}
-                    className={`
-                      ${entry.isDuplicate ? 'bg-yellow-50' : 'bg-green-50'}
-                      ${!entry.isValidAdditionalInfo ? 'bg-red-50' : ''}
-                      hover:opacity-80
-                    `}
+          {/* Group by SKU */}
+          <div className="space-y-3">
+            {uniqueSkus.map(sku => {
+              const skuEntries = stagedEntries.filter(e => e.sku === sku);
+              const existing = existingBySku[sku] || [];
+              const isExpanded = expandedSkus.has(sku);
+
+              return (
+                <div key={sku} className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+                  {/* SKU Header */}
+                  <div
+                    className="px-4 py-3 bg-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-200"
+                    onClick={() => toggleExpandSku(sku)}
                   >
-                    <td className="px-3 py-2">
-                      {entry.status === 'checking' ? (
-                        <span className="text-gray-400">⏳</span>
-                      ) : entry.isDuplicate ? (
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-200 text-yellow-800 text-xs font-bold" title="Already exists">
-                          ✓
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-green-200 text-green-800 text-xs font-bold" title="New entry">
-                          +
-                        </span>
-                      )}
-                    </td>
-                    <td className="px-3 py-2 font-mono text-xs">{entry.sku}</td>
-                    <td className="px-3 py-2">{entry.make}</td>
-                    <td className="px-3 py-2">{entry.model}</td>
-                    <td className="px-3 py-2 text-gray-500">
-                      {entry.chassisStart && entry.chassisEnd
-                        ? `${entry.chassisStart} - ${entry.chassisEnd}`
-                        : entry.chassisStart || entry.chassisEnd || '-'}
-                    </td>
-                    <td className="px-3 py-2">
-                      <span className={!entry.isValidAdditionalInfo ? 'text-red-600 font-medium' : 'text-gray-500'}>
-                        {entry.additionalInfo || '-'}
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono font-semibold text-slate-800">{sku}</span>
+                      <span className="text-sm text-slate-500">
+                        {skuEntries.length} new • {existing.length} existing
                       </span>
-                      {!entry.isValidAdditionalInfo && (
-                        <span className="ml-1 text-red-500 text-xs" title="Not in T7 valid values">⚠️</span>
+                    </div>
+                    <span className="text-slate-400">{isExpanded ? '▼' : '▶'}</span>
+                  </div>
+
+                  {isExpanded && (
+                    <div className="p-4">
+                      {/* Existing Entries */}
+                      {existing.length > 0 && (
+                        <div className="mb-4">
+                          <h4 className="text-sm font-semibold text-slate-600 mb-2 flex items-center gap-2">
+                            <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+                            Existing in T3 ({existing.length})
+                            <span className="text-xs font-normal text-slate-400">— check to delete</span>
+                          </h4>
+                          <div className="bg-blue-50 rounded-lg overflow-hidden">
+                            <table className="w-full text-sm">
+                              <thead className="bg-blue-100">
+                                <tr>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800 w-10">Del?</th>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800">Make</th>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800">Model</th>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800">Chassis Start</th>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800">Chassis End</th>
+                                  <th className="px-3 py-2 text-left text-xs font-semibold text-blue-800">Additional Info</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-blue-100">
+                                {existing.map((entry, idx) => {
+                                  const key = `${entry.sku}|${entry.make}|${entry.model}|${entry.chassisStart}|${entry.chassisEnd}|${entry.additionalInfo}`;
+                                  const isMarkedForDelete = entriesToDelete.has(key);
+                                  return (
+                                    <tr key={idx} className={isMarkedForDelete ? 'bg-red-100' : ''}>
+                                      <td className="px-3 py-2">
+                                        <input
+                                          type="checkbox"
+                                          checked={isMarkedForDelete}
+                                          onChange={() => toggleDeleteExisting(entry)}
+                                          className="w-4 h-4 text-red-600 rounded"
+                                        />
+                                      </td>
+                                      <td className={`px-3 py-2 ${isMarkedForDelete ? 'line-through text-red-400' : ''}`}>{entry.make}</td>
+                                      <td className={`px-3 py-2 ${isMarkedForDelete ? 'line-through text-red-400' : ''}`}>{entry.model}</td>
+                                      <td className={`px-3 py-2 text-slate-500 ${isMarkedForDelete ? 'line-through text-red-400' : ''}`}>{entry.chassisStart || '-'}</td>
+                                      <td className={`px-3 py-2 text-slate-500 ${isMarkedForDelete ? 'line-through text-red-400' : ''}`}>{entry.chassisEnd || '-'}</td>
+                                      <td className={`px-3 py-2 text-slate-500 ${isMarkedForDelete ? 'line-through text-red-400' : ''}`}>{entry.additionalInfo || '-'}</td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       )}
-                    </td>
-                    <td className="px-3 py-2">
-                      <button
-                        onClick={() => removeStagedEntry(entry.id)}
-                        className="text-red-500 hover:text-red-700 text-xs"
-                      >
-                        Remove
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+                      {/* New Entries */}
+                      <div>
+                        <h4 className="text-sm font-semibold text-slate-600 mb-2 flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-green-400"></span>
+                          To Add ({skuEntries.filter(e => e.status !== 'exact_duplicate').length})
+                        </h4>
+                        <div className="rounded-lg overflow-hidden border border-slate-200">
+                          <table className="w-full text-sm">
+                            <thead className="bg-slate-100">
+                              <tr>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600 w-20">Status</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Make</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Model</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Chassis Start</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Chassis End</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Additional Info</th>
+                                <th className="px-3 py-2 text-left text-xs font-semibold text-slate-600">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-slate-100">
+                              {skuEntries.map((entry) => (
+                                <tr
+                                  key={entry.id}
+                                  className={`
+                                    ${entry.status === 'new' ? 'bg-green-50' : ''}
+                                    ${entry.status === 'near_duplicate' ? 'bg-orange-50' : ''}
+                                    ${entry.status === 'exact_duplicate' ? 'bg-yellow-50 opacity-60' : ''}
+                                  `}
+                                >
+                                  <td className="px-3 py-2">
+                                    {entry.status === 'new' && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        New
+                                      </span>
+                                    )}
+                                    {entry.status === 'near_duplicate' && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800" title="Similar entry exists with different values">
+                                        Near
+                                      </span>
+                                    )}
+                                    {entry.status === 'exact_duplicate' && (
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                        Exists
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td className="px-3 py-2">{entry.make}</td>
+                                  <td className="px-3 py-2">{entry.model}</td>
+                                  <td className="px-3 py-2 text-slate-500">{entry.chassisStart || '-'}</td>
+                                  <td className="px-3 py-2 text-slate-500">{entry.chassisEnd || '-'}</td>
+                                  <td className="px-3 py-2">
+                                    <span className={!entry.isValidAdditionalInfo ? 'text-red-600 font-medium' : 'text-slate-500'}>
+                                      {entry.additionalInfo || '-'}
+                                    </span>
+                                    {!entry.isValidAdditionalInfo && (
+                                      <span className="ml-1 text-red-500 text-xs" title="Not in T7 valid values">⚠️</span>
+                                    )}
+                                  </td>
+                                  <td className="px-3 py-2">
+                                    {entry.status === 'exact_duplicate' ? (
+                                      <span className="text-xs text-slate-400">Skip</span>
+                                    ) : (
+                                      <button
+                                        onClick={() => removeStagedEntry(entry.id)}
+                                        className="text-red-500 hover:text-red-700 text-xs"
+                                      >
+                                        Remove
+                                      </button>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
           {/* Legend */}
-          <div className="mt-3 flex gap-6 text-xs text-gray-600">
-            <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded bg-green-200"></span> New entry - will be added
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded bg-yellow-200"></span> Already exists - will be skipped
-            </span>
-            <span className="flex items-center gap-1">
-              <span className="w-3 h-3 rounded bg-red-200"></span> Invalid Additional Info value
-            </span>
+          <div className="mt-4 p-3 bg-slate-100 rounded-lg">
+            <h4 className="text-xs font-semibold text-slate-600 mb-2">Legend:</h4>
+            <div className="flex flex-wrap gap-4 text-xs text-slate-600">
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded bg-green-100 border border-green-300"></span> New - will be added
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded bg-orange-100 border border-orange-300"></span> Near match - review carefully
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded bg-yellow-100 border border-yellow-300"></span> Exact match - will skip
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="w-3 h-3 rounded bg-blue-100 border border-blue-300"></span> Existing - check to delete
+              </span>
+            </div>
           </div>
         </div>
       )}

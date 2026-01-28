@@ -185,36 +185,142 @@ export async function POST(request) {
       loadT7Values()
     ]);
 
-    // If action is 'check', just check for duplicates without adding
+    // If action is 'check', check for duplicates and return existing entries for each SKU
     if (action === 'check') {
+      // Collect all unique SKUs being checked
+      const uniqueSkus = [...new Set(entries.map(e => (e.sku || '').toUpperCase()))];
+
+      // Get all existing entries for these SKUs
+      const existingBySku = {};
+      uniqueSkus.forEach(sku => {
+        if (fitmentData[sku]) {
+          existingBySku[sku] = fitmentData[sku].map((f, idx) => ({
+            id: `existing-${sku}-${idx}`,
+            sku,
+            make: f.make,
+            model: f.model,
+            chassisStart: f.chassisStart,
+            chassisEnd: f.chassisEnd,
+            additionalInfo: f.additionalInfo
+          }));
+        } else {
+          existingBySku[sku] = [];
+        }
+      });
+
       const results = entries.map(entry => {
         const sku = (entry.sku || '').toUpperCase();
-        const isDuplicate = checkDuplicate(fitmentData, sku, entry.make, entry.model);
+        const existingForSku = fitmentData[sku] || [];
+
+        // Check for exact duplicate (same SKU + make + model)
+        const exactMatch = existingForSku.find(
+          f => f.make === entry.make && f.model === entry.model
+        );
+
+        // Check for near duplicate (same SKU + make + model but different chassis/info)
+        const nearMatches = existingForSku.filter(f =>
+          f.make === entry.make &&
+          f.model === entry.model &&
+          (f.chassisStart !== (entry.chassisStart ? parseInt(entry.chassisStart) : null) ||
+           f.chassisEnd !== (entry.chassisEnd ? parseInt(entry.chassisEnd) : null) ||
+           f.additionalInfo !== (entry.additionalInfo || null))
+        );
+
         const isValidAdditionalInfo = !entry.additionalInfo ||
           t7Values.includes(entry.additionalInfo) ||
           entry.additionalInfo.trim() === '';
 
+        let status = 'new';
+        if (exactMatch) {
+          status = 'exact_duplicate';
+        } else if (nearMatches.length > 0) {
+          status = 'near_duplicate';
+        }
+
         return {
           ...entry,
           sku,
-          isDuplicate,
+          isDuplicate: !!exactMatch,
+          isNearDuplicate: nearMatches.length > 0,
+          nearMatches,
           isValidAdditionalInfo,
-          status: isDuplicate ? 'duplicate' : 'new'
+          status
         };
       });
 
-      const duplicateCount = results.filter(r => r.isDuplicate).length;
-      const newCount = results.filter(r => !r.isDuplicate).length;
+      const exactDuplicateCount = results.filter(r => r.status === 'exact_duplicate').length;
+      const nearDuplicateCount = results.filter(r => r.status === 'near_duplicate').length;
+      const newCount = results.filter(r => r.status === 'new').length;
       const invalidInfoCount = results.filter(r => !r.isValidAdditionalInfo).length;
 
       return NextResponse.json({
         entries: results,
+        existingBySku,
         summary: {
           total: results.length,
-          duplicates: duplicateCount,
+          exactDuplicates: exactDuplicateCount,
+          nearDuplicates: nearDuplicateCount,
           new: newCount,
           invalidAdditionalInfo: invalidInfoCount
         }
+      });
+    }
+
+    // If action is 'replace', delete specified entries first then add new ones
+    if (action === 'replace') {
+      const { toDelete, toAdd } = body;
+
+      // Delete specified entries
+      let deletedCount = 0;
+      if (toDelete && Array.isArray(toDelete)) {
+        for (const del of toDelete) {
+          const sku = (del.sku || '').toUpperCase();
+          if (fitmentData[sku]) {
+            const originalLength = fitmentData[sku].length;
+            fitmentData[sku] = fitmentData[sku].filter(f =>
+              !(f.make === del.make && f.model === del.model &&
+                f.chassisStart === del.chassisStart && f.chassisEnd === del.chassisEnd &&
+                f.additionalInfo === del.additionalInfo)
+            );
+            deletedCount += originalLength - fitmentData[sku].length;
+
+            // Remove SKU if empty
+            if (fitmentData[sku].length === 0) {
+              delete fitmentData[sku];
+            }
+          }
+        }
+      }
+
+      // Add new entries
+      const added = [];
+      if (toAdd && Array.isArray(toAdd)) {
+        for (const entry of toAdd) {
+          const sku = (entry.sku || '').toUpperCase();
+          if (!sku || !entry.make || !entry.model) continue;
+
+          if (!fitmentData[sku]) {
+            fitmentData[sku] = [];
+          }
+
+          fitmentData[sku].push({
+            make: entry.make,
+            model: entry.model,
+            chassisStart: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
+            chassisEnd: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
+            additionalInfo: entry.additionalInfo || null
+          });
+          added.push({ sku, make: entry.make, model: entry.model });
+        }
+      }
+
+      await saveFitmentData(fitmentData);
+
+      return NextResponse.json({
+        message: `Deleted ${deletedCount}, added ${added.length} entries`,
+        deleted: deletedCount,
+        added,
+        addedCount: added.length
       });
     }
 
