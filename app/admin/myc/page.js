@@ -503,18 +503,17 @@ export default function MYCAdminPage() {
               <div className="flex flex-wrap gap-3 mt-2">
                 <span className="inline-flex items-center gap-1 text-sm">
                   <span className="w-3 h-3 rounded-full bg-green-500"></span>
-                  <span className="text-green-700">{stagedStats.new} new</span>
+                  <span className="text-green-700">{stagedStats.new + stagedStats.nearDuplicates} to add</span>
                 </span>
                 {stagedStats.nearDuplicates > 0 && (
                   <span className="inline-flex items-center gap-1 text-sm">
-                    <span className="w-3 h-3 rounded-full bg-orange-500"></span>
-                    <span className="text-orange-700">{stagedStats.nearDuplicates} near match</span>
+                    <span className="text-orange-600">({stagedStats.nearDuplicates} similar exist - review)</span>
                   </span>
                 )}
                 {stagedStats.exactDuplicates > 0 && (
                   <span className="inline-flex items-center gap-1 text-sm">
                     <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
-                    <span className="text-yellow-700">{stagedStats.exactDuplicates} exact duplicate</span>
+                    <span className="text-yellow-700">{stagedStats.exactDuplicates} identical (skip)</span>
                   </span>
                 )}
                 {stagedStats.toDelete > 0 && (
@@ -624,6 +623,11 @@ export default function MYCAdminPage() {
                         <h4 className="text-sm font-semibold text-slate-600 mb-2 flex items-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-green-400"></span>
                           To Add ({skuEntries.filter(e => e.status !== 'exact_duplicate').length})
+                          {skuEntries.some(e => e.status === 'near_duplicate') && (
+                            <span className="text-xs font-normal text-orange-600">
+                              — check existing entries to delete if replacing
+                            </span>
+                          )}
                         </h4>
                         <div className="rounded-lg overflow-hidden border border-slate-200">
                           <table className="w-full text-sm">
@@ -655,13 +659,13 @@ export default function MYCAdminPage() {
                                       </span>
                                     )}
                                     {entry.status === 'near_duplicate' && (
-                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800" title="Similar entry exists with different values">
-                                        Near
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800" title="Same Make+Model exists with different chassis/info - will ADD this entry. Delete the old one above if replacing.">
+                                        Add ⚠️
                                       </span>
                                     )}
                                     {entry.status === 'exact_duplicate' && (
-                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                        Exists
+                                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800" title="Identical entry already exists">
+                                        Identical
                                       </span>
                                     )}
                                   </td>
@@ -704,19 +708,25 @@ export default function MYCAdminPage() {
 
           {/* Legend */}
           <div className="mt-4 p-3 bg-slate-100 rounded-lg">
-            <h4 className="text-xs font-semibold text-slate-600 mb-2">Legend:</h4>
+            <h4 className="text-xs font-semibold text-slate-600 mb-2">How to use:</h4>
+            <ol className="text-xs text-slate-600 space-y-1 list-decimal list-inside mb-3">
+              <li><strong>Review existing data</strong> (blue section) - check boxes to DELETE old entries you want to replace</li>
+              <li><strong>Review new data</strong> (white section) - these will be ADDED to the database</li>
+              <li>Click <strong>Apply Changes</strong> to delete checked items and add new entries</li>
+            </ol>
+            <h4 className="text-xs font-semibold text-slate-600 mb-2">Status colors:</h4>
             <div className="flex flex-wrap gap-4 text-xs text-slate-600">
               <span className="flex items-center gap-1">
                 <span className="w-3 h-3 rounded bg-green-100 border border-green-300"></span> New - will be added
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded bg-orange-100 border border-orange-300"></span> Near match - review carefully
+                <span className="w-3 h-3 rounded bg-orange-100 border border-orange-300"></span> Add ⚠️ - will add (similar exists, delete old if replacing)
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded bg-yellow-100 border border-yellow-300"></span> Exact match - will skip
+                <span className="w-3 h-3 rounded bg-yellow-100 border border-yellow-300"></span> Identical - already exists, will skip
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded bg-blue-100 border border-blue-300"></span> Existing - check to delete
+                <span className="w-3 h-3 rounded bg-blue-100 border border-blue-300"></span> Existing - check box to delete
               </span>
             </div>
           </div>

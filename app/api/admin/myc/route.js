@@ -211,19 +211,27 @@ export async function POST(request) {
       const results = entries.map(entry => {
         const sku = (entry.sku || '').toUpperCase();
         const existingForSku = fitmentData[sku] || [];
+        const entryChassisStart = entry.chassisStart ? parseInt(entry.chassisStart) || null : null;
+        const entryChassisEnd = entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null;
+        const entryAdditionalInfo = entry.additionalInfo || null;
 
-        // Check for exact duplicate (same SKU + make + model)
-        const exactMatch = existingForSku.find(
-          f => f.make === entry.make && f.model === entry.model
+        // Check for EXACT duplicate (ALL fields match - truly identical data)
+        const exactMatch = existingForSku.find(f =>
+          f.make === entry.make &&
+          f.model === entry.model &&
+          f.chassisStart === entryChassisStart &&
+          f.chassisEnd === entryChassisEnd &&
+          f.additionalInfo === entryAdditionalInfo
         );
 
-        // Check for near duplicate (same SKU + make + model but different chassis/info)
+        // Check for NEAR duplicate (same make+model but different chassis/info values)
+        // These are entries that might need to REPLACE existing data
         const nearMatches = existingForSku.filter(f =>
           f.make === entry.make &&
           f.model === entry.model &&
-          (f.chassisStart !== (entry.chassisStart ? parseInt(entry.chassisStart) : null) ||
-           f.chassisEnd !== (entry.chassisEnd ? parseInt(entry.chassisEnd) : null) ||
-           f.additionalInfo !== (entry.additionalInfo || null))
+          (f.chassisStart !== entryChassisStart ||
+           f.chassisEnd !== entryChassisEnd ||
+           f.additionalInfo !== entryAdditionalInfo)
         );
 
         const isValidAdditionalInfo = !entry.additionalInfo ||
@@ -232,10 +240,13 @@ export async function POST(request) {
 
         let status = 'new';
         if (exactMatch) {
+          // Truly identical - no need to add
           status = 'exact_duplicate';
         } else if (nearMatches.length > 0) {
+          // Same make+model exists with different values - likely a replacement
           status = 'near_duplicate';
         }
+        // else 'new' - completely new make+model for this SKU
 
         return {
           ...entry,
