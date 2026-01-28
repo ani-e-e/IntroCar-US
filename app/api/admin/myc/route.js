@@ -195,26 +195,40 @@ export async function POST(request) {
     if (action === 'replace') {
       const { toDelete, toAdd } = body;
 
-      // Delete specified entries by ID
+      console.log('Replace action - toDelete:', JSON.stringify(toDelete, null, 2));
+      console.log('Replace action - toAdd:', JSON.stringify(toAdd, null, 2));
+
+      // Delete specified entries by ID first
       let deletedCount = 0;
       if (toDelete && Array.isArray(toDelete) && toDelete.length > 0) {
-        // If entries have IDs, delete by ID (more precise)
+        // If entries have IDs, delete by ID (most precise)
         const idsToDelete = toDelete.filter(d => d.id).map(d => d.id);
 
         if (idsToDelete.length > 0) {
-          const { error: deleteError, count } = await supabase
+          console.log('Deleting by IDs:', idsToDelete);
+          const { error: deleteError } = await supabase
             .from('product_fitment')
             .delete()
             .in('id', idsToDelete);
 
-          if (deleteError) throw deleteError;
-          deletedCount = count || idsToDelete.length;
+          if (deleteError) {
+            console.error('Delete by ID error:', deleteError);
+            throw deleteError;
+          }
+          deletedCount = idsToDelete.length;
+          console.log(`Deleted ${deletedCount} entries by ID`);
         }
 
-        // For entries without ID, delete by matching fields
+        // For entries without ID, delete by matching all fields
         const entriesWithoutId = toDelete.filter(d => !d.id);
         for (const del of entriesWithoutId) {
           const sku = (del.sku || '').toUpperCase();
+          // Keep chassis as strings - they can be alphanumeric like "5AS1"
+          const chassisStart = del.chassisStart !== undefined && del.chassisStart !== null
+            ? String(del.chassisStart) : null;
+          const chassisEnd = del.chassisEnd !== undefined && del.chassisEnd !== null
+            ? String(del.chassisEnd) : null;
+
           let deleteQuery = supabase
             .from('product_fitment')
             .delete()
@@ -222,58 +236,91 @@ export async function POST(request) {
             .eq('make', del.make)
             .eq('model', del.model);
 
-          // Match on all fields for precise deletion
-          if (del.chassisStart !== undefined) {
-            deleteQuery = deleteQuery.eq('chassis_start', del.chassisStart);
+          if (chassisStart !== null) {
+            deleteQuery = deleteQuery.eq('chassis_start', chassisStart);
           }
-          if (del.chassisEnd !== undefined) {
-            deleteQuery = deleteQuery.eq('chassis_end', del.chassisEnd);
+          if (chassisEnd !== null) {
+            deleteQuery = deleteQuery.eq('chassis_end', chassisEnd);
           }
-          if (del.additionalInfo !== undefined) {
+          if (del.additionalInfo) {
             deleteQuery = deleteQuery.eq('additional_info', del.additionalInfo);
           }
 
-          const { error: delError, count: delCount } = await deleteQuery;
-          if (delError) console.error('Delete error:', delError);
-          deletedCount += delCount || 0;
+          const { error: delError } = await deleteQuery;
+          if (delError) {
+            console.error('Delete by fields error:', delError);
+          } else {
+            deletedCount++;
+          }
         }
       }
 
-      // Add new entries
+      // Add new entries - but first check they don't already exist
       const added = [];
+      const skipped = [];
       if (toAdd && Array.isArray(toAdd) && toAdd.length > 0) {
-        const insertData = toAdd
-          .filter(entry => entry.sku && entry.make && entry.model)
-          .map(entry => ({
-            parent_sku: (entry.sku || '').toUpperCase(),
-            make: entry.make,
-            model: entry.model,
-            chassis_start: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
-            chassis_end: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
-            additional_info: entry.additionalInfo || null
-          }));
+        for (const entry of toAdd) {
+          if (!entry.sku || !entry.make || !entry.model) continue;
 
-        if (insertData.length > 0) {
+          const sku = (entry.sku || '').toUpperCase();
+          // Keep chassis as strings - they can be alphanumeric
+          const chassisStart = entry.chassisStart ? String(entry.chassisStart) : null;
+          const chassisEnd = entry.chassisEnd ? String(entry.chassisEnd) : null;
+
+          // Check if this exact entry already exists
+          let existsQuery = supabase
+            .from('product_fitment')
+            .select('id')
+            .eq('parent_sku', sku)
+            .eq('make', entry.make)
+            .eq('model', entry.model);
+
+          if (chassisStart) {
+            existsQuery = existsQuery.eq('chassis_start', chassisStart);
+          } else {
+            existsQuery = existsQuery.is('chassis_start', null);
+          }
+          if (chassisEnd) {
+            existsQuery = existsQuery.eq('chassis_end', chassisEnd);
+          } else {
+            existsQuery = existsQuery.is('chassis_end', null);
+          }
+
+          const { data: existing } = await existsQuery.limit(1);
+
+          if (existing && existing.length > 0) {
+            console.log(`Skipping duplicate: ${sku} ${entry.make} ${entry.model} ${chassisStart}-${chassisEnd}`);
+            skipped.push({ sku, make: entry.make, model: entry.model });
+            continue;
+          }
+
+          // Insert the new entry
           const { data: insertedData, error: insertError } = await supabase
             .from('product_fitment')
-            .insert(insertData)
+            .insert({
+              parent_sku: sku,
+              make: entry.make,
+              model: entry.model,
+              chassis_start: chassisStart,
+              chassis_end: chassisEnd,
+              additional_info: entry.additionalInfo || null
+            })
             .select();
 
-          if (insertError) throw insertError;
-
-          added.push(...(insertedData || []).map(d => ({
-            sku: d.parent_sku,
-            make: d.make,
-            model: d.model
-          })));
+          if (insertError) {
+            console.error('Insert error:', insertError);
+          } else {
+            added.push({ sku, make: entry.make, model: entry.model });
+          }
         }
       }
 
       return NextResponse.json({
-        message: `Deleted ${deletedCount}, added ${added.length} entries`,
+        message: `Deleted ${deletedCount}, added ${added.length} entries${skipped.length > 0 ? `, skipped ${skipped.length} duplicates` : ''}`,
         deleted: deletedCount,
         added,
-        addedCount: added.length
+        addedCount: added.length,
+        skipped: skipped.length
       });
     }
 
@@ -314,17 +361,19 @@ export async function POST(request) {
       const results = entries.map(entry => {
         const sku = (entry.sku || '').toUpperCase();
         const existingForSku = existingBySku[sku] || [];
-        const entryChassisStart = entry.chassisStart ? parseInt(entry.chassisStart) || null : null;
-        const entryChassisEnd = entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null;
+        // Keep chassis as strings for comparison - they can be alphanumeric like "5AS1"
+        const entryChassisStart = entry.chassisStart ? String(entry.chassisStart) : null;
+        const entryChassisEnd = entry.chassisEnd ? String(entry.chassisEnd) : null;
         const entryAdditionalInfo = entry.additionalInfo || null;
 
         // Check for EXACT duplicate (ALL fields match - truly identical data)
+        // Compare as strings since chassis can be alphanumeric
         const exactMatch = existingForSku.find(f =>
           f.make === entry.make &&
           f.model === entry.model &&
-          f.chassisStart === entryChassisStart &&
-          f.chassisEnd === entryChassisEnd &&
-          f.additionalInfo === entryAdditionalInfo
+          String(f.chassisStart || '') === String(entryChassisStart || '') &&
+          String(f.chassisEnd || '') === String(entryChassisEnd || '') &&
+          (f.additionalInfo || null) === entryAdditionalInfo
         );
 
         // Check for NEAR duplicate (same make+model but different chassis/info values)
@@ -332,9 +381,9 @@ export async function POST(request) {
         const nearMatches = existingForSku.filter(f =>
           f.make === entry.make &&
           f.model === entry.model &&
-          (f.chassisStart !== entryChassisStart ||
-           f.chassisEnd !== entryChassisEnd ||
-           f.additionalInfo !== entryAdditionalInfo)
+          (String(f.chassisStart || '') !== String(entryChassisStart || '') ||
+           String(f.chassisEnd || '') !== String(entryChassisEnd || '') ||
+           (f.additionalInfo || null) !== entryAdditionalInfo)
         );
 
         const isValidAdditionalInfo = !entry.additionalInfo ||
@@ -406,15 +455,30 @@ export async function POST(request) {
 
     for (const entry of entries) {
       const sku = entry.sku.toUpperCase();
+      // Keep chassis as strings - they can be alphanumeric like "5AS1"
+      const chassisStart = entry.chassisStart ? String(entry.chassisStart) : null;
+      const chassisEnd = entry.chassisEnd ? String(entry.chassisEnd) : null;
 
-      // Check for duplicate (same SKU + make + model combination)
-      const { data: existing } = await supabase
+      // Check for EXACT duplicate (all fields must match)
+      let existsQuery = supabase
         .from('product_fitment')
         .select('id')
         .eq('parent_sku', sku)
         .eq('make', entry.make)
-        .eq('model', entry.model)
-        .limit(1);
+        .eq('model', entry.model);
+
+      if (chassisStart) {
+        existsQuery = existsQuery.eq('chassis_start', chassisStart);
+      } else {
+        existsQuery = existsQuery.is('chassis_start', null);
+      }
+      if (chassisEnd) {
+        existsQuery = existsQuery.eq('chassis_end', chassisEnd);
+      } else {
+        existsQuery = existsQuery.is('chassis_end', null);
+      }
+
+      const { data: existing } = await existsQuery.limit(1);
 
       if (existing && existing.length > 0) {
         duplicates.push({ sku, make: entry.make, model: entry.model });
@@ -425,8 +489,8 @@ export async function POST(request) {
             parent_sku: sku,
             make: entry.make,
             model: entry.model,
-            chassis_start: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
-            chassis_end: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
+            chassis_start: chassisStart,
+            chassis_end: chassisEnd,
             additional_info: entry.additionalInfo || null
           });
 
