@@ -24,6 +24,17 @@ const domainToTenant = {
 export function middleware(request) {
   const { pathname, hostname } = request.nextUrl;
 
+  // Handle embed pages - allow framing from introcar.com
+  if (pathname.startsWith('/embed')) {
+    const response = NextResponse.next();
+    // Remove X-Frame-Options and set CSP to allow framing
+    response.headers.set(
+      'Content-Security-Policy',
+      'frame-ancestors https://introcar.com https://*.introcar.com https://mcstaging.introcar.com http://localhost:* https://localhost:*'
+    );
+    return response;
+  }
+
   // Skip middleware for API routes, static files, etc.
   if (
     pathname.startsWith('/api') ||
@@ -64,5 +75,6 @@ export const config = {
      * - favicon.ico, robots.txt, sitemap.xml
      */
     '/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    '/embed/:path*',
   ],
 };
