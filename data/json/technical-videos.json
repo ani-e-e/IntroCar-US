@@ -10,35 +10,134 @@
   ],
   "videos": [
     {
+      "id": "v039",
+      "title": "Accumulator Valve Body Dismantling (Shadow I & II, T1 & T2)",
+      "description": "Here Matt Duncan shows how to dismantle / strip two Accumulator Valve Bodies to demonstrate the first stage of the reconditioning process. This is part one of a three part tutorial. \n\nThese two accumulator valve bodies are for Rolls-Royce and Bentley models running RR363 brake fluid. They are currently only available as reconditioned units as are no longer available from the factory.\n\nAccumulator Valve Body (Early) : UE37583SXR\nAccumulator Valve Body (Late):  UE39519XR\n\nPlease note that it is important to change the accumulator spheres whenever the valve body gets changed.",
+      "youtubeId": "LO7Xi8lkEi8",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:39:07.66563+00:00"
+    },
+    {
+      "id": "v037",
+      "title": "Accumulator Valve Body Testing (Shadow I & II, T1 & T2)",
+      "description": "Here Matt Duncan shows how to test two Accumulator Valve Bodies for the final stage of the reconditioning process. Part three of a his three part tutorial!\n\nThese two accumulator valve bodies are for Rolls-Royce and Bentley models running RR363 brake fluid. They are currently only available as reconditioned units as are no longer available from the factory.\n\nAccumulator Valve Body (Early) : UE37583SXR\nAccumulator Valve Body (Late):  UE39519XR\n\nPlease note that it is important to change the accumulator spheres whenever the valve body gets changed.",
+      "youtubeId": "WoIh-BWKQic",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:42:09.672914+00:00"
+    },
+    {
+      "id": "v035",
+      "title": "Bentley & Rolls Royce Hydraulic Brake Pressure Testing : Tutorial",
+      "description": "Matt puts the hydraulic system of our 1996 Bentley Brooklands to the test in this quick 8 minute brake pressure guide. Learn how to test both hydraulic systems in your Rolls-Royce Silver Shadow, Bentley T, Brooklands or Silver Spirit series and any other model that uses RR363 or Mineral oil.\n\nThe hydraulic system is responsible for both your brakes and height control on your car - learn what to look for and how to test these yourself with a simple gauge.",
+      "youtubeId": "gBQLy6zMO80",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:51:42.708548+00:00"
+    },
+    {
+      "id": "v028",
+      "title": "Brake Pump Strip Down: Rolls Royce Silver Shadow, Shadow II & Bentley T1/T2",
+      "description": "An in depth dismantling and overhaul of a Rolls-Royce Silver Shadow Brake Pump. In this video Matt Duncan (IntroCar) takes apart and examines all the internal parts of this Rolls-Royce Brake Pump and describes what to look for if you perform this yourself.\n\nAssociated Models : Rolls-Royce Corniche (1965-1980, chassis 9770-35878), Silver Shadow, Silver Shadow II, Silver Wraith II & Corniche\nBentley T1 & T2\n\nHydraulic Brake Pump Assembly: UE40534HB",
+      "youtubeId": "EE2TxOwFj2U",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:55:43.256397+00:00"
+    },
+    {
+      "id": "v029",
+      "title": "New Product: Pump to Levelling Valve Hoses PH28446PC & PC56363PF",
+      "description": "Hose to Nowhere - what is it for?",
+      "youtubeId": "CNUsUBbosVI",
+      "category": "Suspension",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:03:33.992815+00:00"
+    },
+    {
+      "id": "v038",
+      "title": "Accumulator Valve Body Assembly (Shadow I & II, T1 & T2)",
+      "description": "Here Matt Duncan shows how to assemble two Accumulator Valve Bodies to demonstrate the next stage of the reconditioning process. This is part two of a three part tutorial. \n\nThese two accumulator valve bodies are for Rolls-Royce and Bentley models running RR363 brake fluid. They are currently only available as reconditioned units as are no longer available from the factory.\n\nAccumulator Valve Body (Early) : UE37583SXR\nAccumulator Valve Body (Late):  UE39519XR\n\nPlease note that it is important to change the accumulator spheres whenever the valve body gets changed.",
+      "youtubeId": "4xEhygBRoxE",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:34:55.815337+00:00"
+    },
+    {
+      "id": "v030",
+      "title": "Removing Driveshaft Flange from Hub",
+      "description": "The drive shaft flanges on Rolls-Royce Silver Shadows (T type) and early Silver Spirits, Spurs (Bentley Turbo, Brooklands, Mulsanne, Eight) are fixed to the stub axle on the hub, with a taper and woodruff key. The nut is tightened to 500lbft which means the flange requires a lot of pulling force to remove it. This is hard without the correct puller.\n\nIf the flange nut is not tightened enough, when torque is applied to the through driveshaft, the flange will spin on the taper breaking the woodruff key, The nuts have a right hand thread on both sides. This means that if the right hand spins, it will undo the nut and the driveshaft will just spin, damaging the flange and the stub axle without turning the wheel. If it happens on the left hand side, when the flange turns and the key breaks, it can tighten the nut making it very hard to undo and also increasing the force on the flange to the stub axle making it even harder to remove the flange. \n\nThis video details the technique used to remove the driveshaft flange from the hub.",
+      "youtubeId": "cxD9b2YD20M",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:11:58.966263+00:00"
+    },
+    {
+      "id": "v002",
+      "title": "The Engineering Behind Prestige Parts®: Remanufacturing Rolls-Royce & Bentley Components",
+      "description": "Join John Tupper, Managing Director of IntroCar, as he takes you behind the scenes of Prestige Parts®, leading manufacturer of heritage and modern Rolls-Royce & Bentley components. This video explores how we bring discontinued parts back to life, featuring:\n\nHydraulic brake pumps with micron-level precision\nCoolant galleries with modern improvements\nAir intake grilles manufactured using aeronautical techniques\nSafety-critical steering components with rigorous lab testing\n\nSee how we use advanced engineering, 3D printing, and modern materials to improve classic car parts while staying true to their heritage. Have a part you'd like us to remanufacture? Let us know in the comments!",
+      "youtubeId": "FF-6KuYezBs",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:15:32.570222+00:00"
+    },
+    {
+      "id": "v005",
+      "title": "Changing your Wiper Blades on SZ Rolls-Royce & Bentley models: How-to Guide",
+      "description": "Step-by-step guide on how to replace wiper blades on SZ series models.\n\nRelevant for the following models:\nRolls-Royce Silver Spirit I-III; Rolls-Royce New Silver Spirit (Mark IV); Rolls-Royce Silver Spur I-III; Rolls-Royce New Silver Spur (Mark IV); Rolls-Royce Silver Dawn; Rolls-Royce Flying Spur; Rolls-Royce Touring Limousine; Rolls-Royce Park Ward Limousine; Rolls-Royce Corniche (from 1982); Rolls-Royce Corniche II-IV, Rolls-Royce Corniche V (2000); Bentley Mulsanne; Bentley Mulsanne Turbo; Bentley Eight; Bentley Turbo R; Bentley Turbo RT; Bentley Mulsanne S; Bentley Continental R; Bentley Brooklands; Bentley Azure (Mark I); Bentley Continental T; Bentley Touring Limousine; Bentley Corniche (1982-1998)",
+      "youtubeId": "FoIjIL3oBqE",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:24:07.259162+00:00"
+    },
+    {
+      "id": "v006",
+      "title": "Rolls-Royce Seraph & Bentley Arnage How-to guide: Initializing the car's seat memory",
+      "description": "How to initialize and set up the seat memory function on Seraph and Arnage models.",
+      "youtubeId": "BLEyIZwDGfQ",
+      "category": "Continental GT",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:31:24.419115+00:00"
+    },
+    {
+      "id": "v008",
+      "title": "Bentley Continental GT: A Complete Guide to Driver’s Instrument Panel & Steering Wheel Controls",
+      "description": "In this video, we take an in-depth tour of the driver’s instrument panel and steering wheel controls of a 2012 Bentley Continental GT. Following requests from our viewers, we walk through the functionalities of various buttons and switches, including cruise control, voice guidance, and audio controls, all designed to enhance the driving experience. We also explore the driver’s instrument panel menus, such as speed indicators, navigation, and vehicle settings, offering tips on customizing these features to your preferences.\n\nWhether you’re a Bentley owner or an enthusiast, this video provides a comprehensive guide to mastering the controls of this luxury vehicle.",
+      "youtubeId": "em3vc2iNzDA",
+      "category": "Diagnostics",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:46:06.176025+00:00"
+    },
+    {
+      "id": "v009",
+      "title": "Reconditioning Rolls-Royce & Bentley Brake Accumulator Spheres: Part 1 Disassembly",
+      "description": "Join Matt as he guides us through the intricate process of reconditioning brake accumulator spheres. In this video, we focus on the crucial first step: the disassembly phase.\n\nSince new brake accumulator spheres are no longer available, it’s vital to keep them in circulation within the Rolls-Royce and Bentley community. This makes the reconditioning process essential for maintaining these iconic vehicles.\n\nRelevant to the following models from 1965 to 1981 : Rolls-Royce Camargue, Corniche, Silver Shadow, Silver Shadow 2-door, Silver Shadow II, Bentley T1 and T2.",
+      "youtubeId": "cQ12QDrnBuo",
+      "category": "Brakes",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:07:18.835936+00:00"
+    },
+    {
       "id": "v001",
       "title": "What Goes Wrong on a Bentley Continental GT? 6 Problems We See Often",
       "description": "Phil explains the most common issues that affect Bentley Continental GT models and how to address them.",
       "youtubeId": "KTXFOh_fFTg",
       "category": "Diagnostics",
       "verified": true,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:33:28.981Z",
-      "makes": [
-        "Bentley"
-      ],
-      "models": [
-        "Continental GT"
-      ],
-      "productCategories": [
-        "Service & Maintenance",
-        "Suspension, Subframe & Chassis",
-        "Brakes & Hydraulics"
-      ]
-    },
-    {
-      "id": "v002",
-      "title": "Own a Classic Rolls-Royce or Bentley? Don't Ignore These 5 Common Issues!",
-      "description": "Important maintenance tips and common problems to watch out for on classic Rolls-Royce and Bentley models.",
-      "youtubeId": "FF-6KuYezBs",
-      "category": "Continental GT",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T00:13:14.3652+00:00"
     },
     {
       "id": "v003",
@@ -47,23 +146,8 @@
       "youtubeId": "wN6iwpaCDSM",
       "category": "Diagnostics",
       "verified": true,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:30:15.289Z",
-      "makes": [
-        "Bentley",
-        "Rolls-Royce"
-      ],
-      "models": [
-        "Mk VI",
-        "R Type",
-        "Silver Dawn (1949-1955)",
-        "Silver Wraith"
-      ],
-      "productCategories": [
-        "Service & Maintenance",
-        "Brakes & Hydraulics",
-        "Clutch"
-      ]
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T00:13:15.108499+00:00"
     },
     {
       "id": "v004",
@@ -72,464 +156,178 @@
       "youtubeId": "SNgtHqsJvXo",
       "category": "Service",
       "verified": true,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2026-01-26T19:36:15.250Z",
-      "makes": [
-        "Bentley",
-        "Rolls-Royce"
-      ],
-      "models": [
-        "Arnage 4.4L Birkin",
-        "Arnage Green Label",
-        "Arnage Le Mans",
-        "Arnage Red Label",
-        "Park Ward",
-        "Silver Seraph"
-      ],
-      "productCategories": [
-        "Service & Maintenance",
-        "Body"
-      ]
-    },
-    {
-      "id": "v005",
-      "title": "Changing your Wiper Blades on SZ Rolls-Royce & Bentley models: How-to Guide",
-      "description": "Step-by-step guide on how to replace wiper blades on SZ series models.",
-      "youtubeId": "FoIjIL3oBqE",
-      "category": "Continental GT",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v006",
-      "title": "Rolls-Royce Seraph & Bentley Arnage How-to guide: Initializing the car's seat memory",
-      "description": "How to initialize and set up the seat memory function on Seraph and Arnage models.",
-      "youtubeId": "BLEyIZwDGfQ",
-      "category": "Continental GT",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v007",
-      "title": "Rolls-Royce & Bentley Bonnet / Hood Spring Opening Fix - Arnage, Azure",
-      "description": "How to fix bonnet spring opening issues on Arnage and Azure models.",
-      "youtubeId": "q5td9vtMcXs",
-      "category": "Continental GT",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v008",
-      "title": "Reconditioning Rolls-Royce & Bentley Brake Accumulator Spheres: Part 1 Disassembly",
-      "description": "Brake accumulator spheres are a vital component of the braking system in Rolls-Royce and Bentley models. This video covers disassembly.",
-      "youtubeId": "em3vc2iNzDA",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v009",
-      "title": "Bleeding the Brakes - Rolls-Royce & Bentley Models with Brake Pumps",
-      "description": "Matt shows us how to bleed the brakes on a 1992 Bentley Turbo R. He explains in three easy steps how to do this.",
-      "youtubeId": "cQ12QDrnBuo",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v010",
-      "title": "Hydraulic Brake Pressure Testing",
-      "description": "Matt puts the hydraulic system of a 1996 Bentley Brooklands to the test in this quick brake pressure test.",
-      "youtubeId": "DFSznpbv6J0",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v011",
-      "title": "Accumulator Valve Body Testing",
-      "description": "Matt shows how to test two Accumulator Valve Bodies for the final stage of the reconditioning process.",
-      "youtubeId": "LSel-MmEItY",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v012",
-      "title": "Accumulator Valve Body Assembly",
-      "description": "Matt Duncan shows how to assemble two Accumulator Valve Bodies to demonstrate the next stage of the reconditioning process.",
-      "youtubeId": "cYuJ0ufiodQ",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v013",
-      "title": "Accumulator Valve Body Dismantling",
-      "description": "Matt Duncan shows how to dismantle / strip two Accumulator Valve Bodies to demonstrate the first stage of reconditioning.",
-      "youtubeId": "_PtkNX-bT0c",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v014",
-      "title": "Hydraulic System Pressure Test for your Rolls-Royce or Bentley",
-      "description": "Matt demonstrates a simple pressure test that can be performed on all Rolls-Royce & Bentley models for brake systems.",
-      "youtubeId": "AlU_CnvG4Hg",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v015",
-      "title": "Testing Brake Pumps: Rolls-Royce Silver Shadow, Wraith II & Bentley T1 & T2",
-      "description": "Matt Duncan demonstrates how to test the Brake Pump for your Rolls-Royce Corniche and related models.",
-      "youtubeId": "jFA4DWbtxlc",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v016",
-      "title": "Brake Pump Fix Part 2: Reassembly",
-      "description": "An in-depth reassembly tutorial of a Rolls-Royce Silver Shadow Brake Pump by Matt Duncan.",
-      "youtubeId": "__AFOuJvusY",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v017",
-      "title": "Brake Pump Fix Part 1: Strip Down",
-      "description": "An in-depth dismantling and overhaul of a Rolls-Royce Silver Shadow Brake Pump by Matt Duncan.",
-      "youtubeId": "i3oRCMp_aC0",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v018",
-      "title": "Understanding Rolls-Royce & Bentley Brake Pump Issues",
-      "description": "The Brake Pump explained for Rolls-Royce Silver Shadow, Silver Shadow II, Bentley T1, Bentley T2, Silver Spirit and more.",
-      "youtubeId": "RUlJncCU4vw",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v019",
-      "title": "SZ Brake Diagnostics",
-      "description": "Video to help diagnose brake issues on your Bentley Turbo R, Rolls-Royce Silver Spirit and related models.",
-      "youtubeId": "t_lcPUVAlco",
-      "category": "Brakes",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v020",
-      "title": "Reconditioning a Height Control Valve: UR18083: Part 2",
-      "description": "The complete assembly of a Height Control Valve by Matthew Duncan, covering issues, considerations and more.",
-      "youtubeId": "0zaLqDI8BQc",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v021",
-      "title": "Reconditioning a Height Control Valve: UR18083: Part 1",
-      "description": "The complete disassembly of a Height Control Valve by Matthew Duncan, covering issues and considerations.",
-      "youtubeId": "Wkwxnhe6Vsg",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v022",
-      "title": "Main Issues with Height Control Valves in Shadows",
-      "description": "Matt goes over a fully dismantled Height Control Valve and explains the function of each component.",
-      "youtubeId": "gOR8LOMAVPo",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v023",
-      "title": "The Evolution of Suspension Components in Rolls-Royce & Bentley models from 1967 onwards",
-      "description": "Matt explains the main differences in suspension components between different Rolls-Royce & Bentley models.",
-      "youtubeId": "WcmYnBMil_Q",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v024",
-      "title": "Front & Rear Dampers for Rolls Royce & Bentley models from 1966 onwards",
-      "description": "Matt details the differences between Front and Rear dampers for the Rolls-Royce Silver Shadow and Spirit models.",
-      "youtubeId": "ObAPQ2BlJsc",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v025",
-      "title": "Fit Pre-active Ride Dampers to Your Rolls-Royce or Bentley for a Smoother Ride",
-      "description": "Fitting pre-active ride dampers to your Rolls-Royce or Bentley motorcar is cheaper and easier than you think.",
-      "youtubeId": "N6n5Yn-z5pU",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v026",
-      "title": "Handling kits for Rolls Royce & Bentley models from 1965 to 2003",
-      "description": "Handling kits for early Rolls-Royce & Bentley chassis SZ models including Silver Shadow, Silver Spirit and more.",
-      "youtubeId": "wV9JeQPZEmM",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v027",
-      "title": "Quick fix to your trailing arm for Rolls Royce & Bentley from 1965 to 2002",
-      "description": "We offer a fixing kit for broken or worn cup in the trailing arms. No need to change the whole trailing arm!",
-      "youtubeId": "c4nMRnAveA4",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v028",
-      "title": "Removing Driveshaft Flange from Hub",
-      "description": "The drive shaft flanges on Rolls-Royce Silver Shadows (T type) and early Silver Spirits can be tricky. Matt shows the process.",
-      "youtubeId": "EE2TxOwFj2U",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v029",
-      "title": "Splitting Rolls-Royce & Bentley Hubs",
-      "description": "Everything you didn't know you needed to know about splitting Rolls-Royce & Bentley rear hubs.",
-      "youtubeId": "CNUsUBbosVI",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v030",
-      "title": "Rack & Pinion Steering Racks: Rolls-Royce & Bentley Technical",
-      "description": "Everything you may need to know about Steering Racks for your Rolls-Royce or Bentley.",
-      "youtubeId": "cxD9b2YD20M",
-      "category": "Suspension",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v031",
-      "title": "Main issues with the V8 Camshaft on Rolls-Royce & Bentley cars",
-      "description": "Matt goes over the main issues with the V8 camshafts, tappets and push rods for Rolls-Royce & Bentley models.",
-      "youtubeId": "aGm_ibAYE6M",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v032",
-      "title": "How to Diagnose an Engine Noise",
-      "description": "Video to help diagnose engine noise in your Bentley T, T2, Rolls-Royce Silver Shadow and related models.",
-      "youtubeId": "199qcPLl5pA",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v033",
-      "title": "Steel or Bronze oil pump gear on your Silver Shadow II?",
-      "description": "Matt confirms the right material for your Crankshaft gears. Originally cars had a steel gear on the crankshaft.",
-      "youtubeId": "RzS2rofGyaM",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v034",
-      "title": "More about Tappets for Rolls-Royce & Bentley Six Cylinder and V8 Engines",
-      "description": "Matt explains the difference between 6 cylinder and V8 engine tappets (also known as 'lifters').",
-      "youtubeId": "Lsn7hYvcAyg",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v035",
-      "title": "Sealing your crankcase has never been this easy",
-      "description": "Matt shows how to make this easy crankshaft modification for your Rolls-Royce or Bentley classic.",
-      "youtubeId": "gBQLy6zMO80",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v036",
-      "title": "Bentley and Rolls Royce Decarbonising kits for all models from 1946 to 2002",
-      "description": "Matt goes over the decoke kit RH2379 for the Rolls Royce Silver Shadow and all the parts it comes with.",
-      "youtubeId": "Qk65rF4Jsr0",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v037",
-      "title": "Automatic Choke Issues in V8 Rolls-Royce & Bentley Motorcars",
-      "description": "How the Choke System works and related issues for Rolls Royce Silver Shadow I, II and Bentley T1 & T2.",
-      "youtubeId": "WoIh-BWKQic",
-      "category": "Engine",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v038",
-      "title": "Rolls-Royce & Bentley Fuel Filters: Which is right for your car?",
-      "description": "Matt looks at the different Rolls-Royce & Bentley Fuel Filters & their model applications for all motorcars.",
-      "youtubeId": "4xEhygBRoxE",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v039",
-      "title": "Rolls-Royce & Bentley Oil Filters: Which is right for your car?",
-      "description": "Matt looks at the different Rolls-Royce & Bentley Oil Filters & their model applications.",
-      "youtubeId": "LO7Xi8lkEi8",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v040",
-      "title": "More on Rolls-Royce & Bentley Air Filters for cars from 1965 onwards",
-      "description": "More on Rolls-Royce & Bentley Air Filters for models from 1965 onwards including Silver Shadow & T Series.",
-      "youtubeId": "T49HKcHWabA",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v041",
-      "title": "Which Brake Fluid is the right one for your Rolls-Royce or Bentley?",
-      "description": "Matt looks at the different Brake Fluid options, which is right for each Rolls-Royce or Bentley car.",
-      "youtubeId": "in8HL3jHEtw",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v042",
-      "title": "Rolls-Royce and Bentley Waterpumps: New versus Reconditioning",
-      "description": "Matt details the differences between the generations of Rolls-Royce and Bentley waterpumps.",
-      "youtubeId": "tOzBmIPclpg",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
-    },
-    {
-      "id": "v043",
-      "title": "Save on 'All-in-One' Service Kits for your Rolls-Royce or Bentley",
-      "description": "Full Service Kits available for most classic Rolls-Royce & Bentley models from 1966 onward.",
-      "youtubeId": "X-_6VS1VRyg",
-      "category": "Service",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T00:13:15.440777+00:00"
     },
     {
       "id": "v044",
-      "title": "What You Need to Know About Accumulator Spheres for Rolls-Royce Silver Shadow & Bentley T Series",
-      "description": "Matt details everything you may need to know about Accumulator Spheres for Rolls Royce Silver Shadow models.",
+      "title": "Bentley Continental GT - Window Initialization Process",
+      "description": "Phil demonstrates how to perform the Window Initialization process when your window is clunking / banging as it is lowered; the battery has been disconnected or when the one-shut is not working. \n\nApplicable Cars: Bentley Continental GT & Flying Spur from 2003 onwards. ",
       "youtubeId": "8R_jDTYF0_I",
-      "category": "Hydraulics",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "category": "Diagnostics",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:34:31.040428+00:00"
+    },
+    {
+      "id": "v014",
+      "title": "Rolls-Royce & Bentley Bonnet / Hood Spring Opening Fix - Arnage, Azure, Brooklands & Seraph models",
+      "description": "Matt explains how to install our new upgraded bonnet spring (PP59552PA) on the bonnet/hood lid. These springs can also be installed on the rear trunk to aid the initial opening of the lid.\n\nApplication\nRolls-Royce Park Ward & Silver Seraph\nBentley Arnage T, Arnage R, Arnage RL, Arnage Blue Train, Arnage Diamond, Arnage Red Label, Arnage Final series, Azure & Brooklands",
+      "youtubeId": "AlU_CnvG4Hg",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:44:31.933077+00:00"
+    },
+    {
+      "id": "v034",
+      "title": "Rolls-Royce & Bentley Fuel Filler Door Clips - PP59815PA & PP59815PAPLA",
+      "description": "Phil demonstrates how to replace the spring clip for the petrol flap/fuel door. It is  supplied as an improved replacement for the original plastic clip PP32604PA & PP32604PB for early cars, which tended to break and which have been discontinued.\n\nA reinforced version of the plastic style clip is also available. \n\nApplication:\nRolls-Royce Silver Seraph, Silver Seraph LOL, and Park Ward.\nBentley Arnage Green Label, Arnage 4.4L Birkin, Arnage Red Label, Arnage Le Mans, Arnage R, Arnage RL, Arnage T, Arnage Diamond Series, Arnage Blue Train, Arnage Final Series, Azure, and Brooklands Coupe.",
+      "youtubeId": "Lsn7hYvcAyg",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:50:03.98687+00:00"
+    },
+    {
+      "id": "v020",
+      "title": "Bentley GT Continental - A Guide to the Navigation System",
+      "description": "Detailed walk through of the Navigation system in the 2012 Bentley GT Continental. This tutorial guides you through the Bentley Continental GT's navigation system, from setting destinations to adjusting route preferences and adding stopovers, enhancing your navigation experience.",
+      "youtubeId": "0zaLqDI8BQc",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:08:19.058953+00:00"
+    },
+    {
+      "id": "v043",
+      "title": "Hydraulic System Pressure Test for your Rolls-Royce or Bentley",
+      "description": "Matt demonstrates a simple pressure test that can be performed on all Rolls-Royce & Bentley models from the end of the Rolls-Royce Silver Cloud, when the first Silver Shadows started to come out, all the way to Pre-Arnage models.\n\nIt's an easy test you can perform yourself to find out whether your valve bodies are holding pressure and / or if your spheres have any gas in them.\n\nRelated Accumulators:\nRH2343SX\nRH2390SX\nCD6000GMF\n\nRelated Valve Bodies:\nUE39519\nUE37583SX\nCD5999GMF",
+      "youtubeId": "X-_6VS1VRyg",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:10:22.844035+00:00"
     },
     {
       "id": "v045",
-      "title": "Everything You Need to Know About Valve Bodies for Rolls-Royce Silver Shadow & Bentley T Series Cars",
-      "description": "Matt details everything you may need to know about Valve Bodies for Rolls Royce Silver Shadow models.",
+      "title": "Reconditioning a Height Control Valve: UR18083: Part 2",
+      "description": "The complete assembly of a Height Control Valve to camera, by Matthew Duncan, covering issues, considerations, assembly details and components. \n\nThis is the second in a series of technical videos on hydraulic parts.\n\nApplicable Cars: Rolls-Royce Silver Shadow I, II & Bentley T1, T2, 1965 to 1980\n\nPart shown in assembly: UR18082 & UR18083",
       "youtubeId": "LGBiLwQnlyY",
-      "category": "Hydraulics",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:11:50.559416+00:00"
     },
     {
       "id": "v046",
-      "title": "Accumulators & Valve Bodies for Rolls-Royce Silver Shadow & Bentley T Series (Part 1)",
-      "description": "Everything you may need to know about Accumulator & Valve Bodies for Rolls Royce Silver Shadow models.",
+      "title": "Reconditioning a Height Control Valve: UR18083",
+      "description": "The complete disassembly of a Height Control Valve to camera, by Matthew Duncan, covering issues, considerations, assembly details and components. This is the first in a series of technical videos on hydraulic parts.\n\nApplicable Cars: Rolls-Royce Silver Shadow I, II & Bentley T1, T2, 1965 to 1980\n\nPart shown in disassembly: UR18083",
       "youtubeId": "l9Hhw2E8ikw",
       "category": "Hydraulics",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:13:12.080029+00:00"
     },
     {
       "id": "v047",
-      "title": "Accumulators for Mineral Oil Systems in Rolls Royce & Bentley models after 1980",
-      "description": "Matt explains all about Rolls Royce & Bentley mineral oil hydraulic systems & accumulator spheres.",
+      "title": "Regular Maintenance check up - Bentley Turbo R",
+      "description": "Matt goes over the main things to check regularly on your Bentley Turbo R including engine oil, gearbox oil, brake fluid, air filter change and more. All maintenance checks you can do yourself at home!\n\nProducts shown: Air Filter UE70123",
       "youtubeId": "0YFGSe_y73U",
-      "category": "Hydraulics",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:14:12.608431+00:00"
     },
     {
       "id": "v048",
-      "title": "How to Diagnose Coolant Warning Light Issues",
-      "description": "Video to help diagnose coolant warning light issues in your Bentley or Rolls-Royce.",
+      "title": "Installing and adjusting Ball joints",
+      "description": "Installing & Adjusting Ball Joints. \n\nThe ball joints in the video are the following:\n-UR73257\n-UR73256\n-UR73258\n\nThese Ball joints are for all Rolls-Royce & Bentley from 1965-1980 (VIN 1001-41686) & 1980-1998 (VIN 1001 Onwards)\n\nAnd the kits available are:\n-UR73257KT\n-UR73256KT\n-UR73258KT",
       "youtubeId": "VrG5igOf_j8",
-      "category": "Diagnostics",
-      "verified": false,
-      "createdAt": "2025-01-26T00:00:00Z",
-      "updatedAt": "2025-01-26T00:00:00Z"
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:16:14.83589+00:00"
+    },
+    {
+      "id": "v019",
+      "title": "Bentley GT Continental - A Guide to the A/C System",
+      "description": "Detailed walk through of the Air Conditioning (A/C) system unit on the 2012 Bentley GT Continental. Learn about the air conditioning controls of the Bentley Continental GT, including how to adjust temperature settings, direct airflow, and use the auto climate control feature for optimal cabin comfort.",
+      "youtubeId": "t_lcPUVAlco",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:31:12.613129+00:00"
+    },
+    {
+      "id": "v032",
+      "title": "Bentley Continental GT - Pollen Filter Replacement",
+      "description": "Phil demonstrates how to replace the pollen filters which should be an annual maintenance for your car to keep the car clean from pollen, dust particles and exhaust fumes. \n\nApplicable Cars: Bentley Continental GT (2004-2017), Continental Flying Spur (2005-2013), Continental GT3-R (2015), Continental GTC (2007-2018), Flying Spur (2014-2019), Supersports (2017-2018), Supersports Convertible (2017-2018) & Continental Supersports (2009-2013)\nRelated Part Number: 3D2819619/20 ",
+      "youtubeId": "199qcPLl5pA",
+      "category": "Continental GT",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T05:47:11.414775+00:00"
+    },
+    {
+      "id": "v015",
+      "title": "Brake Pumps Test: Rolls Royce Silver Shadow, Shadow II & Bentley T1/T2",
+      "description": "Matt Duncan (IntroCar) demonstrates how to test the Brake Pump for your Rolls-Royce Corniche (1965-1980, chassis 9770-35878), Silver Shadow, Silver Shadow II, Silver Wraith II, Corniche, Bentley T1 or T2 using a rebuilt pump.",
+      "youtubeId": "jFA4DWbtxlc",
+      "category": "Brakes",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:25:23.64912+00:00"
+    },
+    {
+      "id": "v016",
+      "title": "Brake Pump Reassembly: Rolls Royce Silver Shadow, Shadow II & Bentley T1/T2",
+      "description": "An in-depth reassembly tutorial of a Rolls-Royce Silver Shadow Brake Pump. \n\nAssociated Models :\nRolls-Royce Corniche (1965-1980, chassis 9770-35878), Silver Shadow, Silver Shadow II, Silver Wraith II & Corniche; Bentley T1 & T2\n\nAssociated Part Numbers:\nHydraulic Brake Pump Assembly (UE40534HB)\nBrake Pump Spanner (RH8428-X)\nBrake Pump O-ring Kit (RH2438-X)\nBrake Pump Spring (UR70731-X)\nBrake Pump Inlet Valve (UE9491-X)\nBrake Pump Valve Spring (UE9488-X)",
+      "youtubeId": "__AFOuJvusY",
+      "category": "Brakes",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:28:34.094528+00:00"
+    },
+    {
+      "id": "v017",
+      "title": "Introducing V8 Cylinder Head Gasket: 07V103147 (Part 2 - Full Technical Detail!)",
+      "description": "We are proud to announce the upcoming release of our Prestige Parts® replacement for the discontinued Bentley V8 Cylinder Head Gasket, for Rolls-Royce and Bentley V8 engines manufactured 1959 to 2002. Three and a half years in the making, this project represents one of our most expensive and advanced products to date, incorporating state-of-the-art design, tooling, and manufacturing techniques.\n\nIn this video John takes an in depth look at the function and design of the new head gasket versus the original Bentley Motors gasket, including how the design affects performance. \n\nThe Prestige Parts® Cylinder Head Gasket (07V103147.01-X) includes enhancements that alleviate limitations caused by use of the Bentley gasket in applications for which it was not strictly intended. The original Bentley gasket was designed for use in brand new, lower performance engines, but the Prestige Parts gasket incorporates additional features appropriate to the wide range of vehicle applications for which it is now required.\n\nApplication: This gasket is suitable for all Rolls-Royce and Bentley vehicles manufactured from 1959 to 2002 (excluding Silver Seraph and Arnage equipped with BMW engine; Arnage R; Arnage RL & Arnage T models).",
+      "youtubeId": "i3oRCMp_aC0",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:30:17.30069+00:00"
+    },
+    {
+      "id": "v021",
+      "title": "Bentley GT Continental - A Guide to the Lower Console",
+      "description": "Detailed walk through of the lower console unit in the 2012 Bentley GT Continental. Get acquainted with the lower center console of the Bentley Continental GT, focusing on mirror adjustments, seat heating settings, suspension customization, and the unique features of the rear aerofoil control.",
+      "youtubeId": "Wkwxnhe6Vsg",
+      "category": "Continental GT",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:31:57.790547+00:00"
+    },
+    {
+      "id": "v022",
+      "title": "Bentley GT Continental - A Guide to the Infotainment System",
+      "description": "Detailed walk through of the infotainment unit on the 2012 Bentley GT Continental. Discover how to navigate and utilize the infotainment system in the Bentley Continental GT. This video covers audio settings, media inputs, telephone connectivity, and more, ensuring you get the most out of your infotainment experience.",
+      "youtubeId": "gOR8LOMAVPo",
+      "category": "Service",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:33:19.017097+00:00"
+    },
+    {
+      "id": "v025",
+      "title": "Bleeding the Brakes - Rolls-Royce & Bentley Models with Brake Pumps",
+      "description": "Matt shows us how to bleed the brakes on our 1992 Bentley Turbo R. He explains in three easy steps how to carry an important service that you can do yourselves on your vehicle. Carrying out this service can improve the life of your model.\n\nWe used Mineral Oil RH15215 in this video as this car is a later model that runs with mineral oil. Always check the label on your vehicle before using any fluids in it - pouring the wrong oil can and will damage the lubrication system!",
+      "youtubeId": "N6n5Yn-z5pU",
+      "category": "Engine",
+      "verified": true,
+      "createdAt": "2026-01-26T20:51:47.790952+00:00",
+      "updatedAt": "2026-01-27T06:34:20.604465+00:00"
     }
   ]
 }
