@@ -1,5 +1,13 @@
 # IntroCar US - Integration Notes
 
+## Deployment
+
+**Vercel Project:** `intro-car-us` (note the hyphens)
+**Production URL:** https://intro-car-us.vercel.app
+**GitHub Repo:** https://github.com/ani-e-e/IntroCar-US
+
+⚠️ There's also an older `introcar-us` project in Vercel - that's NOT the active one.
+
 ## Architecture Overview
 
 **Stack:** Next.js + Supabase + Vercel + GitHub
@@ -54,6 +62,32 @@ Using Magento as headless ecommerce - Next.js handles frontend, Magento handles 
 - Which extensions can be retired vs. tied to order/Khaos functionality?
 - Best practices for Supabase → Magento data sync?
 - Risks or gotchas with this headless approach?
+
+## Embeddable Vehicle Part Finder
+
+An iframe-ready Vehicle Part Finder is available at:
+```
+https://intro-car-us.vercel.app/embed/vehicle-finder
+```
+
+### Usage
+```html
+<iframe
+  src="https://intro-car-us.vercel.app/embed/vehicle-finder"
+  width="100%"
+  height="400"
+  frameborder="0"
+></iframe>
+```
+
+### URL Parameters
+- `target` - Custom URL for results (default: /products on US site)
+- `theme` - 'light' or 'dark' (default: light)
+- `hideTitle` - 'true' to hide the header
+- `buttonText` - Custom button text (default: "Find Parts")
+
+### Behavior
+When users click "Find Parts", results open in a **new tab** on intro-car-us.vercel.app.
 
 ---
 

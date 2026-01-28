@@ -214,7 +214,7 @@ function EmbedVehicleFinder() {
     setChassisLookupMode(false);
   };
 
-  // Handle search - redirect to target URL
+  // Handle search - open results in new tab
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (selectedMake) params.set('make', selectedMake);
@@ -224,16 +224,18 @@ function EmbedVehicleFinder() {
       params.set('chassis', chassisInput.trim().toUpperCase());
     }
 
-    const finalUrl = targetUrl.includes('?')
-      ? `${targetUrl}&${params.toString()}`
-      : `${targetUrl}?${params.toString()}`;
-
-    // If target is external, open in parent window
-    if (targetUrl.startsWith('http')) {
-      window.top.location.href = finalUrl;
-    } else {
-      window.location.href = finalUrl;
+    // Build the full URL - use provided target or default to US site
+    let baseUrl = targetUrl;
+    if (!targetUrl.startsWith('http')) {
+      baseUrl = `https://intro-car-us.vercel.app${targetUrl}`;
     }
+
+    const finalUrl = baseUrl.includes('?')
+      ? `${baseUrl}&${params.toString()}`
+      : `${baseUrl}?${params.toString()}`;
+
+    // Open in new tab
+    window.open(finalUrl, '_blank', 'noopener,noreferrer');
   };
 
   const formatChassisDisplay = () => {
