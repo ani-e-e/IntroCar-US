@@ -6,8 +6,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Search, ShoppingCart, Menu, X, Phone, User, ChevronDown, Check, Truck, Shield, Star, AlertCircle, CheckCircle } from 'lucide-react';
 import ShopByModelMegaMenu from './ShopByModelMegaMenu';
+import { useCart } from '@/context/CartContext';
 
-export default function Header({ cartCount = 0 }) {
+export default function Header() {
+  const { itemCount: cartCount } = useCart();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
