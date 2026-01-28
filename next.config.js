@@ -50,9 +50,9 @@ const nextConfig = {
           },
         ],
       },
-      // Default security headers for all other pages
+      // Default security headers for all pages EXCEPT /embed
       {
-        source: '/:path*',
+        source: '/((?!embed).*)',
         headers: [
           {
             key: 'X-DNS-Prefetch-Control',
