@@ -18,6 +18,7 @@ export default function AdminNav() {
     { href: '/admin/products', label: 'Products', icon: '📦' },
     { href: '/admin/catalogues', label: 'Catalogues', icon: '📚' },
     { href: '/admin/videos', label: 'Videos', icon: '🎬' },
+    { href: '/admin/myc', label: 'MYC Admin', icon: '🚗' },
     { href: '/admin/stock', label: 'Stock Update', icon: '📈' },
     { href: '/admin/upload', label: 'Upload CSV', icon: '📤' },
     { href: '/admin/sync', label: 'Sync to Magento', icon: '🔄' },
