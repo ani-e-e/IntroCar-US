@@ -1,34 +1,44 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/admin-auth';
+import { createClient } from '@supabase/supabase-js';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const FITMENT_FILE = path.join(process.cwd(), 'data', 'json', 'fitment-lookup.json');
-const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
+// T7 file for validation only (reference data)
 const T7_FILE = path.join(process.cwd(), 'data', 'json', 't7-additional-info.json');
 
-// Load fitment data
-async function loadFitmentData() {
+// Initialize Supabase client
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+}
+
+// Load T7 valid additional info values (from JSON - reference data only)
+async function loadT7Values() {
   try {
-    const raw = await fs.readFile(FITMENT_FILE, 'utf-8');
+    const raw = await fs.readFile(T7_FILE, 'utf-8');
     return JSON.parse(raw);
   } catch (error) {
-    console.error('Error loading fitment data:', error);
-    return {};
+    console.error('Error loading T7 values:', error);
+    return [];
   }
 }
 
-// Save fitment data
-async function saveFitmentData(data) {
-  await fs.writeFile(FITMENT_FILE, JSON.stringify(data, null, 2), 'utf-8');
-}
-
-// Load vehicle data for dropdowns
+// Load vehicle data for dropdowns from Supabase
 async function loadVehicleData() {
   try {
-    const raw = await fs.readFile(VEHICLES_FILE, 'utf-8');
-    const vehicles = JSON.parse(raw);
+    const supabase = getSupabase();
+
+    const { data: vehicles, error } = await supabase
+      .from('vehicles')
+      .select('make, model')
+      .order('make')
+      .order('model');
+
+    if (error) throw error;
 
     const makes = [...new Set(vehicles.map(v => v.make))].sort();
     const modelsByMake = {};
@@ -55,26 +65,7 @@ async function loadVehicleData() {
   }
 }
 
-// Load T7 valid additional info values
-async function loadT7Values() {
-  try {
-    const raw = await fs.readFile(T7_FILE, 'utf-8');
-    return JSON.parse(raw);
-  } catch (error) {
-    console.error('Error loading T7 values:', error);
-    return [];
-  }
-}
-
-// Check if entry exists in fitment data
-function checkDuplicate(fitmentData, sku, make, model) {
-  if (!fitmentData[sku]) return false;
-  return fitmentData[sku].some(
-    f => f.make === make && f.model === model
-  );
-}
-
-// GET - List fitment data with search/pagination
+// GET - List fitment data with search/pagination from Supabase
 export async function GET(request) {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get('admin_session')?.value;
@@ -90,67 +81,88 @@ export async function GET(request) {
     const model = searchParams.get('model') || '';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '50');
-    const checkDuplicates = searchParams.get('checkDuplicates') === 'true';
 
-    const [fitmentData, vehicleData, t7Values] = await Promise.all([
-      loadFitmentData(),
+    const supabase = getSupabase();
+    const [vehicleData, t7Values] = await Promise.all([
       loadVehicleData(),
       loadT7Values()
     ]);
 
-    // Convert to array for filtering and pagination
-    let entries = [];
-
-    for (const [sku, fitments] of Object.entries(fitmentData)) {
-      for (const fitment of fitments) {
-        entries.push({
-          sku,
-          make: fitment.make,
-          model: fitment.model,
-          chassisStart: fitment.chassisStart,
-          chassisEnd: fitment.chassisEnd,
-          additionalInfo: fitment.additionalInfo
-        });
-      }
-    }
+    // Build query
+    let query = supabase
+      .from('product_fitment')
+      .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info', { count: 'exact' });
 
     // Apply filters
     if (search) {
-      const searchLower = search.toLowerCase();
-      entries = entries.filter(e =>
-        e.sku.toLowerCase().includes(searchLower) ||
-        e.model?.toLowerCase().includes(searchLower)
-      );
+      query = query.or(`parent_sku.ilike.%${search}%,model.ilike.%${search}%`);
     }
-
     if (make) {
-      entries = entries.filter(e => e.make === make);
+      query = query.eq('make', make);
     }
-
     if (model) {
-      entries = entries.filter(e => e.model === model);
+      query = query.eq('model', model);
     }
 
-    // Get stats
-    const totalSkus = Object.keys(fitmentData).length;
-    const totalEntries = entries.length;
+    // Get total count first
+    const { count: totalEntries } = await query;
 
-    // Paginate
-    const startIndex = (page - 1) * limit;
-    const paginatedEntries = entries.slice(startIndex, startIndex + limit);
-    const totalPages = Math.ceil(totalEntries / limit);
+    // Apply pagination
+    const offset = (page - 1) * limit;
+    query = supabase
+      .from('product_fitment')
+      .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info');
+
+    if (search) {
+      query = query.or(`parent_sku.ilike.%${search}%,model.ilike.%${search}%`);
+    }
+    if (make) {
+      query = query.eq('make', make);
+    }
+    if (model) {
+      query = query.eq('model', model);
+    }
+
+    const { data: entries, error } = await query
+      .order('parent_sku')
+      .order('make')
+      .order('model')
+      .range(offset, offset + limit - 1);
+
+    if (error) throw error;
+
+    // Get unique SKU count
+    const { data: skuCountData } = await supabase
+      .from('product_fitment')
+      .select('parent_sku')
+      .limit(100000);
+
+    const totalSkus = new Set(skuCountData?.map(r => r.parent_sku) || []).size;
+
+    // Map to expected format
+    const mappedEntries = entries.map(e => ({
+      id: e.id,
+      sku: e.parent_sku,
+      make: e.make,
+      model: e.model,
+      chassisStart: e.chassis_start,
+      chassisEnd: e.chassis_end,
+      additionalInfo: e.additional_info
+    }));
+
+    const totalPages = Math.ceil((totalEntries || 0) / limit);
 
     return NextResponse.json({
-      entries: paginatedEntries,
+      entries: mappedEntries,
       pagination: {
         page,
         limit,
-        total: totalEntries,
+        total: totalEntries || 0,
         totalPages
       },
       stats: {
         totalSkus,
-        totalEntries: Object.values(fitmentData).reduce((sum, arr) => sum + arr.length, 0),
+        totalEntries: totalEntries || 0,
         makes: vehicleData.makes.length
       },
       makes: vehicleData.makes,
@@ -159,7 +171,7 @@ export async function GET(request) {
     });
   } catch (error) {
     console.error('Error loading MYC data:', error);
-    return NextResponse.json({ error: 'Failed to load data' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to load data', details: error.message }, { status: 500 });
   }
 }
 
@@ -176,60 +188,86 @@ export async function POST(request) {
     const body = await request.json();
     const { entries, action } = body;
 
-    const [fitmentData, t7Values] = await Promise.all([
-      loadFitmentData(),
-      loadT7Values()
-    ]);
+    const supabase = getSupabase();
+    const t7Values = await loadT7Values();
 
     // Handle 'replace' action first (doesn't require entries array)
     if (action === 'replace') {
       const { toDelete, toAdd } = body;
 
-      // Delete specified entries
+      // Delete specified entries by ID
       let deletedCount = 0;
-      if (toDelete && Array.isArray(toDelete)) {
-        for (const del of toDelete) {
-          const sku = (del.sku || '').toUpperCase();
-          if (fitmentData[sku]) {
-            const originalLength = fitmentData[sku].length;
-            fitmentData[sku] = fitmentData[sku].filter(f =>
-              !(f.make === del.make && f.model === del.model &&
-                f.chassisStart === del.chassisStart && f.chassisEnd === del.chassisEnd &&
-                f.additionalInfo === del.additionalInfo)
-            );
-            deletedCount += originalLength - fitmentData[sku].length;
+      if (toDelete && Array.isArray(toDelete) && toDelete.length > 0) {
+        // If entries have IDs, delete by ID (more precise)
+        const idsToDelete = toDelete.filter(d => d.id).map(d => d.id);
 
-            // Remove SKU if empty
-            if (fitmentData[sku].length === 0) {
-              delete fitmentData[sku];
-            }
+        if (idsToDelete.length > 0) {
+          const { error: deleteError, count } = await supabase
+            .from('product_fitment')
+            .delete()
+            .in('id', idsToDelete);
+
+          if (deleteError) throw deleteError;
+          deletedCount = count || idsToDelete.length;
+        }
+
+        // For entries without ID, delete by matching fields
+        const entriesWithoutId = toDelete.filter(d => !d.id);
+        for (const del of entriesWithoutId) {
+          const sku = (del.sku || '').toUpperCase();
+          let deleteQuery = supabase
+            .from('product_fitment')
+            .delete()
+            .eq('parent_sku', sku)
+            .eq('make', del.make)
+            .eq('model', del.model);
+
+          // Match on all fields for precise deletion
+          if (del.chassisStart !== undefined) {
+            deleteQuery = deleteQuery.eq('chassis_start', del.chassisStart);
           }
+          if (del.chassisEnd !== undefined) {
+            deleteQuery = deleteQuery.eq('chassis_end', del.chassisEnd);
+          }
+          if (del.additionalInfo !== undefined) {
+            deleteQuery = deleteQuery.eq('additional_info', del.additionalInfo);
+          }
+
+          const { error: delError, count: delCount } = await deleteQuery;
+          if (delError) console.error('Delete error:', delError);
+          deletedCount += delCount || 0;
         }
       }
 
       // Add new entries
       const added = [];
-      if (toAdd && Array.isArray(toAdd)) {
-        for (const entry of toAdd) {
-          const sku = (entry.sku || '').toUpperCase();
-          if (!sku || !entry.make || !entry.model) continue;
-
-          if (!fitmentData[sku]) {
-            fitmentData[sku] = [];
-          }
-
-          fitmentData[sku].push({
+      if (toAdd && Array.isArray(toAdd) && toAdd.length > 0) {
+        const insertData = toAdd
+          .filter(entry => entry.sku && entry.make && entry.model)
+          .map(entry => ({
+            parent_sku: (entry.sku || '').toUpperCase(),
             make: entry.make,
             model: entry.model,
-            chassisStart: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
-            chassisEnd: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
-            additionalInfo: entry.additionalInfo || null
-          });
-          added.push({ sku, make: entry.make, model: entry.model });
+            chassis_start: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
+            chassis_end: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
+            additional_info: entry.additionalInfo || null
+          }));
+
+        if (insertData.length > 0) {
+          const { data: insertedData, error: insertError } = await supabase
+            .from('product_fitment')
+            .insert(insertData)
+            .select();
+
+          if (insertError) throw insertError;
+
+          added.push(...(insertedData || []).map(d => ({
+            sku: d.parent_sku,
+            make: d.make,
+            model: d.model
+          })));
         }
       }
-
-      await saveFitmentData(fitmentData);
 
       return NextResponse.json({
         message: `Deleted ${deletedCount}, added ${added.length} entries`,
@@ -249,27 +287,33 @@ export async function POST(request) {
       // Collect all unique SKUs being checked
       const uniqueSkus = [...new Set(entries.map(e => (e.sku || '').toUpperCase()))];
 
-      // Get all existing entries for these SKUs
+      // Get all existing entries for these SKUs from Supabase
+      const { data: existingEntries, error: fetchError } = await supabase
+        .from('product_fitment')
+        .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info')
+        .in('parent_sku', uniqueSkus);
+
+      if (fetchError) throw fetchError;
+
+      // Group by SKU
       const existingBySku = {};
       uniqueSkus.forEach(sku => {
-        if (fitmentData[sku]) {
-          existingBySku[sku] = fitmentData[sku].map((f, idx) => ({
-            id: `existing-${sku}-${idx}`,
-            sku,
-            make: f.make,
-            model: f.model,
-            chassisStart: f.chassisStart,
-            chassisEnd: f.chassisEnd,
-            additionalInfo: f.additionalInfo
+        existingBySku[sku] = (existingEntries || [])
+          .filter(e => e.parent_sku === sku)
+          .map(e => ({
+            id: e.id,
+            sku: e.parent_sku,
+            make: e.make,
+            model: e.model,
+            chassisStart: e.chassis_start,
+            chassisEnd: e.chassis_end,
+            additionalInfo: e.additional_info
           }));
-        } else {
-          existingBySku[sku] = [];
-        }
       });
 
       const results = entries.map(entry => {
         const sku = (entry.sku || '').toUpperCase();
-        const existingForSku = fitmentData[sku] || [];
+        const existingForSku = existingBySku[sku] || [];
         const entryChassisStart = entry.chassisStart ? parseInt(entry.chassisStart) || null : null;
         const entryChassisEnd = entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null;
         const entryAdditionalInfo = entry.additionalInfo || null;
@@ -363,31 +407,36 @@ export async function POST(request) {
     for (const entry of entries) {
       const sku = entry.sku.toUpperCase();
 
-      if (!fitmentData[sku]) {
-        fitmentData[sku] = [];
-      }
-
       // Check for duplicate (same SKU + make + model combination)
-      const isDuplicate = fitmentData[sku].some(
-        f => f.make === entry.make && f.model === entry.model
-      );
+      const { data: existing } = await supabase
+        .from('product_fitment')
+        .select('id')
+        .eq('parent_sku', sku)
+        .eq('make', entry.make)
+        .eq('model', entry.model)
+        .limit(1);
 
-      if (isDuplicate) {
+      if (existing && existing.length > 0) {
         duplicates.push({ sku, make: entry.make, model: entry.model });
       } else {
-        fitmentData[sku].push({
-          make: entry.make,
-          model: entry.model,
-          chassisStart: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
-          chassisEnd: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
-          additionalInfo: entry.additionalInfo || null
-        });
-        added.push({ sku, make: entry.make, model: entry.model });
+        const { error: insertError } = await supabase
+          .from('product_fitment')
+          .insert({
+            parent_sku: sku,
+            make: entry.make,
+            model: entry.model,
+            chassis_start: entry.chassisStart ? parseInt(entry.chassisStart) || null : null,
+            chassis_end: entry.chassisEnd ? parseInt(entry.chassisEnd) || null : null,
+            additional_info: entry.additionalInfo || null
+          });
+
+        if (insertError) {
+          console.error('Insert error:', insertError);
+        } else {
+          added.push({ sku, make: entry.make, model: entry.model });
+        }
       }
     }
-
-    // Save updated data
-    await saveFitmentData(fitmentData);
 
     return NextResponse.json({
       message: `Added ${added.length} entries`,
@@ -397,7 +446,10 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error('Error adding MYC entries:', error);
-    return NextResponse.json({ error: 'Failed to add entries' }, { status: 500 });
+    return NextResponse.json({
+      error: 'Failed to add entries',
+      details: error.message
+    }, { status: 500 });
   }
 }
 
@@ -412,37 +464,42 @@ export async function DELETE(request) {
 
   try {
     const body = await request.json();
-    const { sku, make, model } = body;
+    const { sku, make, model, id } = body;
 
+    const supabase = getSupabase();
+
+    // If ID is provided, delete by ID (most precise)
+    if (id) {
+      const { error } = await supabase
+        .from('product_fitment')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      return NextResponse.json({ message: 'Entry deleted successfully' });
+    }
+
+    // Otherwise, delete by SKU + make + model
     if (!sku || !make || !model) {
-      return NextResponse.json({ error: 'SKU, make, and model are required' }, { status: 400 });
+      return NextResponse.json({ error: 'SKU, make, and model are required (or provide id)' }, { status: 400 });
     }
 
-    const fitmentData = await loadFitmentData();
+    const { error, count } = await supabase
+      .from('product_fitment')
+      .delete()
+      .eq('parent_sku', sku.toUpperCase())
+      .eq('make', make)
+      .eq('model', model);
 
-    if (!fitmentData[sku]) {
-      return NextResponse.json({ error: 'SKU not found' }, { status: 404 });
-    }
+    if (error) throw error;
 
-    const originalLength = fitmentData[sku].length;
-    fitmentData[sku] = fitmentData[sku].filter(
-      f => !(f.make === make && f.model === model)
-    );
-
-    if (fitmentData[sku].length === originalLength) {
+    if (count === 0) {
       return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
     }
-
-    // Remove SKU key if no fitments remain
-    if (fitmentData[sku].length === 0) {
-      delete fitmentData[sku];
-    }
-
-    await saveFitmentData(fitmentData);
 
     return NextResponse.json({ message: 'Entry deleted successfully' });
   } catch (error) {
     console.error('Error deleting MYC entry:', error);
-    return NextResponse.json({ error: 'Failed to delete entry' }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to delete entry', details: error.message }, { status: 500 });
   }
 }

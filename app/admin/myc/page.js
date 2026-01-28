@@ -346,7 +346,10 @@ export default function MYCAdminPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setFormError(data.error || 'Failed to update entries');
+        const errorMsg = data.details
+          ? `${data.error}: ${data.details}`
+          : data.error || 'Failed to update entries';
+        setFormError(errorMsg);
         return;
       }
 
@@ -374,6 +377,7 @@ export default function MYCAdminPage() {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          id: entry.id, // Use ID for precise deletion if available
           sku: entry.sku,
           make: entry.make,
           model: entry.model
