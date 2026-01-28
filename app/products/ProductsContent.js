@@ -6,7 +6,52 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCard from '@/components/ProductCard';
-import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Info, SlidersHorizontal, Grid, List, Package, Car } from 'lucide-react';
+import { Search, ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X, Info, SlidersHorizontal, Grid, List, Package, Car, BookOpen, Layers } from 'lucide-react';
+import CatalogueCard from '@/components/CatalogueCard';
+
+// Display mode toggle buttons (same as ShopByModelContent)
+function DisplayModeToggle({ currentMode, onModeChange, partsCount, cataloguesCount }) {
+  return (
+    <div className="flex items-center bg-introcar-light rounded-lg p-1">
+      <button
+        onClick={() => onModeChange('all')}
+        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1.5 ${
+          currentMode === 'all'
+            ? 'bg-introcar-blue text-white'
+            : 'text-gray-600 hover:text-introcar-charcoal'
+        }`}
+      >
+        <Layers className="w-4 h-4" />
+        All
+        <span className="text-xs opacity-75">({partsCount + cataloguesCount})</span>
+      </button>
+      <button
+        onClick={() => onModeChange('parts')}
+        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1.5 ${
+          currentMode === 'parts'
+            ? 'bg-introcar-blue text-white'
+            : 'text-gray-600 hover:text-introcar-charcoal'
+        }`}
+      >
+        <Package className="w-4 h-4" />
+        Parts
+        <span className="text-xs opacity-75">({partsCount})</span>
+      </button>
+      <button
+        onClick={() => onModeChange('catalogues')}
+        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors flex items-center gap-1.5 ${
+          currentMode === 'catalogues'
+            ? 'bg-introcar-blue text-white'
+            : 'text-gray-600 hover:text-introcar-charcoal'
+        }`}
+      >
+        <BookOpen className="w-4 h-4" />
+        Catalogues
+        <span className="text-xs opacity-75">({cataloguesCount})</span>
+      </button>
+    </div>
+  );
+}
 
 // Collapsible filter section component
 function FilterSection({ title, icon: Icon, defaultOpen = true, children, count }) {
@@ -47,6 +92,8 @@ export default function ProductsContent() {
   const router = useRouter();
 
   const [products, setProducts] = useState([]);
+  const [catalogues, setCatalogues] = useState([]);
+  const [cataloguesTotal, setCataloguesTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ page: 1, totalPages: 1, total: 0 });
   const [categories, setCategories] = useState([]); // Now contains {name, subcategories[]}
@@ -60,6 +107,8 @@ export default function ProductsContent() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState(null);
 
+  // Display mode: 'all', 'parts', 'catalogues'
+  const currentDisplayMode = searchParams.get('show') || 'all';
   const currentSearch = searchParams.get('search') || '';
   const currentMake = searchParams.get('make') || '';
   const currentModel = searchParams.get('model') || '';
@@ -90,11 +139,15 @@ export default function ProductsContent() {
       if (currentSort) params.set('sort', currentSort);
       params.set('page', currentPage.toString());
       params.set('limit', '24');
+      // Include catalogues for consistent display with Shop by Model
+      params.set('includeCatalogues', 'true');
 
       const res = await fetch(`/api/products?${params.toString()}`);
       if (res.ok) {
         const data = await res.json();
         setProducts(data.products || []);
+        setCatalogues(data.catalogues || []);
+        setCataloguesTotal(data.cataloguesTotal || 0);
         setPagination(data.pagination || { page: 1, totalPages: 1, total: 0 });
         setCategories(data.categories || []); // Now array of {name, subcategories[]}
         setStockTypes(data.stockTypes || []);
@@ -148,6 +201,17 @@ export default function ProductsContent() {
     if (key === 'model') {
       params.delete('year');
       params.delete('chassis');
+    }
+    params.set('page', '1');
+    router.push(`/products?${params.toString()}`);
+  }
+
+  function setDisplayMode(mode) {
+    const params = new URLSearchParams(searchParams);
+    if (mode === 'all') {
+      params.delete('show');
+    } else {
+      params.set('show', mode);
     }
     params.set('page', '1');
     router.push(`/products?${params.toString()}`);
@@ -251,9 +315,30 @@ export default function ProductsContent() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory || currentSearchPartType;
+  const hasFilters = currentSearch || currentMake || currentModel || currentYear || currentChassis || currentCategory || currentSubcategory;
   const makes = Object.keys(vehicleData).sort();
   const models = currentMake && vehicleData[currentMake] ? vehicleData[currentMake].models : [];
+
+  // Filter items based on display mode
+  const displayProducts = currentDisplayMode === 'catalogues' ? [] : products;
+  const displayCatalogues = currentDisplayMode === 'parts' ? [] : catalogues;
+
+  // Mix products and catalogues for "all" mode
+  const mixedItems = [];
+  if (currentDisplayMode === 'all') {
+    // Add first 6 catalogues at the top (or fewer if less available)
+    const topCatalogues = displayCatalogues.slice(0, 6);
+    topCatalogues.forEach(cat => mixedItems.push({ type: 'catalogue', data: cat }));
+    // Add all products
+    displayProducts.forEach(prod => mixedItems.push({ type: 'product', data: prod }));
+  } else if (currentDisplayMode === 'catalogues') {
+    displayCatalogues.forEach(cat => mixedItems.push({ type: 'catalogue', data: cat }));
+  } else {
+    displayProducts.forEach(prod => mixedItems.push({ type: 'product', data: prod }));
+  }
+
+  const partsCount = pagination.total || 0;
+  const cataloguesCount = cataloguesTotal || 0;
 
   return (
     <div className="min-h-screen bg-white">
@@ -407,35 +492,6 @@ export default function ProductsContent() {
                 </div>
               </FilterSection>
 
-              {/* Browse - Filter by search part type with proper labels */}
-              {searchPartTypes.length > 0 && (
-                <FilterSection title="Browse" icon={Package} defaultOpen={true} count={getSelectedSearchPartTypesCount()}>
-                  <div className="space-y-1">
-                    {searchPartTypes.map((spt) => {
-                      // Default: uncheck Ancillaries unless < 12 results
-                      const isAncillaries = spt.value === 'Ancillaries';
-                      const shouldDefaultUnchecked = isAncillaries && pagination.total >= 12;
-
-                      return (
-                        <label
-                          key={spt.value}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:text-introcar-charcoal hover:bg-introcar-light'}`}
-                        >
-                          <input
-                            type="checkbox"
-                            checked={isSearchPartTypeSelected(spt.value)}
-                            onChange={() => toggleSearchPartType(spt.value)}
-                            className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
-                          />
-                          <span>{spt.label}</span>
-                          {spt.count && <span className="text-gray-400 text-xs">({spt.count})</span>}
-                        </label>
-                      );
-                    })}
-                  </div>
-                </FilterSection>
-              )}
-
               {/* Clear Filters */}
               {hasFilters && (
                 <button
@@ -451,34 +507,46 @@ export default function ProductsContent() {
 
           {/* Main */}
           <main className="flex-1">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-              <div>
-                <h1 className="text-2xl font-display font-light text-introcar-charcoal">
-                  {currentMake || 'All'} Parts {currentModel && `- ${currentModel}`}
-                </h1>
-                <p className="text-gray-500 text-sm mt-1">{pagination.total.toLocaleString()} products found</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <button onClick={() => setFiltersOpen(true)} className="lg:hidden flex items-center gap-2 px-4 py-2 bg-introcar-light text-introcar-charcoal rounded-lg">
-                  <SlidersHorizontal className="w-4 h-4" /> Filters
-                </button>
-                <select value={currentSort} onChange={(e) => setFilter('sort', e.target.value)} className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal text-sm">
-                  <option value="relevance">Relevance</option>
-                  <option value="popularity">Best Sellers</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="name-asc">Name: A-Z</option>
-                  <option value="sku">SKU</option>
-                </select>
-                <div className="flex items-center bg-introcar-light rounded-lg p-1">
-                  <button onClick={() => setViewMode('grid')} className={`p-2 rounded ${viewMode === 'grid' ? 'bg-introcar-blue text-white' : 'text-gray-500'}`}>
-                    <Grid className="w-4 h-4" />
+            <div className="flex flex-col gap-4 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl font-display font-light text-introcar-charcoal">
+                    {currentMake || 'All'} {currentModel ? currentModel : 'Parts'}
+                  </h1>
+                  <p className="text-gray-500 text-sm mt-1">
+                    {partsCount.toLocaleString()} parts, {cataloguesCount.toLocaleString()} catalogues
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button onClick={() => setFiltersOpen(true)} className="lg:hidden flex items-center gap-2 px-4 py-2 bg-introcar-light text-introcar-charcoal rounded-lg">
+                    <SlidersHorizontal className="w-4 h-4" /> Filters
                   </button>
-                  <button onClick={() => setViewMode('list')} className={`p-2 rounded ${viewMode === 'list' ? 'bg-introcar-blue text-white' : 'text-gray-500'}`}>
-                    <List className="w-4 h-4" />
-                  </button>
+                  <select value={currentSort} onChange={(e) => setFilter('sort', e.target.value)} className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-introcar-charcoal text-sm">
+                    <option value="relevance">Relevance</option>
+                    <option value="popularity">Best Sellers</option>
+                    <option value="price-asc">Price: Low to High</option>
+                    <option value="price-desc">Price: High to Low</option>
+                    <option value="name-asc">Name: A-Z</option>
+                    <option value="sku">SKU</option>
+                  </select>
+                  <div className="flex items-center bg-introcar-light rounded-lg p-1">
+                    <button onClick={() => setViewMode('grid')} className={`p-2 rounded ${viewMode === 'grid' ? 'bg-introcar-blue text-white' : 'text-gray-500'}`}>
+                      <Grid className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => setViewMode('list')} className={`p-2 rounded ${viewMode === 'list' ? 'bg-introcar-blue text-white' : 'text-gray-500'}`}>
+                      <List className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               </div>
+
+              {/* Display Mode Toggle - All/Parts/Catalogues */}
+              <DisplayModeToggle
+                currentMode={currentDisplayMode}
+                onModeChange={setDisplayMode}
+                partsCount={partsCount}
+                cataloguesCount={cataloguesCount}
+              />
             </div>
 
             {(supersessionMatch || searchType === 'variant') && currentSearch && (
@@ -528,17 +596,6 @@ export default function ProductsContent() {
                     <button onClick={() => setCategoryFilter('')}><X className="w-3 h-3" /></button>
                   </span>
                 )}
-                {currentSearchPartType && currentSearchPartType.split(',').map((type) => {
-                  // Find the label for this search part type
-                  const spt = searchPartTypes.find(s => s.value === type);
-                  const label = spt ? spt.label : type;
-                  return (
-                    <span key={type} className="inline-flex items-center gap-1 px-3 py-1 bg-introcar-light rounded-full text-sm text-introcar-charcoal">
-                      {label}
-                      <button onClick={() => toggleSearchPartType(type)}><X className="w-3 h-3" /></button>
-                    </span>
-                  );
-                })}
               </div>
             )}
 
@@ -557,15 +614,19 @@ export default function ProductsContent() {
               </div>
             )}
 
-            {!loading && products.length > 0 && (
+            {!loading && mixedItems.length > 0 && (
               <div className={viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4' : 'space-y-4'}>
-                {products.map((product) => (
-                  <ProductCard key={product.sku} product={product} viewMode={viewMode} />
+                {mixedItems.map((item, index) => (
+                  item.type === 'catalogue' ? (
+                    <CatalogueCard key={`cat-${item.data.id}`} catalogue={item.data} viewMode={viewMode} />
+                  ) : (
+                    <ProductCard key={`prod-${item.data.sku}`} product={item.data} viewMode={viewMode} />
+                  )
                 ))}
               </div>
             )}
 
-            {!loading && products.length === 0 && (
+            {!loading && mixedItems.length === 0 && (
               <div className="text-center py-12">
                 <div className="w-16 h-16 mx-auto mb-4 bg-introcar-light rounded-full flex items-center justify-center">
                   <Search className="w-8 h-8 text-gray-400" />
@@ -657,38 +718,6 @@ export default function ProductsContent() {
                   </div>
                 )}
               </div>
-
-              {/* Browse (Search Part Type) */}
-              {searchPartTypes.length > 0 && (
-                <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Package className="w-4 h-4 text-introcar-blue" />
-                    <h3 className="text-introcar-charcoal font-medium">Browse</h3>
-                    {getSelectedSearchPartTypesCount() > 0 && (
-                      <span className="text-xs bg-introcar-blue text-white px-1.5 py-0.5 rounded-full">
-                        {getSelectedSearchPartTypesCount()}
-                      </span>
-                    )}
-                  </div>
-                  <div className="space-y-1">
-                    {searchPartTypes.map((spt) => (
-                      <label
-                        key={spt.value}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors cursor-pointer ${isSearchPartTypeSelected(spt.value) ? 'bg-introcar-blue/10 text-introcar-blue' : 'text-gray-600 hover:bg-introcar-light'}`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={isSearchPartTypeSelected(spt.value)}
-                          onChange={() => toggleSearchPartType(spt.value)}
-                          className="w-4 h-4 rounded border-gray-300 text-introcar-blue focus:ring-introcar-blue"
-                        />
-                        <span>{spt.label}</span>
-                        {spt.count && <span className="text-gray-400 text-xs">({spt.count})</span>}
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              )}
 
               {hasFilters && (
                 <button onClick={() => { clearFilters(); setFiltersOpen(false); }} className="w-full py-3 text-sm text-red-600 hover:text-red-700 border border-red-200 rounded-lg hover:bg-red-50 flex items-center justify-center gap-2">

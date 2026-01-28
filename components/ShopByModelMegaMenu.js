@@ -4,58 +4,63 @@ import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 // Curated model lists matching introcar.com structure
+// Each model now has its own link (no combined entries)
 const rollsRoyceModels = [
   // Column 1
   [
-    { label: 'Camargue', models: ['Camargue'] },
-    { label: 'Corniche (1970–1982)', models: ['Corniche'] },
-    { label: 'Silver Cloud', models: ['Silver Cloud'] },
-    { label: 'Silver Cloud II', models: ['Silver Cloud II'] },
-    { label: 'Silver Cloud III', models: ['Silver Cloud III'] },
-    { label: 'Silver Dawn (1949-1955)', models: ['Silver Dawn'] },
+    { label: 'Camargue', model: 'Camargue' },
+    { label: 'Corniche (1970–1982)', model: 'Corniche' },
+    { label: 'Silver Cloud', model: 'Silver Cloud' },
+    { label: 'Silver Cloud II', model: 'Silver Cloud II' },
+    { label: 'Silver Cloud III', model: 'Silver Cloud III' },
+    { label: 'Silver Dawn (1949-1955)', model: 'Silver Dawn' },
   ],
   // Column 2
   [
-    { label: 'Silver Seraph', models: ['Silver Seraph'] },
-    { label: 'Silver Shadow', models: ['Silver Shadow'] },
-    { label: 'Silver Shadow II', models: ['Silver Shadow II'] },
-    { label: 'Silver Spirit', models: ['Silver Spirit'] },
-    { label: 'Silver Spur', models: ['Silver Spur'] },
-    { label: 'Silver Wraith', models: ['Silver Wraith'] },
+    { label: 'Silver Seraph', model: 'Silver Seraph' },
+    { label: 'Silver Shadow', model: 'Silver Shadow' },
+    { label: 'Silver Shadow II', model: 'Silver Shadow II' },
+    { label: 'Silver Spirit', model: 'Silver Spirit' },
+    { label: 'Silver Spur', model: 'Silver Spur' },
+    { label: 'Silver Wraith', model: 'Silver Wraith' },
   ],
 ];
 
 const bentleyModels = [
   // Column 1
   [
-    { label: 'Arnage R / Arnage RL / Arnage T', models: ['Arnage R', 'Arnage RL', 'Arnage T'] },
-    { label: 'Azure', models: ['Azure'] },
-    { label: 'Bentayga', models: ['Bentayga'] },
-    { label: 'Brooklands Saloon', models: ['Brooklands Saloon'] },
-    { label: 'Continental', models: ['Continental'] },
-    { label: 'Continental GT / Continental GTC', models: ['Continental GT', 'Continental GTC'] },
+    { label: 'Arnage R', model: 'Arnage R' },
+    { label: 'Arnage RL', model: 'Arnage RL' },
+    { label: 'Arnage T', model: 'Arnage T' },
+    { label: 'Azure', model: 'Azure' },
+    { label: 'Bentayga', model: 'Bentayga' },
+    { label: 'Brooklands Saloon', model: 'Brooklands Saloon' },
+    { label: 'Continental', model: 'Continental' },
+    { label: 'Continental GT', model: 'Continental GT' },
+    { label: 'Continental GTC', model: 'Continental GTC' },
   ],
   // Column 2
   [
-    { label: 'Eight', models: ['Eight'] },
-    { label: 'Mk VI', models: ['Mk VI'] },
-    { label: 'R-Type', models: ['R-Type'] },
-    { label: 'S1 / S2 / S3', models: ['S1', 'S2', 'S3'] },
-    { label: 'T1 / T2', models: ['T1', 'T2'] },
-    { label: 'Turbo R / Turbo RL / Turbo RT', models: ['Turbo R', 'Turbo RL', 'Turbo RT'] },
+    { label: 'Eight', model: 'Eight' },
+    { label: 'Mk VI', model: 'Mk VI' },
+    { label: 'R Type', model: 'R Type' },
+    { label: 'S1', model: 'S1' },
+    { label: 'S2', model: 'S2' },
+    { label: 'S3', model: 'S3' },
+    { label: 'T1', model: 'T1' },
+    { label: 'T2', model: 'T2' },
+    { label: 'Turbo R', model: 'Turbo R' },
+    { label: 'Turbo RL', model: 'Turbo RL' },
+    { label: 'Turbo RT', model: 'Turbo RT' },
   ],
 ];
 
 export default function ShopByModelMegaMenu({ isOpen, onClose }) {
   const menuRef = useRef(null);
 
-  // Build URL for model(s)
-  const buildModelUrl = (make, models) => {
-    if (models.length === 1) {
-      return `/shop?make=${encodeURIComponent(make)}&model=${encodeURIComponent(models[0])}`;
-    }
-    // Multiple models - use the first one as primary
-    return `/shop?make=${encodeURIComponent(make)}&model=${encodeURIComponent(models[0])}`;
+  // Build URL for a single model
+  const buildModelUrl = (make, model) => {
+    return `/shop?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`;
   };
 
   // Handle click outside to close
@@ -103,7 +108,7 @@ export default function ShopByModelMegaMenu({ isOpen, onClose }) {
                   {col.map((item, idx) => (
                     <Link
                       key={idx}
-                      href={buildModelUrl('Rolls-Royce', item.models)}
+                      href={buildModelUrl('Rolls-Royce', item.model)}
                       onClick={onClose}
                       className="block text-introcar-blue hover:underline text-sm"
                     >
@@ -133,7 +138,7 @@ export default function ShopByModelMegaMenu({ isOpen, onClose }) {
                   {col.map((item, idx) => (
                     <Link
                       key={idx}
-                      href={buildModelUrl('Bentley', item.models)}
+                      href={buildModelUrl('Bentley', item.model)}
                       onClick={onClose}
                       className="block text-introcar-blue hover:underline text-sm"
                     >
