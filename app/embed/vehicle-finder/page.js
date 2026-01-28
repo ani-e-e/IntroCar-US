@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { ChevronDown, ChevronUp, Info, Search, AlertCircle, CheckCircle } from 'lucide-react';
 import './embed.css';
@@ -14,7 +14,17 @@ import './embed.css';
  * - hideTitle: 'true' to hide the title
  * - buttonText: Custom text for the search button
  */
-export default function EmbedVehicleFinder() {
+
+// Wrapper component with Suspense for useSearchParams
+export default function EmbedVehicleFinderPage() {
+  return (
+    <Suspense fallback={<div className="embed-container light"><div className="embed-finder"><p>Loading...</p></div></div>}>
+      <EmbedVehicleFinder />
+    </Suspense>
+  );
+}
+
+function EmbedVehicleFinder() {
   const searchParams = useSearchParams();
   const targetUrl = searchParams.get('target') || '/products';
   const theme = searchParams.get('theme') || 'light';
