@@ -6,6 +6,7 @@ import path from 'path';
 
 const FITMENT_FILE = path.join(process.cwd(), 'data', 'json', 'fitment-lookup.json');
 const VEHICLES_FILE = path.join(process.cwd(), 'data', 'json', 'vehicles.json');
+const T7_FILE = path.join(process.cwd(), 'data', 'json', 't7-additional-info.json');
 
 // Load fitment data
 async function loadFitmentData() {
@@ -54,6 +55,25 @@ async function loadVehicleData() {
   }
 }
 
+// Load T7 valid additional info values
+async function loadT7Values() {
+  try {
+    const raw = await fs.readFile(T7_FILE, 'utf-8');
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error('Error loading T7 values:', error);
+    return [];
+  }
+}
+
+// Check if entry exists in fitment data
+function checkDuplicate(fitmentData, sku, make, model) {
+  if (!fitmentData[sku]) return false;
+  return fitmentData[sku].some(
+    f => f.make === make && f.model === model
+  );
+}
+
 // GET - List fitment data with search/pagination
 export async function GET(request) {
   const cookieStore = await cookies();
@@ -70,9 +90,13 @@ export async function GET(request) {
     const model = searchParams.get('model') || '';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '50');
+    const checkDuplicates = searchParams.get('checkDuplicates') === 'true';
 
-    const fitmentData = await loadFitmentData();
-    const vehicleData = await loadVehicleData();
+    const [fitmentData, vehicleData, t7Values] = await Promise.all([
+      loadFitmentData(),
+      loadVehicleData(),
+      loadT7Values()
+    ]);
 
     // Convert to array for filtering and pagination
     let entries = [];
@@ -130,7 +154,8 @@ export async function GET(request) {
         makes: vehicleData.makes.length
       },
       makes: vehicleData.makes,
-      modelsByMake: vehicleData.modelsByMake
+      modelsByMake: vehicleData.modelsByMake,
+      t7Values
     });
   } catch (error) {
     console.error('Error loading MYC data:', error);
@@ -138,7 +163,7 @@ export async function GET(request) {
   }
 }
 
-// POST - Add new fitment entries (single or bulk)
+// POST - Add new fitment entries (single or bulk) or check duplicates
 export async function POST(request) {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get('admin_session')?.value;
@@ -149,24 +174,62 @@ export async function POST(request) {
 
   try {
     const body = await request.json();
-    const { entries } = body; // Array of { sku, make, model, chassisStart, chassisEnd, additionalInfo }
+    const { entries, action } = body;
 
     if (!entries || !Array.isArray(entries) || entries.length === 0) {
       return NextResponse.json({ error: 'No entries provided' }, { status: 400 });
     }
 
+    const [fitmentData, t7Values] = await Promise.all([
+      loadFitmentData(),
+      loadT7Values()
+    ]);
+
+    // If action is 'check', just check for duplicates without adding
+    if (action === 'check') {
+      const results = entries.map(entry => {
+        const sku = (entry.sku || '').toUpperCase();
+        const isDuplicate = checkDuplicate(fitmentData, sku, entry.make, entry.model);
+        const isValidAdditionalInfo = !entry.additionalInfo ||
+          t7Values.includes(entry.additionalInfo) ||
+          entry.additionalInfo.trim() === '';
+
+        return {
+          ...entry,
+          sku,
+          isDuplicate,
+          isValidAdditionalInfo,
+          status: isDuplicate ? 'duplicate' : 'new'
+        };
+      });
+
+      const duplicateCount = results.filter(r => r.isDuplicate).length;
+      const newCount = results.filter(r => !r.isDuplicate).length;
+      const invalidInfoCount = results.filter(r => !r.isValidAdditionalInfo).length;
+
+      return NextResponse.json({
+        entries: results,
+        summary: {
+          total: results.length,
+          duplicates: duplicateCount,
+          new: newCount,
+          invalidAdditionalInfo: invalidInfoCount
+        }
+      });
+    }
+
     // Validate all entries
     const errors = [];
     entries.forEach((entry, index) => {
-      if (!entry.sku) errors.push(`Entry ${index + 1}: SKU is required`);
-      if (!entry.make) errors.push(`Entry ${index + 1}: Make is required`);
-      if (!entry.model) errors.push(`Entry ${index + 1}: Model is required`);
+      if (!entry.sku) errors.push(`Row ${index + 1}: SKU is required`);
+      if (!entry.make) errors.push(`Row ${index + 1}: Make is required`);
+      if (!entry.model) errors.push(`Row ${index + 1}: Model is required`);
 
       if (entry.chassisStart && entry.chassisEnd) {
         const start = parseInt(entry.chassisStart);
         const end = parseInt(entry.chassisEnd);
         if (!isNaN(start) && !isNaN(end) && start > end) {
-          errors.push(`Entry ${index + 1}: Chassis start cannot be greater than end`);
+          errors.push(`Row ${index + 1}: Chassis start cannot be greater than end`);
         }
       }
     });
@@ -174,9 +237,6 @@ export async function POST(request) {
     if (errors.length > 0) {
       return NextResponse.json({ error: 'Validation failed', details: errors }, { status: 400 });
     }
-
-    // Load existing data
-    const fitmentData = await loadFitmentData();
 
     // Check for duplicates and add entries
     const duplicates = [];
