@@ -426,6 +426,37 @@ export default function MYCAdminPage() {
     });
   };
 
+  const [cleaningUp, setCleaningUp] = useState(false);
+
+  const handleCleanupDuplicates = async () => {
+    if (!confirm('This will remove all duplicate entries from the database, keeping only one of each unique entry. Continue?')) {
+      return;
+    }
+
+    setCleaningUp(true);
+    try {
+      const response = await fetch('/api/admin/myc', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'cleanup' }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(`Cleanup complete: ${data.deleted} duplicates removed. ${data.totalAfter} entries remaining.`);
+        setTimeout(() => setSuccessMessage(''), 5000);
+        loadEntries();
+      } else {
+        alert(data.error || 'Cleanup failed');
+      }
+    } catch (error) {
+      alert('Failed to cleanup duplicates');
+    } finally {
+      setCleaningUp(false);
+    }
+  };
+
   const availableModels = filterMake ? (modelsByMake[filterMake] || []) : [];
   const formModels = formData.make ? (modelsByMake[formData.make] || []) : [];
 
@@ -475,7 +506,7 @@ export default function MYCAdminPage() {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
           <p className="text-sm text-gray-500">Total SKUs</p>
           <p className="text-2xl font-bold text-gray-900">{stats.totalSkus.toLocaleString()}</p>
@@ -487,6 +518,16 @@ export default function MYCAdminPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
           <p className="text-sm text-gray-500">Makes</p>
           <p className="text-2xl font-bold text-gray-900">{makes.join(', ') || '-'}</p>
+        </div>
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+          <p className="text-sm text-gray-500">Data Cleanup</p>
+          <button
+            onClick={handleCleanupDuplicates}
+            disabled={cleaningUp}
+            className="mt-1 px-3 py-1.5 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors text-sm font-medium disabled:opacity-50"
+          >
+            {cleaningUp ? 'Cleaning...' : '🧹 Remove Duplicates'}
+          </button>
         </div>
       </div>
 

@@ -191,6 +191,81 @@ export async function POST(request) {
     const supabase = getSupabase();
     const t7Values = await loadT7Values();
 
+    // Handle 'cleanup' action - find and remove duplicate entries
+    if (action === 'cleanup') {
+      const { sku } = body; // Optional: cleanup specific SKU only
+
+      // Get all entries (or just for specific SKU)
+      let query = supabase
+        .from('product_fitment')
+        .select('id, parent_sku, make, model, chassis_start, chassis_end, additional_info')
+        .order('id', { ascending: true });
+
+      if (sku) {
+        query = query.eq('parent_sku', sku.toUpperCase());
+      }
+
+      const { data: allEntries, error: fetchError } = await query;
+
+      if (fetchError) throw fetchError;
+
+      // Find duplicates - keep the first occurrence (lowest ID), delete the rest
+      const seen = new Map();
+      const idsToDelete = [];
+
+      for (const entry of allEntries) {
+        const key = [
+          entry.parent_sku,
+          entry.make,
+          entry.model,
+          String(entry.chassis_start || ''),
+          String(entry.chassis_end || ''),
+          String(entry.additional_info || '')
+        ].join('|');
+
+        if (seen.has(key)) {
+          // This is a duplicate - mark for deletion
+          idsToDelete.push(entry.id);
+        } else {
+          seen.set(key, entry.id);
+        }
+      }
+
+      console.log(`Cleanup: Found ${idsToDelete.length} duplicates to delete out of ${allEntries.length} total entries`);
+
+      if (idsToDelete.length > 0) {
+        // Delete in batches of 100
+        let deletedCount = 0;
+        for (let i = 0; i < idsToDelete.length; i += 100) {
+          const batch = idsToDelete.slice(i, i + 100);
+          const { error: deleteError } = await supabase
+            .from('product_fitment')
+            .delete()
+            .in('id', batch);
+
+          if (deleteError) {
+            console.error('Cleanup delete error:', deleteError);
+          } else {
+            deletedCount += batch.length;
+          }
+        }
+
+        return NextResponse.json({
+          message: `Cleaned up ${deletedCount} duplicate entries`,
+          deleted: deletedCount,
+          totalBefore: allEntries.length,
+          totalAfter: allEntries.length - deletedCount
+        });
+      }
+
+      return NextResponse.json({
+        message: 'No duplicates found',
+        deleted: 0,
+        totalBefore: allEntries.length,
+        totalAfter: allEntries.length
+      });
+    }
+
     // Handle 'replace' action first (doesn't require entries array)
     if (action === 'replace') {
       const { toDelete, toAdd } = body;
