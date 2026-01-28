@@ -168,21 +168,21 @@ export default function ShopByModelMegaMenu({ isOpen, onClose }) {
             </h3>
             <div className="space-y-3">
               <Link
-                href="/products?category=Bundles"
+                href="/products?stockType=Bundles"
                 onClick={onClose}
                 className="block px-4 py-2.5 border border-gray-300 text-introcar-charcoal text-sm font-medium rounded hover:border-introcar-blue hover:text-introcar-blue transition-colors text-center"
               >
                 Bundles
               </Link>
               <Link
-                href="/products?category=Service+Kits"
+                href="/products?category=Service+%26+Maintenance%2FService+Kits"
                 onClick={onClose}
                 className="block px-4 py-2.5 border border-gray-300 text-introcar-charcoal text-sm font-medium rounded hover:border-introcar-blue hover:text-introcar-blue transition-colors text-center"
               >
                 Service Kits
               </Link>
               <Link
-                href="/products?promotional=true"
+                href="/products?stockType=Promotional"
                 onClick={onClose}
                 className="block px-4 py-2.5 border border-gray-300 text-introcar-charcoal text-sm font-medium rounded hover:border-introcar-blue hover:text-introcar-blue transition-colors text-center"
               >
