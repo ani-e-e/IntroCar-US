@@ -66,6 +66,8 @@ export default function ResellerEditPage() {
     company_info: {
       name: '',
       tagline: '',
+      description: '',
+      yearsInBusiness: null,
       phone: '',
       email: '',
       salesEmail: '',
@@ -116,6 +118,8 @@ export default function ResellerEditPage() {
           company_info: {
             name: r.company_info?.name || '',
             tagline: r.company_info?.tagline || '',
+            description: r.company_info?.description || '',
+            yearsInBusiness: r.company_info?.yearsInBusiness || null,
             phone: r.company_info?.phone || '',
             email: r.company_info?.email || '',
             salesEmail: r.company_info?.salesEmail || '',
@@ -604,15 +608,40 @@ export default function ResellerEditPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Years in Business</label>
                 <input
-                  type="text"
-                  value={formData.company_info.tagline}
-                  onChange={(e) => updateCompanyInfo('tagline', e.target.value)}
-                  placeholder="Your company slogan"
+                  type="number"
+                  value={formData.company_info.yearsInBusiness || ''}
+                  onChange={(e) => updateCompanyInfo('yearsInBusiness', e.target.value ? parseInt(e.target.value) : null)}
+                  placeholder="e.g., 30"
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
                 />
+                <p className="text-xs text-gray-400 mt-1">Displayed as "30+ Years" on About page</p>
               </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tagline</label>
+              <input
+                type="text"
+                value={formData.company_info.tagline}
+                onChange={(e) => updateCompanyInfo('tagline', e.target.value)}
+                placeholder="e.g., Your trusted source for Bentley and Rolls-Royce parts"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-400 mt-1">Shown below "About Us" on the About page</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Company Description</label>
+              <textarea
+                value={formData.company_info.description || ''}
+                onChange={(e) => updateCompanyInfo('description', e.target.value)}
+                rows={4}
+                placeholder="Tell your company story. Each paragraph should be separated by a blank line."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+              <p className="text-xs text-gray-400 mt-1">Main content for the About page. Leave blank for default text.</p>
             </div>
 
             <div className="grid grid-cols-2 gap-6">

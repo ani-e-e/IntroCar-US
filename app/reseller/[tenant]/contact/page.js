@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ChevronRight, Phone, Mail, MapPin, Clock, Send, CheckCircle, Car, Wrench } from 'lucide-react';
+import { ChevronRight, Phone, Mail, MapPin, Clock, Send, CheckCircle, ExternalLink } from 'lucide-react';
 import ResellerHeader from '../components/ResellerHeader';
 import ResellerFooter from '../components/ResellerFooter';
 import { useTenant } from '@/context/TenantContext';
 
 function ContactContent({ tenantSlug }) {
-  const { colors, companyInfo } = useTenant();
+  const { colors, companyInfo, tenant } = useTenant();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,6 +19,9 @@ function ContactContent({ tenantSlug }) {
   });
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
+  // Get contact email - prefer specific parts email, fall back to general email
+  const contactEmail = companyInfo?.email || companyInfo?.salesEmail || 'info@example.com';
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +43,7 @@ Message:
 ${formData.message}
     `.trim();
 
-    window.location.href = `mailto:parts@albersrb.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
     setTimeout(() => {
       setSubmitted(true);
@@ -68,7 +71,7 @@ ${formData.message}
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-display font-light text-gray-900 mb-4">Contact Us</h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Contact us for any inquiries regarding parts, service, or pre-owned cars.
+            Get in touch with our team for parts inquiries, quotes, or any questions.
           </p>
         </div>
       </div>
@@ -77,115 +80,124 @@ ${formData.message}
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Directly</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-6">Contact Information</h2>
 
             <div className="space-y-6 mb-8">
-              {/* Parts Sales */}
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${colors?.primary}15` }}
-                >
-                  <Mail className="w-5 h-5" style={{ color: colors?.primary }} />
+              {/* Email */}
+              {companyInfo?.email && (
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${colors?.primary}15` }}
+                  >
+                    <Mail className="w-5 h-5" style={{ color: colors?.primary }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Email</h3>
+                    <a href={`mailto:${companyInfo.email}`} className="text-gray-600 hover:underline">
+                      {companyInfo.email}
+                    </a>
+                    {companyInfo?.salesEmail && companyInfo.salesEmail !== companyInfo.email && (
+                      <div className="mt-1">
+                        <span className="text-gray-500 text-sm">Sales: </span>
+                        <a href={`mailto:${companyInfo.salesEmail}`} className="text-gray-600 hover:underline text-sm">
+                          {companyInfo.salesEmail}
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Parts Sales</h3>
-                  <a href="mailto:parts@albersrb.com" className="text-gray-600 hover:underline">
-                    parts@albersrb.com
-                  </a>
-                </div>
-              </div>
-
-              {/* Car Sales */}
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${colors?.primary}15` }}
-                >
-                  <Car className="w-5 h-5" style={{ color: colors?.primary }} />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Car Sales</h3>
-                  <a href="mailto:sales@albersrb.com" className="text-gray-600 hover:underline">
-                    sales@albersrb.com
-                  </a>
-                </div>
-              </div>
+              )}
 
               {/* Phone */}
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${colors?.primary}15` }}
-                >
-                  <Phone className="w-5 h-5" style={{ color: colors?.primary }} />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Call Us</h3>
-                  <a href="tel:3178732360" className="text-gray-600 hover:underline">
-                    (317) 873-2360
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Locations */}
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Hours & Directions</h2>
-
-            <div className="grid gap-6">
-              {/* Pre-Owned Car Sales Location */}
-              <div
-                className="p-5 rounded-xl border"
-                style={{ borderColor: `${colors?.primary}30`, backgroundColor: `${colors?.primary}05` }}
-              >
-                <div className="flex items-start gap-3 mb-3">
-                  <Car className="w-5 h-5 mt-0.5" style={{ color: colors?.primary }} />
+              {companyInfo?.phone && (
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${colors?.primary}15` }}
+                  >
+                    <Phone className="w-5 h-5" style={{ color: colors?.primary }} />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Preowned Car Sales</h3>
-                    <p className="text-gray-600 text-sm">360 S. First St., Zionsville, IN 46077</p>
+                    <h3 className="font-medium text-gray-900">Phone</h3>
+                    <a href={`tel:${companyInfo.phone.replace(/\s/g, '')}`} className="text-gray-600 hover:underline">
+                      {companyInfo.phone}
+                    </a>
                   </div>
                 </div>
-                <div className="ml-8 text-sm text-gray-600 space-y-1">
-                  <p>Monday - Friday: 10:00 AM – 4:30 PM</p>
-                  <p>Saturday: By Appointment</p>
-                  <p>Sunday: Closed</p>
-                </div>
-              </div>
+              )}
 
-              {/* Parts & Service Location */}
-              <div
-                className="p-5 rounded-xl border"
-                style={{ borderColor: `${colors?.primary}30`, backgroundColor: `${colors?.primary}05` }}
-              >
-                <div className="flex items-start gap-3 mb-3">
-                  <Wrench className="w-5 h-5 mt-0.5" style={{ color: colors?.primary }} />
+              {/* Address */}
+              {companyInfo?.address && (
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${colors?.primary}15` }}
+                  >
+                    <MapPin className="w-5 h-5" style={{ color: colors?.primary }} />
+                  </div>
                   <div>
-                    <h3 className="font-semibold text-gray-900">Parts & Service</h3>
-                    <p className="text-gray-600 text-sm">190 W. Sycamore St., Zionsville, IN 46077</p>
+                    <h3 className="font-medium text-gray-900">Address</h3>
+                    <p className="text-gray-600">{companyInfo.address}</p>
+                    {companyInfo?.partsAddress && companyInfo.partsAddress !== companyInfo.address && (
+                      <p className="text-gray-500 text-sm mt-1">Parts: {companyInfo.partsAddress}</p>
+                    )}
                   </div>
                 </div>
-                <div className="ml-8 text-sm text-gray-600 space-y-1">
-                  <p>Monday - Friday: 8:00 AM – 4:30 PM</p>
-                  <p>Saturday - Sunday: Closed</p>
+              )}
+
+              {/* Hours */}
+              {companyInfo?.hours && (
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${colors?.primary}15` }}
+                  >
+                    <Clock className="w-5 h-5" style={{ color: colors?.primary }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Hours</h3>
+                    <p className="text-gray-600">{companyInfo.hours}</p>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Website */}
+              {companyInfo?.website && (
+                <div className="flex items-start gap-4">
+                  <div
+                    className="w-12 h-12 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${colors?.primary}15` }}
+                  >
+                    <ExternalLink className="w-5 h-5" style={{ color: colors?.primary }} />
+                  </div>
+                  <div>
+                    <h3 className="font-medium text-gray-900">Website</h3>
+                    <a
+                      href={companyInfo.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:underline"
+                    >
+                      {companyInfo.website.replace(/^https?:\/\//, '')}
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Map Placeholder */}
-            <div className="mt-8 rounded-xl overflow-hidden border border-gray-200 bg-gray-100 h-64 flex items-center justify-center">
-              <div className="text-center text-gray-500">
-                <MapPin className="w-8 h-8 mx-auto mb-2" />
-                <p className="font-medium">Zionsville, Indiana</p>
-                <a
-                  href="https://maps.google.com/?q=360+S+First+St,+Zionsville,+IN+46077"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm underline mt-2 inline-block"
-                  style={{ color: colors?.primary }}
-                >
-                  Open in Google Maps
-                </a>
-              </div>
+            {/* Company Card */}
+            <div
+              className="p-6 rounded-xl border"
+              style={{ borderColor: `${colors?.primary}30`, backgroundColor: `${colors?.primary}05` }}
+            >
+              <h3 className="font-semibold text-gray-900 mb-2">{tenant?.name}</h3>
+              {companyInfo?.tagline && (
+                <p className="text-gray-600 text-sm mb-3">{companyInfo.tagline}</p>
+              )}
+              <p className="text-gray-600 text-sm">
+                Specializing in quality Rolls-Royce and Bentley parts. Contact us for availability and pricing.
+              </p>
             </div>
           </div>
 
@@ -203,7 +215,7 @@ ${formData.message}
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent</h3>
                 <p className="text-gray-600 mb-6">
-                  Your email client should have opened. If not, please email us directly at parts@albersrb.com.
+                  Your email client should have opened. If not, please email us directly at {contactEmail}.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
@@ -242,13 +254,12 @@ ${formData.message}
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
                     <input
                       type="tel"
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      required
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
                     />
                   </div>
@@ -260,6 +271,7 @@ ${formData.message}
                       value={formData.vin}
                       onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                      placeholder="Optional - helps us find exact parts"
                     />
                   </div>
                 </div>
@@ -272,6 +284,7 @@ ${formData.message}
                     value={formData.subject}
                     onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                    placeholder="e.g., Parts Inquiry, Quote Request"
                   />
                 </div>
 
@@ -284,6 +297,7 @@ ${formData.message}
                     required
                     rows={5}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                    placeholder="Please describe the parts you're looking for, including vehicle year and model if applicable."
                   />
                 </div>
 
