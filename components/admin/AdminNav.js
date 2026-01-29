@@ -19,6 +19,7 @@ export default function AdminNav() {
     { href: '/admin/catalogues', label: 'Catalogues', icon: '📚' },
     { href: '/admin/videos', label: 'Videos', icon: '🎬' },
     { href: '/admin/myc', label: 'MYC Admin', icon: '🚗' },
+    { href: '/admin/resellers', label: 'Resellers', icon: '🏪' },
     { href: '/admin/stock', label: 'Stock Update', icon: '📈' },
     { href: '/admin/upload', label: 'Upload CSV', icon: '📤' },
     { href: '/admin/sync', label: 'Sync to Magento', icon: '🔄' },
@@ -38,7 +39,7 @@ export default function AdminNav() {
                   key={item.href}
                   href={item.href}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    pathname === item.href
+                    pathname === item.href || (item.href !== '/admin' && pathname.startsWith(item.href))
                       ? 'bg-blue-100 text-blue-700'
                       : 'text-gray-600 hover:bg-gray-100'
                   }`}
