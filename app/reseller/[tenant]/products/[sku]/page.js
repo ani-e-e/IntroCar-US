@@ -206,7 +206,6 @@ function ResellerProductDetail({ params }) {
               }`}>
                 {resellerAvailabilityText}
               </span>
-              )}
             </div>
 
             <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900 mb-2">{product.description}</h1>
