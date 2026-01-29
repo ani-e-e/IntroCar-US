@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Menu, X, Mail, Phone, ShoppingCart } from 'lucide-react';
@@ -12,6 +12,24 @@ export default function ResellerHeader({ tenantSlug }) {
   const { itemCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [cmsPages, setCmsPages] = useState([]);
+
+  // Fetch CMS pages for navigation
+  useEffect(() => {
+    async function loadPages() {
+      try {
+        const res = await fetch(`/api/reseller/pages?tenant=${tenantSlug}`);
+        const data = await res.json();
+        if (res.ok && data.pages) {
+          // Only show pages marked for navigation
+          setCmsPages(data.pages.filter(p => p.show_in_nav));
+        }
+      } catch (error) {
+        console.error('Error loading CMS pages:', error);
+      }
+    }
+    loadPages();
+  }, [tenantSlug]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -100,6 +118,16 @@ export default function ResellerHeader({ tenantSlug }) {
             >
               About
             </Link>
+            {/* CMS Pages */}
+            {cmsPages.map((page) => (
+              <Link
+                key={page.page_slug}
+                href={`/reseller/${tenantSlug}/page/${page.page_slug}`}
+                className="text-gray-600 hover:opacity-80 transition-opacity"
+              >
+                {page.title}
+              </Link>
+            ))}
             <Link
               href={`/reseller/${tenantSlug}/contact`}
               className="text-gray-600 hover:opacity-80 transition-opacity"
@@ -217,6 +245,17 @@ export default function ResellerHeader({ tenantSlug }) {
               >
                 About Us
               </Link>
+              {/* CMS Pages - Mobile */}
+              {cmsPages.map((page) => (
+                <Link
+                  key={page.page_slug}
+                  href={`/reseller/${tenantSlug}/page/${page.page_slug}`}
+                  className="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {page.title}
+                </Link>
+              ))}
               <Link
                 href={`/reseller/${tenantSlug}/contact`}
                 className="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg"

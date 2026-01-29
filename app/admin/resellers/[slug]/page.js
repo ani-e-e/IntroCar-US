@@ -85,6 +85,20 @@ export default function ResellerEditPage() {
   const [productPagination, setProductPagination] = useState({ page: 1, total: 0, totalPages: 0 });
   const [taggingAction, setTaggingAction] = useState(null);
 
+  // CMS Pages state
+  const [pages, setPages] = useState([]);
+  const [pagesLoading, setPagesLoading] = useState(false);
+  const [editingPage, setEditingPage] = useState(null);
+  const [showNewPageModal, setShowNewPageModal] = useState(false);
+  const [newPageData, setNewPageData] = useState({
+    page_slug: '',
+    title: '',
+    content: '',
+    is_published: true,
+    show_in_nav: true,
+    nav_order: 100
+  });
+
   const loadReseller = useCallback(async () => {
     setLoading(true);
     try {
@@ -165,9 +179,83 @@ export default function ResellerEditPage() {
     }
   }, [slug, formData.sku_filter, productSearch]);
 
+  // Load CMS pages
+  const loadPages = useCallback(async () => {
+    setPagesLoading(true);
+    try {
+      const response = await fetch(`/api/admin/resellers/${slug}/pages`);
+      const data = await response.json();
+      if (response.ok) {
+        setPages(data.pages || []);
+      }
+    } catch (error) {
+      console.error('Failed to load pages:', error);
+    } finally {
+      setPagesLoading(false);
+    }
+  }, [slug]);
+
+  // Save page (create or update)
+  const savePage = async (pageData, isNew = false) => {
+    try {
+      const url = isNew
+        ? `/api/admin/resellers/${slug}/pages`
+        : `/api/admin/resellers/${slug}/pages/${pageData.page_slug}`;
+
+      const response = await fetch(url, {
+        method: isNew ? 'POST' : 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pageData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage(data.message || 'Page saved successfully');
+        setTimeout(() => setSuccessMessage(''), 4000);
+        loadPages();
+        setEditingPage(null);
+        setShowNewPageModal(false);
+        setNewPageData({ page_slug: '', title: '', content: '', is_published: true, show_in_nav: true, nav_order: 100 });
+      } else {
+        setErrorMessage(data.error || 'Failed to save page');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred while saving');
+    }
+  };
+
+  // Delete page
+  const deletePage = async (pageSlug) => {
+    if (!confirm(`Are you sure you want to delete this page?`)) return;
+
+    try {
+      const response = await fetch(`/api/admin/resellers/${slug}/pages/${pageSlug}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setSuccessMessage('Page deleted successfully');
+        setTimeout(() => setSuccessMessage(''), 4000);
+        loadPages();
+      } else {
+        const data = await response.json();
+        setErrorMessage(data.error || 'Failed to delete page');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred while deleting');
+    }
+  };
+
   useEffect(() => {
     loadReseller();
   }, [loadReseller]);
+
+  useEffect(() => {
+    if (activeTab === 'pages') {
+      loadPages();
+    }
+  }, [activeTab, loadPages]);
 
   useEffect(() => {
     if (activeTab === 'products' && formData.sku_filter) {
@@ -262,6 +350,7 @@ export default function ResellerEditPage() {
     { id: 'branding', label: 'Branding', icon: '🎨' },
     { id: 'features', label: 'Features', icon: '⚙️' },
     { id: 'company', label: 'Company Info', icon: '🏢' },
+    { id: 'pages', label: 'CMS Pages', icon: '📄' },
     { id: 'products', label: 'Product Tagging', icon: '📦' },
   ];
 
@@ -717,6 +806,277 @@ export default function ResellerEditPage() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
               />
             </div>
+          </div>
+        )}
+
+        {/* CMS Pages Tab */}
+        {activeTab === 'pages' && (
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">CMS Pages</h3>
+                <p className="text-sm text-gray-500">Create custom pages for this reseller site</p>
+              </div>
+              <button
+                onClick={() => setShowNewPageModal(true)}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                + Add Page
+              </button>
+            </div>
+
+            {/* Pages List */}
+            {pagesLoading ? (
+              <div className="text-center py-8 text-gray-500">Loading pages...</div>
+            ) : pages.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <p className="text-lg font-medium mb-2">No custom pages yet</p>
+                <p className="text-sm">Click "Add Page" to create your first custom page.</p>
+              </div>
+            ) : (
+              <div className="border border-gray-200 rounded-lg overflow-hidden">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b border-gray-200">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Title</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Slug</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Status</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Nav</th>
+                      <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 uppercase">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {pages.map((page) => (
+                      <tr key={page.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{page.title}</td>
+                        <td className="px-4 py-3 text-sm font-mono text-gray-500">/{page.page_slug}</td>
+                        <td className="px-4 py-3">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            page.is_published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            {page.is_published ? 'Published' : 'Draft'}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-500">
+                          {page.show_in_nav ? `Yes (${page.nav_order})` : 'No'}
+                        </td>
+                        <td className="px-4 py-3 text-right space-x-2">
+                          <a
+                            href={`/reseller/${slug}/page/${page.page_slug}`}
+                            target="_blank"
+                            className="text-blue-600 hover:underline text-sm"
+                          >
+                            View
+                          </a>
+                          <button
+                            onClick={() => setEditingPage(page)}
+                            className="text-gray-600 hover:text-gray-900 text-sm"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => deletePage(page.page_slug)}
+                            className="text-red-600 hover:text-red-700 text-sm"
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            {/* New Page Modal */}
+            {showNewPageModal && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+                  <div className="p-6 border-b border-gray-200">
+                    <h3 className="text-xl font-semibold text-gray-900">Create New Page</h3>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Page Title *</label>
+                        <input
+                          type="text"
+                          value={newPageData.title}
+                          onChange={(e) => setNewPageData({ ...newPageData, title: e.target.value })}
+                          placeholder="e.g., Our Services"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug *</label>
+                        <input
+                          type="text"
+                          value={newPageData.page_slug}
+                          onChange={(e) => setNewPageData({
+                            ...newPageData,
+                            page_slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+                          })}
+                          placeholder="e.g., services"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono"
+                        />
+                        <p className="text-xs text-gray-400 mt-1">Will be: /reseller/{slug}/page/{newPageData.page_slug || 'slug'}</p>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Content (HTML)</label>
+                      <textarea
+                        value={newPageData.content}
+                        onChange={(e) => setNewPageData({ ...newPageData, content: e.target.value })}
+                        rows={10}
+                        placeholder="<h2>Section Title</h2><p>Your content here...</p>"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                      />
+                      <p className="text-xs text-gray-400 mt-1">Use HTML tags: &lt;h2&gt;, &lt;h3&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;strong&gt;, &lt;a&gt;</p>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={newPageData.is_published}
+                          onChange={(e) => setNewPageData({ ...newPageData, is_published: e.target.checked })}
+                          className="rounded"
+                        />
+                        <span className="text-sm text-gray-700">Published</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={newPageData.show_in_nav}
+                          onChange={(e) => setNewPageData({ ...newPageData, show_in_nav: e.target.checked })}
+                          className="rounded"
+                        />
+                        <span className="text-sm text-gray-700">Show in Nav</span>
+                      </label>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Nav Order</label>
+                        <input
+                          type="number"
+                          value={newPageData.nav_order}
+                          onChange={(e) => setNewPageData({ ...newPageData, nav_order: parseInt(e.target.value) || 100 })}
+                          className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                    <button
+                      onClick={() => {
+                        setShowNewPageModal(false);
+                        setNewPageData({ page_slug: '', title: '', content: '', is_published: true, show_in_nav: true, nav_order: 100 });
+                      }}
+                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => savePage(newPageData, true)}
+                      disabled={!newPageData.title || !newPageData.page_slug}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      Create Page
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Edit Page Modal */}
+            {editingPage && (
+              <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+                <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto m-4">
+                  <div className="p-6 border-b border-gray-200">
+                    <h3 className="text-xl font-semibold text-gray-900">Edit Page: {editingPage.title}</h3>
+                  </div>
+                  <div className="p-6 space-y-4">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">Page Title *</label>
+                        <input
+                          type="text"
+                          value={editingPage.title}
+                          onChange={(e) => setEditingPage({ ...editingPage, title: e.target.value })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">URL Slug</label>
+                        <input
+                          type="text"
+                          value={editingPage.page_slug}
+                          onChange={(e) => setEditingPage({
+                            ...editingPage,
+                            page_slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')
+                          })}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Content (HTML)</label>
+                      <textarea
+                        value={editingPage.content || ''}
+                        onChange={(e) => setEditingPage({ ...editingPage, content: e.target.value })}
+                        rows={12}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={editingPage.is_published}
+                          onChange={(e) => setEditingPage({ ...editingPage, is_published: e.target.checked })}
+                          className="rounded"
+                        />
+                        <span className="text-sm text-gray-700">Published</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={editingPage.show_in_nav}
+                          onChange={(e) => setEditingPage({ ...editingPage, show_in_nav: e.target.checked })}
+                          className="rounded"
+                        />
+                        <span className="text-sm text-gray-700">Show in Nav</span>
+                      </label>
+                      <div>
+                        <label className="block text-xs text-gray-500 mb-1">Nav Order</label>
+                        <input
+                          type="number"
+                          value={editingPage.nav_order}
+                          onChange={(e) => setEditingPage({ ...editingPage, nav_order: parseInt(e.target.value) || 100 })}
+                          className="w-full px-3 py-1.5 border border-gray-300 rounded-lg text-sm"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6 border-t border-gray-200 flex justify-end gap-3">
+                    <button
+                      onClick={() => setEditingPage(null)}
+                      className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={() => savePage(editingPage, false)}
+                      disabled={!editingPage.title}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

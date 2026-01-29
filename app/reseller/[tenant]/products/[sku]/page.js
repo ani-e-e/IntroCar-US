@@ -101,11 +101,16 @@ function ResellerProductDetail({ params }) {
   }
 
   const isNLA = product.nlaDate && product.nlaDate !== '';
-  const isPrestige = product.stockType?.toLowerCase().includes('prestige');
+  const isPrestige = product.stockType?.toLowerCase().includes('prestige') || product.stockType === 'Uprated';
   const hasStock = product.availableNow > 0 || product.available1to3Days > 0 || product.inStock;
   const nlaMake = product.nlaDate ? (
     product.stockType?.toLowerCase().includes('rolls') ? 'Rolls-Royce' : 'Bentley'
   ) : null;
+
+  // Reseller availability logic
+  const PRESTIGE_STOCK_TYPES = ['Prestige Parts', 'Prestige Parts (OE)', 'Uprated'];
+  const isResellerAvailable = PRESTIGE_STOCK_TYPES.includes(product.stockType);
+  const resellerAvailabilityText = isResellerAvailable ? 'Available' : 'Send Request';
 
   const inCart = isInCart(product.sku);
   const cartItem = getItem(product.sku);
@@ -193,10 +198,14 @@ function ResellerProductDetail({ params }) {
                   <CheckCircle className="w-3 h-3" /> {nlaMake || 'OE'} NLA
                 </span>
               )}
-              {hasStock && (
-                <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                  In Stock
-                </span>
+              {/* Reseller availability badge */}
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                isResellerAvailable
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-amber-100 text-amber-700'
+              }`}>
+                {resellerAvailabilityText}
+              </span>
               )}
             </div>
 

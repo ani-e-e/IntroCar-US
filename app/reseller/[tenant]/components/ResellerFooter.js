@@ -93,7 +93,7 @@ export default function ResellerFooter({ tenantSlug }) {
               © {new Date().getFullYear()} {tenant?.name}. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-sm text-white/60">
-              <span>Parts supplied by IntroCar International</span>
+              <span>Registered Prestige Parts® stockist</span>
             </div>
           </div>
         </div>

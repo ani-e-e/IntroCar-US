@@ -2,10 +2,26 @@ import { NextResponse } from 'next/server';
 import { getTenant } from '@/lib/tenants';
 import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData } from '@/lib/data-server';
 
+// Prestige Parts stock types that are "available" for resellers
+const PRESTIGE_PARTS_STOCK_TYPES = ['Prestige Parts', 'Prestige Parts (OE)', 'Uprated'];
+
+/**
+ * Compute reseller availability status based on stock type
+ * - Prestige Parts stock types → "available"
+ * - All other stock types → "send_request"
+ */
+function getResellerAvailability(stockType) {
+  if (PRESTIGE_PARTS_STOCK_TYPES.includes(stockType)) {
+    return 'available';
+  }
+  return 'send_request';
+}
+
 /**
  * Reseller Products API
- * Same as main products API but with SKU filtering based on tenant
- * Light sites only see products flagged for their reseller
+ * Shows ALL IntroCar products with reseller-specific availability logic:
+ * - Prestige Parts products are marked as "available"
+ * - All other products are marked as "send request" (reseller must confirm)
  */
 export async function GET(request) {
   try {
@@ -33,35 +49,23 @@ export async function GET(request) {
       inStockOnly: searchParams.get('inStockOnly') === 'true',
       page: parseInt(searchParams.get('page')) || 1,
       limit: parseInt(searchParams.get('limit')) || 24,
-      // Add reseller SKU filter if tenant has one
-      resellerFilter: tenant.skuFilter || null,
     };
 
     const sort = searchParams.get('sort') || 'relevance';
     const result = filterProducts({ ...filters, sort });
 
-    // For reseller sites, filter products based on tenant's SKU filter
-    let products = result.products;
-    let filteredTotal = result.pagination?.total || products.length;
+    // Add reseller availability status to each product
+    // All products are shown, but availability depends on stock type
+    let products = result.products.map(product => ({
+      ...product,
+      resellerAvailability: getResellerAvailability(product.stockType),
+      // For resellers, we show "Available" or "Send Request" instead of regular stock status
+      displayAvailability: PRESTIGE_PARTS_STOCK_TYPES.includes(product.stockType)
+        ? 'Available'
+        : 'Send Request'
+    }));
 
-    // Apply reseller-specific product filtering
-    if (tenant.skuFilter) {
-      // For 'prestige_parts' filter, show only Prestige Parts branded products
-      if (tenant.skuFilter === 'prestige_parts') {
-        products = products.filter(p =>
-          p.stockType === 'Prestige Parts' ||
-          p.stockType === 'Prestige Parts (OE)' ||
-          p.stockType === 'Uprated'
-        );
-        filteredTotal = products.length;
-      }
-      // Future: Check reseller_flags array when database is updated
-      // else {
-      //   products = products.filter(p =>
-      //     p.resellerFlags?.includes(tenant.skuFilter)
-      //   );
-      // }
-    }
+    let filteredTotal = result.pagination?.total || products.length;
 
     const categories = getCategories();
     const categoryNames = getCategoryNames();
@@ -77,13 +81,8 @@ export async function GET(request) {
       };
     }
 
-    // Recalculate pagination if filtered
-    const pagination = tenant.skuFilter ? {
-      page: filters.page,
-      limit: filters.limit,
-      total: filteredTotal,
-      totalPages: Math.ceil(filteredTotal / filters.limit),
-    } : result.pagination;
+    // Use standard pagination (no longer filtering by stock type)
+    const pagination = result.pagination;
 
     return NextResponse.json({
       products: products.slice(0, filters.limit), // Apply limit after filtering

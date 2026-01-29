@@ -1,44 +1,23 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Search, Mail, Phone, ChevronRight, Package, Car } from 'lucide-react';
 import ResellerHeader from './components/ResellerHeader';
 import ResellerFooter from './components/ResellerFooter';
+import ResellerVehicleFinder from './components/ResellerVehicleFinder';
 import { useTenant } from '@/context/TenantContext';
 
 export default function ResellerHomepage({ tenant, tenantSlug }) {
   const { colors, companyInfo, isLight } = useTenant();
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedMake, setSelectedMake] = useState('');
-  const [selectedModel, setSelectedModel] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-
-  useEffect(() => {
-    fetch('/data/vehicles.json')
-      .then(res => res.json())
-      .then(data => setVehicles(data))
-      .catch(console.error);
-  }, []);
-
-  const makes = [...new Set(vehicles.map(v => v.make))].sort();
-  const models = selectedMake
-    ? [...new Set(vehicles.filter(v => v.make === selectedMake).map(v => v.model))].sort()
-    : [];
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       window.location.href = `/reseller/${tenantSlug}/products?search=${encodeURIComponent(searchQuery)}`;
     }
-  };
-
-  const handleVehicleSearch = () => {
-    const params = new URLSearchParams();
-    if (selectedMake) params.set('make', selectedMake);
-    if (selectedModel) params.set('model', selectedModel);
-    window.location.href = `/reseller/${tenantSlug}/products?${params.toString()}`;
   };
 
   return (
@@ -78,64 +57,7 @@ export default function ResellerHomepage({ tenant, tenantSlug }) {
       {/* Vehicle Finder Section */}
       <div className="py-12 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-display font-light text-gray-900 mb-2">
-              Find Parts for Your Vehicle
-            </h2>
-            <p className="text-gray-600">
-              Select your make and model to browse available parts
-            </p>
-          </div>
-
-          <div className="max-w-3xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">Make</label>
-                <select
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2"
-                  style={{ '--tw-ring-color': colors?.primary || '#1e3a5f' }}
-                  value={selectedMake}
-                  onChange={(e) => {
-                    setSelectedMake(e.target.value);
-                    setSelectedModel('');
-                  }}
-                >
-                  <option value="">Select Make</option>
-                  {makes.map(make => (
-                    <option key={make} value={make}>{make}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm text-gray-500 mb-2">Model</label>
-                <select
-                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 disabled:bg-gray-100"
-                  style={{ '--tw-ring-color': colors?.primary || '#1e3a5f' }}
-                  value={selectedModel}
-                  onChange={(e) => setSelectedModel(e.target.value)}
-                  disabled={!selectedMake}
-                >
-                  <option value="">Select Model</option>
-                  {models.map(model => (
-                    <option key={model} value={model}>{model}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex items-end">
-                <button
-                  className="w-full py-3 rounded-lg text-white font-medium transition-colors"
-                  style={{
-                    backgroundColor: colors?.primary || '#1e3a5f',
-                    opacity: selectedMake ? 1 : 0.5
-                  }}
-                  onClick={handleVehicleSearch}
-                  disabled={!selectedMake}
-                >
-                  Find Parts
-                </button>
-              </div>
-            </div>
-          </div>
+          <ResellerVehicleFinder tenantSlug={tenantSlug} />
         </div>
       </div>
 

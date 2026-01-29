@@ -17,16 +17,16 @@ Located in the heart of Europe, we offer fast shipping across the continent with
     'website', 'https://beroparts.be'
   ),
 
-  -- Branding colors - Dark blue theme suitable for European luxury car parts
+  -- Branding colors - Orange and grey scheme matching beroparts.be
   colors = jsonb_build_object(
-    'primary', '#1B365D',        -- Dark navy blue (professional, classic)
-    'primaryDark', '#0F2340',    -- Deeper navy
-    'accent', '#B8860B',         -- Dark goldenrod (luxury feel)
-    'accentLight', '#DAA520',    -- Goldenrod
-    'secondary', '#2B4F7A',      -- Medium blue
-    'background', '#F5F7FA',     -- Light gray-blue
-    'text', '#1a1a1a',           -- Near black
-    'textLight', '#666666'       -- Medium gray
+    'primary', '#E65100',        -- Orange (main brand color)
+    'primaryDark', '#BF360C',    -- Darker orange
+    'accent', '#FF6D00',         -- Bright orange accent
+    'accentLight', '#FF9E40',    -- Light orange
+    'secondary', '#4A4A4A',      -- Dark grey
+    'background', '#F5F5F5',     -- Light grey background
+    'text', '#333333',           -- Dark grey text
+    'textLight', '#757575'       -- Medium grey
   ),
 
   -- Enable features for Beroparts
