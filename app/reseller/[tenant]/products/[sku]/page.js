@@ -198,13 +198,13 @@ function ResellerProductDetail({ params }) {
                   <CheckCircle className="w-3 h-3" /> {nlaMake || 'OE'} NLA
                 </span>
               )}
-              {/* Reseller availability badge */}
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                isResellerAvailable
-                  ? 'bg-green-100 text-green-700'
-                  : 'bg-amber-100 text-amber-700'
+              {/* Stock status badge - IntroCar US style */}
+              <span className={`px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide ${
+                hasStock
+                  ? 'bg-green-500 text-white'
+                  : 'bg-gray-400 text-white'
               }`}>
-                {resellerAvailabilityText}
+                {hasStock ? 'In Stock' : 'Out of Stock'}
               </span>
             </div>
 
@@ -246,37 +246,48 @@ function ResellerProductDetail({ params }) {
                       </div>
                     </div>
 
-                    {/* Add to Cart Button */}
-                    <button
-                      onClick={handleAddToCart}
-                      disabled={justAdded}
-                      className={`w-full sm:w-auto px-8 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-all ${
-                        justAdded ? 'bg-green-500' : ''
-                      }`}
-                      style={!justAdded ? { backgroundColor: colors?.primary } : {}}
-                    >
-                      {justAdded ? (
-                        <>
-                          <Check className="w-5 h-5" />
-                          Added to Cart!
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingCart className="w-5 h-5" />
-                          Add to Cart
-                        </>
-                      )}
-                    </button>
+                    {/* Add to Bag Button - IntroCar US style */}
+                    {isResellerAvailable ? (
+                      <button
+                        onClick={handleAddToCart}
+                        disabled={justAdded}
+                        className={`w-full sm:w-auto px-8 py-3 rounded-full text-white font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                          justAdded ? 'bg-green-500' : 'hover:opacity-90'
+                        }`}
+                        style={!justAdded ? { backgroundColor: colors?.primary } : {}}
+                      >
+                        {justAdded ? (
+                          <>
+                            <Check className="w-5 h-5" />
+                            Added!
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingCart className="w-5 h-5" />
+                            Add to Bag
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      <a
+                        href={`mailto:${orderEmail}?subject=Enquiry: ${product.sku}&body=I am interested in:%0A%0APart Number: ${product.sku}%0ADescription: ${product.description}%0AQuantity: ${quantity}%0A%0APlease provide availability and pricing.`}
+                        className="w-full sm:w-auto px-8 py-3 rounded-full font-semibold uppercase tracking-wider flex items-center justify-center gap-2 border-2 transition-all hover:opacity-80"
+                        style={{ borderColor: colors?.primary, color: colors?.primary }}
+                      >
+                        <Mail className="w-5 h-5" />
+                        Send Enquiry
+                      </a>
+                    )}
 
                     {inCart && !justAdded && (
                       <p className="text-sm text-gray-500">
-                        ✓ {cartItem?.quantity || 0} already in your cart
+                        ✓ {cartItem?.quantity || 0} already in your bag
                       </p>
                     )}
                   </div>
                 )}
               </div>
-            ) : showCart ? (
+            ) : showCart && isResellerAvailable ? (
               <div className="mb-6 space-y-4">
                 {/* Quantity Selector for no-price cart */}
                 <div className="flex items-center gap-4">
@@ -304,24 +315,24 @@ function ResellerProductDetail({ params }) {
                   </div>
                 </div>
 
-                {/* Add to Cart Button */}
+                {/* Add to Bag Button - IntroCar US style */}
                 <button
                   onClick={handleAddToCart}
                   disabled={justAdded}
-                  className={`w-full sm:w-auto px-8 py-3 rounded-xl text-white font-semibold flex items-center justify-center gap-2 transition-all ${
-                    justAdded ? 'bg-green-500' : ''
+                  className={`w-full sm:w-auto px-8 py-3 rounded-full text-white font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all ${
+                    justAdded ? 'bg-green-500' : 'hover:opacity-90'
                   }`}
                   style={!justAdded ? { backgroundColor: colors?.primary } : {}}
                 >
                   {justAdded ? (
                     <>
                       <Check className="w-5 h-5" />
-                      Added to Cart!
+                      Added!
                     </>
                   ) : (
                     <>
                       <ShoppingCart className="w-5 h-5" />
-                      Add to Cart
+                      Add to Bag
                     </>
                   )}
                 </button>
@@ -332,9 +343,24 @@ function ResellerProductDetail({ params }) {
 
                 {inCart && !justAdded && (
                   <p className="text-sm text-gray-500">
-                    ✓ {cartItem?.quantity || 0} already in your cart
+                    ✓ {cartItem?.quantity || 0} already in your bag
                   </p>
                 )}
+              </div>
+            ) : showCart ? (
+              <div className="mb-6 space-y-4">
+                {/* Send Enquiry for non-available items with cart enabled */}
+                <a
+                  href={`mailto:${orderEmail}?subject=Enquiry: ${product.sku}&body=I am interested in:%0A%0APart Number: ${product.sku}%0ADescription: ${product.description}%0A%0APlease provide availability and pricing.`}
+                  className="w-full sm:w-auto px-8 py-3 rounded-full font-semibold uppercase tracking-wider flex items-center justify-center gap-2 border-2 transition-all hover:opacity-80"
+                  style={{ borderColor: colors?.primary, color: colors?.primary }}
+                >
+                  <Mail className="w-5 h-5" />
+                  Send Enquiry
+                </a>
+                <p className="text-sm text-gray-500">
+                  This part requires confirmation. Contact us for availability and pricing.
+                </p>
               </div>
             ) : (
               <div
@@ -347,17 +373,17 @@ function ResellerProductDetail({ params }) {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <a
-                    href={`mailto:${orderEmail}?subject=Quote Request: ${product.sku}&body=I am interested in pricing for:%0A%0APart Number: ${product.sku}%0ADescription: ${product.description}%0A%0APlease provide a quote.`}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full text-white font-medium"
+                    href={`mailto:${orderEmail}?subject=Enquiry: ${product.sku}&body=I am interested in:%0A%0APart Number: ${product.sku}%0ADescription: ${product.description}%0A%0APlease provide availability and pricing.`}
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-white font-semibold uppercase tracking-wider hover:opacity-90 transition-all"
                     style={{ backgroundColor: colors?.primary }}
                   >
                     <Mail className="w-4 h-4" />
-                    Email for Quote
+                    Send Enquiry
                   </a>
                   {companyInfo?.phone && (
                     <a
                       href={`tel:${companyInfo.phone}`}
-                      className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-medium border"
+                      className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-semibold uppercase tracking-wider border-2 hover:opacity-80 transition-all"
                       style={{ borderColor: colors?.primary, color: colors?.primary }}
                     >
                       <Phone className="w-4 h-4" />

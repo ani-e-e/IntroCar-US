@@ -53,8 +53,8 @@ async function main() {
       parent_sku: String(row['Parent SKU']).trim(),
       make: String(row['Make']).trim(),
       model: String(row['Model']).trim(),
-      chassis_start: row['Chassis start'] != null ? String(Math.floor(row['Chassis start'])) : null,
-      chassis_end: row['Chassis end'] != null ? String(Math.floor(row['Chassis end'])) : null,
+      chassis_start: row['Chassis start'] != null ? String(row['Chassis start']).trim() : null,
+      chassis_end: row['Chassis end'] != null ? String(row['Chassis end']).trim() : null,
       additional_info: row['Additional info'] ? String(row['Additional info']).trim() : null
     }));
 

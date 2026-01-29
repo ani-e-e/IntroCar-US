@@ -54,18 +54,19 @@ function DisplayModeToggle({ currentMode, onModeChange, partsCount, cataloguesCo
   );
 }
 
-// Simple product card for reseller sites
+// Simple product card for reseller sites - matches IntroCar US styling
 function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
-  const { colors } = useTenant();
+  const { colors, orderEmail } = useTenant();
   const { addItem, isInCart } = useCart();
   const [justAdded, setJustAdded] = useState(false);
 
   const displayImage = product.imageUrl || product.image || '/images/logos/introcar-icon.png';
   const inCart = isInCart(product.sku);
 
-  // Determine availability status for resellers
+  // Determine availability status for resellers - matches IntroCar US logic
   const isAvailable = product.resellerAvailability === 'available';
-  const availabilityText = product.displayAvailability || (isAvailable ? 'Available' : 'Send Request');
+  // Check if product is in stock (has stock quantity > 0)
+  const isInStock = product.stock > 0 || product.inStock === true;
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -105,16 +106,16 @@ function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
             </span>
           </div>
         )}
-        {/* Availability Badge */}
+        {/* Stock Status Badge - IntroCar US style */}
         <div className="absolute top-3 right-3">
           <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${
-              isAvailable
-                ? 'bg-green-100 text-green-700'
-                : 'bg-amber-100 text-amber-700'
+            className={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
+              isInStock
+                ? 'bg-green-500 text-white'
+                : 'bg-gray-400 text-white'
             }`}
           >
-            {availabilityText}
+            {isInStock ? 'In Stock' : 'Out of Stock'}
           </span>
         </div>
       </Link>
@@ -128,46 +129,54 @@ function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
           </h3>
         </Link>
 
-        {/* Price and Cart */}
+        {/* Price and Action Button - IntroCar US style */}
         <div className="mt-4 pt-4 border-t border-gray-100">
           {showPrices && product.price ? (
-            <div className="flex items-center justify-between">
-              <span className="text-lg font-semibold text-gray-900">
+            <div className="space-y-3">
+              <span className="text-lg font-semibold text-gray-900 block">
                 ${parseFloat(product.price).toFixed(2)}
               </span>
-              {showCart && (
+              {showCart && isAvailable ? (
                 <button
                   onClick={handleAddToCart}
                   disabled={justAdded}
-                  className={`p-2 rounded-lg transition-all ${
-                    justAdded || inCart ? 'text-white' : 'text-white hover:opacity-90'
+                  className={`w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                    justAdded || inCart ? 'bg-green-500 text-white' : 'text-white hover:opacity-90'
                   }`}
-                  style={{ backgroundColor: justAdded || inCart ? '#4CAF50' : colors?.primary }}
-                  title={inCart ? 'In cart' : 'Add to cart'}
+                  style={!(justAdded || inCart) ? { backgroundColor: colors?.primary } : {}}
                 >
-                  {justAdded || inCart ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
+                  {justAdded || inCart ? (<><Check className="w-4 h-4" />Added</>) : (<><ShoppingCart className="w-4 h-4" />Add to Bag</>)}
                 </button>
+              ) : (
+                <a
+                  href={`mailto:${orderEmail || ''}?subject=Enquiry: ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
+                  className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border-2 hover:opacity-80"
+                  style={{ borderColor: colors?.primary, color: colors?.primary }}
+                >
+                  <Mail className="w-4 h-4" />
+                  Send Enquiry
+                </a>
               )}
             </div>
-          ) : showCart ? (
+          ) : showCart && isAvailable ? (
             <button
               onClick={handleAddToCart}
               disabled={justAdded}
-              className={`w-full py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
-                justAdded || inCart ? 'bg-green-500 text-white' : 'text-white'
+              className={`w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
+                justAdded || inCart ? 'bg-green-500 text-white' : 'text-white hover:opacity-90'
               }`}
               style={!(justAdded || inCart) ? { backgroundColor: colors?.primary } : {}}
             >
-              {justAdded || inCart ? (<><Check className="w-4 h-4" />Added</>) : (<><ShoppingCart className="w-4 h-4" />Add to Cart</>)}
+              {justAdded || inCart ? (<><Check className="w-4 h-4" />Added</>) : (<><ShoppingCart className="w-4 h-4" />Add to Bag</>)}
             </button>
           ) : (
             <a
-              href={`mailto:?subject=Inquiry about ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
-              className="inline-flex items-center gap-2 text-sm font-medium transition-colors"
-              style={{ color: colors?.primary }}
+              href={`mailto:${orderEmail || ''}?subject=Enquiry: ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
+              className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border-2 hover:opacity-80"
+              style={{ borderColor: colors?.primary, color: colors?.primary }}
             >
               <Mail className="w-4 h-4" />
-              Request Quote
+              Send Enquiry
             </a>
           )}
         </div>

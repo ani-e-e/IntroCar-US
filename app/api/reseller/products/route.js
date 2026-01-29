@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getTenant } from '@/lib/tenants';
-import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData } from '@/lib/data-server';
+import { filterProducts, getCategories, getCategoryNames, getStockTypes, getSearchPartTypes, getVehicleData, getCataloguesForModel } from '@/lib/data-server';
 
 // Prestige Parts stock types that are "available" for resellers
 const PRESTIGE_PARTS_STOCK_TYPES = ['Prestige Parts', 'Prestige Parts (OE)', 'Uprated'];
@@ -52,7 +52,20 @@ export async function GET(request) {
     };
 
     const sort = searchParams.get('sort') || 'relevance';
+    const includeCatalogues = searchParams.get('includeCatalogues') === 'true';
     const result = filterProducts({ ...filters, sort });
+
+    // Include catalogues if requested
+    let cataloguesData = null;
+    if (includeCatalogues && (filters.make || filters.model || filters.search)) {
+      cataloguesData = getCataloguesForModel({
+        make: filters.make,
+        model: filters.model,
+        search: filters.search,
+        category: filters.category,
+        limit: 100
+      });
+    }
 
     // Add reseller availability status to each product
     // All products are shown, but availability depends on stock type
@@ -95,6 +108,9 @@ export async function GET(request) {
       vehicleData: filteredVehicleData,
       supersessionMatch: result.supersessionMatch || null,
       searchType: result.searchType || null,
+      // Catalogues data
+      catalogues: cataloguesData?.catalogues || [],
+      cataloguesTotal: cataloguesData?.total || 0,
       // Reseller-specific response fields
       tenant: tenant.slug,
       showPrices: tenant.showPrices,
