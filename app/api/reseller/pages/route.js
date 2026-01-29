@@ -1,5 +1,13 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+}
 
 /**
  * Public API for fetching reseller CMS pages

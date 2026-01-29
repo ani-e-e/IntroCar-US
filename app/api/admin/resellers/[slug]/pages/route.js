@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getSupabase } from '@/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
+
+// Initialize Supabase client
+function getSupabase() {
+  return createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_KEY
+  );
+}
 
 // Check admin authentication
 function isAdmin(cookieStore) {
