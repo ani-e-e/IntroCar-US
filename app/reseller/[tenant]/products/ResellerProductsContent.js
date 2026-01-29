@@ -54,7 +54,7 @@ function DisplayModeToggle({ currentMode, onModeChange, partsCount, cataloguesCo
   );
 }
 
-// Simple product card for reseller sites - matches IntroCar US styling
+// Product card for reseller sites - matches IntroCar US layout exactly
 function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
   const { colors, orderEmail } = useTenant();
   const { addItem, isInCart } = useCart();
@@ -63,10 +63,27 @@ function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
   const displayImage = product.imageUrl || product.image || '/images/logos/introcar-icon.png';
   const inCart = isInCart(product.sku);
 
-  // Determine availability status for resellers - matches IntroCar US logic
+  // Determine availability status for resellers
   const isAvailable = product.resellerAvailability === 'available';
-  // Check if product is in stock (has stock quantity > 0)
-  const isInStock = product.stock > 0 || product.inStock === true;
+
+  // Stock status - matches IntroCar US logic
+  const getStockStatus = () => {
+    if (product.availableNow > 0) return { text: 'In Stock', isInStock: true };
+    if (product.available1to3Days > 0) return { text: '1-3 Days', isInStock: true };
+    if (product.inStock) return { text: 'In Stock', isInStock: true };
+    return { text: 'Out of Stock', isInStock: false };
+  };
+  const stockStatus = getStockStatus();
+
+  // Stock type badge text
+  const getStockTypeBadge = () => {
+    if (!product.stockType) return null;
+    if (product.stockType === 'Prestige Parts' || product.stockType === 'Prestige Parts (OE)') {
+      return 'Prestige Parts®';
+    }
+    return product.stockType;
+  };
+  const stockTypeBadge = getStockTypeBadge();
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -85,94 +102,117 @@ function ResellerProductCard({ product, tenantSlug, showPrices, showCart }) {
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group">
-      {/* Image */}
-      <Link href={`/reseller/${tenantSlug}/products/${product.sku}`} className="block relative aspect-square bg-gray-100">
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-lg transition-shadow group flex flex-col h-full">
+      {/* Image Container - matches IntroCar US */}
+      <Link href={`/reseller/${tenantSlug}/products/${product.sku}`} className="block relative aspect-square bg-gray-50 overflow-hidden">
         <Image
           src={displayImage}
           alt={product.description || product.sku}
           fill
-          className="object-contain p-4 group-hover:scale-105 transition-transform"
+          className="object-contain p-4 group-hover:scale-105 transition-transform duration-300"
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
         />
-        {/* Stock Type Badge */}
-        {product.stockType && (
-          <div className="absolute top-3 left-3">
+        {/* Stock Type Badge - top left on image */}
+        {stockTypeBadge && (
+          <div className="absolute top-3 left-3 z-10">
             <span
               className="px-2 py-1 rounded-full text-xs font-medium text-white"
               style={{ backgroundColor: colors?.primary }}
             >
-              {product.stockType === 'Prestige Parts' ? 'Prestige Parts®' : product.stockType}
+              {stockTypeBadge}
             </span>
           </div>
         )}
-        {/* Stock Status Badge - IntroCar US style */}
-        <div className="absolute top-3 right-3">
-          <span
-            className={`px-2 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
-              isInStock
-                ? 'bg-green-500 text-white'
-                : 'bg-gray-400 text-white'
-            }`}
-          >
-            {isInStock ? 'In Stock' : 'Out of Stock'}
-          </span>
-        </div>
+        {/* NLA Badge - top right on image (if applicable) */}
+        {product.nlaDate && (
+          <div className="absolute top-3 right-3 z-10">
+            <span
+              className="px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1"
+              style={{ backgroundColor: `${colors?.primary}15`, color: colors?.primary }}
+            >
+              OE NLA
+            </span>
+          </div>
+        )}
       </Link>
 
-      {/* Content */}
-      <div className="p-4">
-        <span className="text-xs text-gray-500 font-mono">{product.sku}</span>
+      {/* Card Body - flexbox for consistent heights */}
+      <div className="flex flex-col flex-1 p-4">
+        {/* SKU */}
+        <span className="text-xs font-mono tracking-wide mb-1" style={{ color: colors?.primary }}>{product.sku}</span>
+
+        {/* Title - line-clamp-2 for consistent height */}
         <Link href={`/reseller/${tenantSlug}/products/${product.sku}`}>
-          <h3 className="text-gray-900 font-medium mt-1 line-clamp-2 hover:opacity-80 transition-opacity">
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 mb-2 hover:opacity-80 transition-opacity">
             {product.description || 'Part Description'}
           </h3>
         </Link>
 
-        {/* Price and Action Button - IntroCar US style */}
-        <div className="mt-4 pt-4 border-t border-gray-100">
-          {showPrices && product.price ? (
-            <div className="space-y-3">
-              <span className="text-lg font-semibold text-gray-900 block">
-                ${parseFloat(product.price).toFixed(2)}
-              </span>
-              {showCart && isAvailable ? (
-                <button
-                  onClick={handleAddToCart}
-                  disabled={justAdded}
-                  className={`w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
-                    justAdded || inCart ? 'bg-green-500 text-white' : 'text-white hover:opacity-90'
-                  }`}
-                  style={!(justAdded || inCart) ? { backgroundColor: colors?.primary } : {}}
-                >
-                  {justAdded || inCart ? (<><Check className="w-4 h-4" />Added</>) : (<><ShoppingCart className="w-4 h-4" />Add to Bag</>)}
-                </button>
+        {/* Additional Info - matches IntroCar US */}
+        {product.additionalInfo && (
+          <p className="text-xs text-gray-500 mt-1 line-clamp-2">{product.additionalInfo}</p>
+        )}
+
+        {/* Number Required */}
+        {product.numberRequired && product.numberRequired > 1 && (
+          <p className="text-xs text-amber-600 mt-1">Qty Required: {product.numberRequired}</p>
+        )}
+
+        {/* Related Parts / Supersessions */}
+        {product.supersessions && product.supersessions.length > 0 && (
+          <p className="text-xs mt-1" style={{ color: colors?.primary }}>
+            Related Parts: {product.supersessions.slice(0, 2).join(', ')}{product.supersessions.length > 2 ? '...' : ''}
+          </p>
+        )}
+
+        {/* Price & Stock Row - matches IntroCar US layout */}
+        <div className="mt-auto pt-3 border-t border-gray-200">
+          <div className="flex items-center justify-between gap-2 mb-3">
+            {/* Price */}
+            <div>
+              {showPrices && product.price ? (
+                <span className="text-xl font-bold text-gray-900">${parseFloat(product.price).toFixed(2)}</span>
               ) : (
-                <a
-                  href={`mailto:${orderEmail || ''}?subject=Enquiry: ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
-                  className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border-2 hover:opacity-80"
-                  style={{ borderColor: colors?.primary, color: colors?.primary }}
-                >
-                  <Mail className="w-4 h-4" />
-                  Send Enquiry
-                </a>
+                <span className="text-sm text-gray-400">Price on request</span>
               )}
             </div>
-          ) : showCart && isAvailable ? (
+            {/* Stock Status Badge - next to price, NOT on image */}
+            <span className={`px-2 py-1 rounded-full text-xs font-semibold uppercase ${
+              stockStatus.isInStock
+                ? 'bg-green-100 text-green-700'
+                : 'bg-gray-100 text-gray-500'
+            }`}>
+              {stockStatus.text}
+            </span>
+          </div>
+
+          {/* Action Button */}
+          {stockStatus.isInStock && isAvailable && showCart ? (
             <button
               onClick={handleAddToCart}
               disabled={justAdded}
-              className={`w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${
-                justAdded || inCart ? 'bg-green-500 text-white' : 'text-white hover:opacity-90'
+              className={`w-full py-2 border rounded-full text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 uppercase tracking-wider ${
+                justAdded || inCart
+                  ? 'border-green-600 bg-green-600 text-white'
+                  : 'hover:text-white'
               }`}
-              style={!(justAdded || inCart) ? { backgroundColor: colors?.primary } : {}}
+              style={!(justAdded || inCart) ? { borderColor: colors?.primary, color: colors?.primary, backgroundColor: 'transparent' } : {}}
+              onMouseEnter={(e) => { if (!(justAdded || inCart)) { e.target.style.backgroundColor = colors?.primary; e.target.style.color = 'white'; }}}
+              onMouseLeave={(e) => { if (!(justAdded || inCart)) { e.target.style.backgroundColor = 'transparent'; e.target.style.color = colors?.primary; }}}
             >
-              {justAdded || inCart ? (<><Check className="w-4 h-4" />Added</>) : (<><ShoppingCart className="w-4 h-4" />Add to Bag</>)}
+              {justAdded || inCart ? (<><Check className="w-4 h-4" />Added!</>) : (<><ShoppingCart className="w-4 h-4" />Add to Bag</>)}
             </button>
+          ) : !stockStatus.isInStock ? (
+            <a
+              href={`mailto:${orderEmail || ''}?subject=Notify When Available: ${product.sku}&body=Please notify me when this part is available:%0A%0APart: ${product.sku}%0ADescription: ${product.description}`}
+              className="w-full py-2 bg-gray-100 text-gray-500 hover:text-gray-900 rounded-full text-sm font-medium transition-colors flex items-center justify-center uppercase tracking-wider"
+            >
+              Notify When Available
+            </a>
           ) : (
             <a
               href={`mailto:${orderEmail || ''}?subject=Enquiry: ${product.sku}&body=I'm interested in part ${product.sku}: ${product.description}`}
-              className="w-full py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border-2 hover:opacity-80"
+              className="w-full py-2 border rounded-full text-sm font-medium transition-all flex items-center justify-center gap-2 uppercase tracking-wider hover:opacity-80"
               style={{ borderColor: colors?.primary, color: colors?.primary }}
             >
               <Mail className="w-4 h-4" />

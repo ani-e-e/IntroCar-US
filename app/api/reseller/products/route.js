@@ -75,7 +75,9 @@ export async function GET(request) {
       // For resellers, we show "Available" or "Send Request" instead of regular stock status
       displayAvailability: PRESTIGE_PARTS_STOCK_TYPES.includes(product.stockType)
         ? 'Available'
-        : 'Send Request'
+        : 'Send Request',
+      // Computed inStock field for frontend convenience
+      inStock: (product.availableNow > 0 || product.available1to3Days > 0),
     }));
 
     let filteredTotal = result.pagination?.total || products.length;
